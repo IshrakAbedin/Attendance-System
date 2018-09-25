@@ -3,6 +3,9 @@ CREATE USER DEMOTEACHER IDENTIFIED BY DEMOPASSWORD;
 -- Access to DEMOTEACHER
 GRANT CONNECT, RESOURCE, CREATE SESSION, DBA TO DEMOTEACHER;
 
+-- After creating the account, log out from system or dba account and sign in as DEMOTEACHER
+-- Create the following tables/views after that
+
 -- An arbitrary table representing section DEMOSECTION
 -- A section holds the information about student ID, name, address and contact number
 CREATE TABLE DEMOSECTION(

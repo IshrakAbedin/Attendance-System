@@ -13,7 +13,7 @@ import java.sql.*;
  * from database</b>
  *
  * @author Mohammad Ishrak Abedin
- * @version 1.0.0
+ * @version 0.1.0
  * @since 2018-09-24
  */
 public class XEbase {
