@@ -1,3 +1,9 @@
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -9,23 +15,35 @@ import java.sql.SQLException;
  * @version 0.1.0
  * @since 2018-09-24
  */
-public class Driver {
+public class Driver extends Application {
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("mainwindow.fxml"));
+        primaryStage.setTitle("Attendance System");
+        primaryStage.setScene(new Scene(root, 1280, 720));
+        primaryStage.show();
+    }
+
     /**
      * Temporary main method for the entry point of program.
      * @param args String[] not used
      */
     public static void main(String[] args){
         System.out.println("Hell-o-World");
+
         XEbase dbase = new XEbase("DEMOTEACHER", "DEMOPASSWORD"); // Constructor
         ResultSet rs;
         try {
 
-            System.out.println("Total Student Count: " + dbase.getTotalStudentCount()); // getTotalStudentCount() method use
-            System.out.println("-----------------------------------\n\n"); // Separator for ease of viewing
+            // getTotalStudentCount() method use
+            System.out.println("Total Student Count: " + dbase.getTotalStudentCount());
+            // Separator for ease of viewing
+            System.out.println("-----------------------------------\n\n");
 
-
-            rs = dbase.getStudentList(); // getStudentList() method use
-            if (rs == null) System.out.println("No Result Found");
+            // getStudentList() method use
+            rs = dbase.getStudentList();
+            if (rs == null)
+                System.out.println("No Result Found");
             else {
                 System.out.println("SID\tName\t\tAddress\t\tContact Number");
                 while (rs.next()) { // ResultSet must be exhausted by continuous use of next() method to avoid errors.
@@ -141,8 +159,6 @@ public class Driver {
             System.out.println(dbase.getDefaulterCount()); // getDefaulterCount()
             System.out.println("-----------------------------------\n\n");
 
-
-
         }
         catch (SQLException ex){
             ex.printStackTrace(); // Exception handled and printed
@@ -150,5 +166,7 @@ public class Driver {
         finally {
             dbase.close(); // finally statement makes sure database is always closed at end regardless of the occurance of exception
         }
+
+        launch(args);
     }
 }

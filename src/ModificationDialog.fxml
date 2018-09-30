@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="ModificationDialogController"
+            prefHeight="200.0" prefWidth="400.0">
+    <headerText>
+        Input the date of which you want to delete the attendance.
+    </headerText>
+
+    <content>
+        <GridPane alignment="CENTER" vgap="10" hgap="10">
+            <Label text="Select Date" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <font>
+                    <Font name="Times New Roman" size="20" />
+                </font>
+                <padding>
+                    <Insets right="10.0" />
+                </padding>
+            </Label>
+            <DatePicker fx:id="FXDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        </GridPane>
+    </content>
+</DialogPane>

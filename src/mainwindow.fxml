@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Mainwindow" prefHeight="400.0" prefWidth="600.0">
+
+    <!-- Display's controls and buttons -->
+    <top>
+        <VBox>
+            <!-- Displaying title of the app -->
+            <HBox alignment="CENTER" style="-fx-background-color: black">
+                <Label text="Attendance System" textFill="white">
+                    <font>
+                        <Font name="Times New Roman bold" size="32"/>
+                    </font>
+                </Label>
+            </HBox>
+
+            <!-- Displaying log in and date info -->
+            <GridPane vgap="10" hgap="10" alignment="CENTER_LEFT">
+                <!-- Displays the date -->
+                <Text fx:id="DateText" text="Date" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <font>
+                        <Font name="Times New Roman" size="20" />
+                    </font>
+                </Text>
+
+                <!-- Log in and Log Out Button -->
+                <Button fx:id="AccountButton" onAction="#showLogInDialogue" text="Log In"
+                        GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <tooltip>
+                        <Tooltip text="Add a new Todo Item" style="-fx-background-color: GREEN">
+                            <font>
+                                <Font name="Times New Roman" size="16"/>
+                            </font>
+                        </Tooltip>
+                    </tooltip>
+                </Button>
+
+                <!-- Toggle button to toggle between full list and defaulter list -->
+                <ToggleButton fx:id="FXFilterDefaulter" onAction="#handleFilter" text="Show Only Defaulters"
+                              GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <tooltip>
+                        <Tooltip text="Show only defaulters" style="-fx-background-color: GREEN">
+                            <font>
+                                <Font name="Times New Roman" size="16"/>
+                            </font>
+                        </Tooltip>
+                    </tooltip>
+                </ToggleButton>
+            </GridPane>
+        </VBox>
+    </top>
+
+    <!-- Displays class information : Class Name, Total number of students and number of defaulters -->
+    <left>
+        <VBox>
+            <padding>
+                <Insets bottom="15" left="15" right="15" top="20" />
+            </padding>
+
+            <!-- Label for class details -->
+            <Label text="Class details">
+                <font>
+                    <Font name="Times New Roman bold" size="24"/>
+                </font>
+            </Label>
+
+            <!-- Displays total student count -->
+            <HBox>
+                <Text text="Total Students : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXTotalStudents" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+
+            <!-- Displays total classes taken -->
+            <HBox>
+                <Text text="Total Classes taken : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXTotalClassCount" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+
+            <!-- Displays total defaulter student count -->
+            <HBox>
+                <Text text="Total Defaulter Students : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXTotalDefaulterStudents" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+        </VBox>
+    </left>
+
+    <!-- Displays a list of students in the class -->
+    <center>
+        <VBox style="-fx-background-color: white">
+            <padding>
+                <Insets bottom="15" left="15" right="15" top="20" />
+            </padding>
+
+            <!-- Displays student IDs -->
+            <Label text="Student ID">
+                <font>
+                    <Font name="Times New Roman bold" size="24"/>
+                </font>
+            </Label>
+            <ListView fx:id="FXStudentInfoListView" onKeyPressed="#handleKeyPressed"/>
+        </VBox>
+    </center>
+
+    <!-- Displays student information : Name, Address, Contact no.-->
+    <right>
+        <VBox style="-fx-background-color: white">
+            <padding>
+                <Insets bottom="15" left="15" right="15" top="20" />
+            </padding>
+
+            <Label text="Student details">
+                <font>
+                    <Font name="Times New Roman bold" size="24"/>
+                </font>
+            </Label>
+
+            <!-- Displays student name -->
+            <HBox alignment="CENTER_LEFT">
+                <Text text="Name : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXStudentName" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+
+            <!-- Displays student Address -->
+            <HBox alignment="CENTER_LEFT">
+                <Text text="Address : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXStudentAddress" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+
+            <!-- Displays student contact number -->
+            <HBox alignment="CENTER_LEFT">
+                <Text text="Contact Number : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXStudentContactNumber" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+
+            <!-- Displays student attendance count -->
+            <HBox alignment="CENTER_LEFT">
+                <Text text="Attendance count : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXStudentAttendanceCount" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+
+            <!-- Displays student attendance percentage -->
+            <HBox alignment="CENTER_LEFT">
+                <Text text="Attendance percentage : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXStudentAttendancePercentage" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+
+            <!-- Displays student attendance remark -->
+            <HBox alignment="CENTER_LEFT">
+                <Text text="Remark : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <Text fx:id="FXStudentAttendanceRemarks" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman" size="20"/>
+                    </font>
+                </Text>
+            </HBox>
+        </VBox>
+    </right>
+</BorderPane>
