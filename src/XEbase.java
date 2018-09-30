@@ -160,6 +160,25 @@ public class XEbase {
     }
 
     /**
+     * A method to get the complete attendance list for the whole section with student ID, name, address,
+     * contact number, attendance count and attendance percentage.
+     * @return ResultSet Contains 6 columns. ColumnLabel: "SID" , "NAME" , "ADDRESS" , "CONTACT_NUMBER" ,
+     * "ATTENDANCE_COUNT" , "ATTENDANCE_PERCENTAGE". Returns NULL in case of error.
+     */
+    public ResultSet getExtendedAttendanceList(){
+        query = "SELECT * FROM " + classname+"_EXTENDED_ATTENDANCE";
+        try{
+            resultSet = statement.executeQuery(query);
+            return resultSet;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * A method to get the Student IDs for those students who were present on a specific day.
      * @param _day String Day of inquiry. Format is first three letters of month + date. E.g. "SEP24". Format subject to change.
      * @return ResultSet Contains 2 columns. ColumnLabel: "SID" , "DAY".  Returns NULL in case of error.
@@ -177,6 +196,23 @@ public class XEbase {
         return null;
     }
 
+    /**
+     * A method to get the attendance days for a specific student.
+     * @param _id String Student ID of inquiry.
+     * @return ResultSet Contains 2 columns. ColumnLabel: "SID" , "DAY".  Returns NULL in case of error.
+     */
+    public ResultSet getAttendanceBySIDList(String _id){
+        query = "SELECT * FROM " + classname + " WHERE SID = '" + _id + "'" ;
+        try{
+            resultSet = statement.executeQuery(query);
+            return resultSet;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return null;
+    }
     /**
      * A method to delete attendance of a specific student on a specific day in case of mistakes or change.
      * @param _id String ID of the student to be deleted

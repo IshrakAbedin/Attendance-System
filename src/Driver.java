@@ -68,10 +68,26 @@ public class Driver extends Application {
             }
             System.out.println("-----------------------------------\n\n");
 
+            rs = dbase.getExtendedAttendanceList(); // getCompleteAttendanceList() method use
+            if (rs == null) System.out.println("No Result Found");
+            else {
+                System.out.println("SID\tName\t\tAddress\t\tNumber\tCount\tPercentage");
+                while (rs.next()) {
+                    // columnLabel of ResultSet is used here instead of columnIndex
+                    System.out.print(rs.getString("SID") + "\t");
+                    System.out.print(rs.getString("NAME") + "\t");
+                    System.out.print(rs.getString("ADDRESS") + "\t");
+                    System.out.print(rs.getString("CONTACT_NUMBER") + "\t");
+                    System.out.print(rs.getString("ATTENDANCE_COUNT") + "\t");
+                    System.out.print(rs.getString("ATTENDANCE_PERCENTAGE") + "\n");
+                }
+            }
+            System.out.println("-----------------------------------\n\n");
+
             System.out.println("Inserted Rows: " + dbase.insertAttendance("101", "SEP25")); // insertAttendance() method use
             System.out.println("-----------------------------------\n\n");
 
-            rs = dbase.getAttendanceByDayList("SEP25"); // getAttendanceByDayList() method use
+            rs = dbase.getAttendanceByDayList("SEP24"); // getAttendanceByDayList() method use
             if (rs == null) System.out.println("No Result Found");
             else {
                 System.out.println("SID\tDay");
@@ -86,6 +102,17 @@ public class Driver extends Application {
             System.out.println("-----------------------------------\n\n");
 
             rs = dbase.getAttendanceByDayList("SEP25"); // getAttendanceByDayList() method use
+            if (rs == null) System.out.println("No Result Found");
+            else {
+                System.out.println("SID\tDay");
+                while (rs.next()) {
+                    System.out.print(rs.getString("SID") + "\t");
+                    System.out.print(rs.getString("DAY") + "\n");
+                }
+            }
+            System.out.println("-----------------------------------\n\n");
+
+            rs = dbase.getAttendanceBySIDList("102"); // getAttendanceByDayList() method use
             if (rs == null) System.out.println("No Result Found");
             else {
                 System.out.println("SID\tDay");
