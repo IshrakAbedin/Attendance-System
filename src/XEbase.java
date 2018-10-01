@@ -113,14 +113,7 @@ public class XEbase {
      */
     public ResultSet getStudentList(){
         query = "SELECT * FROM " + sectionname;
-        try{
-            resultSet = statement.executeQuery(query);
-            return resultSet;
-        }
-        catch (SQLException ex){
-            error = true;
-            ex.printStackTrace();
-        }
+        if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -130,15 +123,7 @@ public class XEbase {
      */
     public int getTotalStudentCount(){
         query = "SELECT * FROM " + sectionname + "_STUDENT_COUNT";
-        try {
-            resultSet = statement.executeQuery(query);
-            while(resultSet.next())
-                rt = resultSet.getInt(1);
-            return rt;
-        } catch (SQLException ex) {
-            error = true;
-            ex.printStackTrace();
-        }
+        if (integerHandler()) return rt;
         return -1; // returns -1 if error
     }
 
@@ -148,14 +133,7 @@ public class XEbase {
      */
     public ResultSet getCompleteAttendanceList(){
         query = "SELECT * FROM " + classname;
-        try{
-            resultSet = statement.executeQuery(query);
-            return resultSet;
-        }
-        catch (SQLException ex){
-            error = true;
-            ex.printStackTrace();
-        }
+        if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -167,14 +145,7 @@ public class XEbase {
      */
     public ResultSet getExtendedAttendanceList(){
         query = "SELECT * FROM " + classname+"_EXTENDED_ATTENDANCE";
-        try{
-            resultSet = statement.executeQuery(query);
-            return resultSet;
-        }
-        catch (SQLException ex){
-            error = true;
-            ex.printStackTrace();
-        }
+        if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -185,14 +156,7 @@ public class XEbase {
      */
     public ResultSet getAttendanceByDayList(String _day){
         query = "SELECT * FROM " + classname + " WHERE DAY = '" + _day + "'" ;
-        try{
-            resultSet = statement.executeQuery(query);
-            return resultSet;
-        }
-        catch (SQLException ex){
-            error = true;
-            ex.printStackTrace();
-        }
+        if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -203,16 +167,10 @@ public class XEbase {
      */
     public ResultSet getAttendanceBySIDList(String _id){
         query = "SELECT * FROM " + classname + " WHERE SID = '" + _id + "'" ;
-        try{
-            resultSet = statement.executeQuery(query);
-            return resultSet;
-        }
-        catch (SQLException ex){
-            error = true;
-            ex.printStackTrace();
-        }
+        if (resultSetHandler()) return resultSet;
         return null;
     }
+
     /**
      * A method to delete attendance of a specific student on a specific day in case of mistakes or change.
      * @param _id String ID of the student to be deleted
@@ -221,15 +179,8 @@ public class XEbase {
      */
     public int deleteAttendance(String _id, String _day){
         query = "DELETE FROM " + classname + " WHERE SID = " + _id + " AND DAY = '" + _day +"'";
-        int count = 0;
-        try{
-            count = statement.executeUpdate(query);
-            return count;
-        }
-        catch (SQLException ex) {
-            error = true;
-            ex.printStackTrace();
-        }
+        Integer count1 = getCount();
+        if (count1 != null) return count1;
         return -1;
     }
 
@@ -241,15 +192,8 @@ public class XEbase {
      */
     public int insertAttendance(String _id, String _day){
         query = "INSERT INTO " + classname + " VALUES(" + _id + ", '" + _day + "')";
-        int count = 0;
-        try{
-            count = statement.executeUpdate(query);
-            return count;
-        }
-        catch (SQLException ex) {
-            error = true;
-            ex.printStackTrace();
-        }
+        Integer count1 = getCount();
+        if (count1 != null) return count1;
         return -1;
     }
 
@@ -259,14 +203,7 @@ public class XEbase {
      */
     public ResultSet getAttendanceCountPerStudentList(){
         query = "SELECT * FROM " + classname + "_ATTENDANCE_COUNT";
-        try{
-            resultSet = statement.executeQuery(query);
-            return resultSet;
-        }
-        catch (SQLException ex){
-            error = true;
-            ex.printStackTrace();
-        }
+        if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -276,15 +213,7 @@ public class XEbase {
      */
     public int getTotalClassCount() {
         query = "SELECT * FROM " + classname + "_TOTAL_CLASS_COUNT";
-        try {
-            resultSet = statement.executeQuery(query);
-            while(resultSet.next())
-            rt = resultSet.getInt(1);
-            return rt;
-        } catch (SQLException ex) {
-            error = true;
-            ex.printStackTrace();
-        }
+        if (integerHandler()) return rt;
         return -1; // returns -1 if error
     }
 
@@ -296,13 +225,7 @@ public class XEbase {
         int classcount = this.getTotalClassCount();
         query ="SELECT * FROM " + classname + "_PERCENTAGE";
         if(classcount > 0)
-            try {
-                resultSet = statement.executeQuery(query);
-                return resultSet;
-            } catch (SQLException ex) {
-                error = true;
-                ex.printStackTrace();
-            }
+            if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -314,13 +237,7 @@ public class XEbase {
         int classcount = this.getTotalClassCount();
         query ="SELECT * FROM " + classname + "_PERCENTAGE_W_NAME";
         if(classcount > 0)
-            try {
-                resultSet = statement.executeQuery(query);
-                return resultSet;
-            } catch (SQLException ex) {
-                error = true;
-                ex.printStackTrace();
-            }
+            if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -333,13 +250,7 @@ public class XEbase {
         int classcount = this.getTotalClassCount();
         query ="SELECT * FROM " + classname + "_DEFAULTERS";
         if(classcount > 0)
-            try {
-                resultSet = statement.executeQuery(query);
-                return resultSet;
-            } catch (SQLException ex) {
-                error = true;
-                ex.printStackTrace();
-            }
+            if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -352,13 +263,7 @@ public class XEbase {
         int classcount = this.getTotalClassCount();
         query ="SELECT * FROM " + classname + "_DEFAULTERS_W_NAME";
         if(classcount > 0)
-            try {
-                resultSet = statement.executeQuery(query);
-                return resultSet;
-            } catch (SQLException ex) {
-                error = true;
-                ex.printStackTrace();
-            }
+            if (resultSetHandler()) return resultSet;
         return null;
     }
 
@@ -380,4 +285,53 @@ public class XEbase {
         return -1; // returns -1 if error
     }
 
+    /**
+     * Repetition preventing method.
+     * @return Integer nullable integer data type as count.
+     */
+    private Integer getCount() {
+        int count;
+        try{
+            count = statement.executeUpdate(query);
+            return count;
+        }
+        catch (SQLException ex) {
+            error = true;
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Repetition preventing method.
+     * @return boolean Whether setting value of rs was successful or not.
+     */
+    private boolean integerHandler() {
+        try {
+            resultSet = statement.executeQuery(query);
+            while(resultSet.next())
+                rt = resultSet.getInt(1);
+            return true;
+        } catch (SQLException ex) {
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Repetition preventing method.
+     * @return boolean Whether assigning resultSet was successful or not.
+     */
+    private boolean resultSetHandler() {
+        try{
+            resultSet = statement.executeQuery(query);
+            return true;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }

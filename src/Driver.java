@@ -79,7 +79,7 @@ public class Driver extends Application {
                     System.out.print(rs.getString("ADDRESS") + "\t");
                     System.out.print(rs.getString("CONTACT_NUMBER") + "\t");
                     System.out.print(rs.getString("ATTENDANCE_COUNT") + "\t");
-                    System.out.print(rs.getString("ATTENDANCE_PERCENTAGE") + "\n");
+                    System.out.print(rs.getFloat("ATTENDANCE_PERCENTAGE") + "\n");
                 }
             }
             System.out.println("-----------------------------------\n\n");
