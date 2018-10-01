@@ -299,6 +299,24 @@ public class XEbase {
     }
 
     /**
+     * A method to get total attendance count for every student based on Student ID.
+     * @return the Attendance count of the sstudent with _id
+     */
+    public int getAttendanceCountBySIDList(String _id){
+        query = "SELECT * FROM " + classname + "_ATTENDANCE_COUNT" + " WHERE SID = '" + _id + "'" ;;
+        try{
+            resultSet = statement.executeQuery(query);
+            resultSet.next();
+            return resultSet.getInt(2);
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
      * A method to get total number of academic classes/days held for that specific Class.
      * @return int Number of total classes. Returns -1 in case of error.
      */
@@ -318,6 +336,25 @@ public class XEbase {
         if(classcount > 0)
             if (resultSetHandler()) return resultSet;
         return null;
+    }
+
+    /**
+     * A method to get attendance percentage for every student.
+     * @return the Attendance count of the sstudent with _id
+     */
+    public int getAttendancePercentageListBySIDList(String _id){
+        int classcount = this.getTotalClassCount();
+        query ="SELECT * FROM " + classname + "_PERCENTAGE" + " WHERE SID = '" + _id + "'" ;
+        if(classcount > 0)
+            try {
+                resultSet = statement.executeQuery(query);
+                resultSet.next();
+                return resultSet.getInt(2);
+            } catch (SQLException ex) {
+                error = true;
+                ex.printStackTrace();
+            }
+        return -1;
     }
 
     /**
