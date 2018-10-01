@@ -30,7 +30,7 @@ CREATE TABLE DEMOSECTION(
 
 -- An arbitrary table representing class DEMOCLASS
 -- Each class table can represent one specific subject class taken by a teacher
--- Holds student ID and DAY representing each acadamic day where class has been taken and students were present
+-- Holds student ID and DAY representing each academic day where class has been taken and students were present
 -- It is an arbitrary linking table
 CREATE TABLE DEMOCLASS(
     SID NUMBER,

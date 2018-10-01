@@ -592,8 +592,8 @@ public class Mainwindow {
                     // Step 2
                     if (returned == 1){
                         // Step 3
-                        Integer count = dbmsUserAccount.getAttendanceCountBySIDList(std.getSID());
-                        Integer percent = dbmsUserAccount.getAttendancePercentageListBySIDList(std.getSID());
+                        Integer count = dbmsUserAccount.getAttendanceCountBySID(std.getSID());
+                        Integer percent = dbmsUserAccount.getAttendancePercentageBySID(std.getSID());
 
                         // Step 4
                         if (count != -1){

@@ -19,15 +19,15 @@ import java.sql.*;
 public class XEbase {
     private Connection connection; // Connection type object to get connection using driver.
     private String dbURL; // URL for database used.
-    public Statement statement; // Statement type object to execute DDL and DML queries.
-    public String query; // Holds query for execution by statement object.
-    public ResultSet resultSet; // ResultSet type object to return database tables.
-    public String name; // Username of teacher.
-    public String password; // Password for database.
-    public String sectionname; // Name of section, e.g. CSE16, EEE17A etc. Name formats are subject to change.
-    public String classname; // Name of subject wise class, e.g. MATH4441, CSE4407. Name formats are subject to change.
-    public boolean error; // Error state. Can be called at any time to check for errors.
-    public boolean connected; // Connection state. Can be called at any time to check for connectivity.
+    private Statement statement; // Statement type object to execute DDL and DML queries.
+    private String query; // Holds query for execution by statement object.
+    private ResultSet resultSet; // ResultSet type object to return database tables.
+    String name; // Username of teacher.
+    private String password; // Password for database.
+    private String sectionname; // Name of section, e.g. CSE16, EEE17A etc. Name formats are subject to change.
+    private String classname; // Name of subject wise class, e.g. MATH4441, CSE4407. Name formats are subject to change.
+    private boolean error; // Error state. Can be called at any time to check for errors.
+    boolean connected; // Connection state. Can be called at any time to check for connectivity.
     private int rt; // Private variable to return int type data by methods.
 
     /**
@@ -108,8 +108,99 @@ public class XEbase {
     }
 
     /**
+     * Setter method for username.
+     * @param _name String Username to be set.
+     */
+    void setUsername(String _name){
+        name = _name;
+    }
+
+    /**
+     * Getter method for username.
+     * @return String Username.
+     */
+    String getUsername(){
+        return name;
+    }
+
+    /**
+     * Setter method for password.
+     * @param _password String Password to be set.
+     */
+    void setPassword(String _password){
+        password = _password;
+    }
+
+    /**
+     * Getter method for password.
+     * @return String Password.
+     */
+    String getPassword(){
+        return password;
+    }
+
+    /**
+     * Setter method for section name.
+     * @param _sectionname String Section name to be set.
+     */
+    void setSectionname(String _sectionname){
+        sectionname = _sectionname;
+    }
+
+    /**
+     * Getter method for section name.
+     * @return String Section name.
+     */
+    String getSectionname(){
+        return sectionname;
+    }
+
+    /**
+     * Setter method for class name.
+     * @param _classname String Class name to be set.
+     */
+    void setClassname(String _classname){
+        classname = _classname;
+    }
+
+    /**
+     * Getter method for class name.
+     * @return String Class name.
+     */
+    String getClassname(){
+        return classname;
+    }
+
+    /**
+     * A method for checking error state.
+     * @return boolean True if there is any error.
+     */
+    boolean getErrorState(){
+        return error;
+    }
+
+    /**
+     * A method for checking connection state.
+     * @return boolean False if there is no connection.
+     */
+    boolean getConnectonState(){
+        return connected;
+    }
+
+    /**
+     * A method to get the sections and corresponding classes of logged in teacher.
+     * @return ResultSet Contains 2 columns. ColumnLabel: "SECTION" , "CLASS". Returns NULL in case of error.
+     */
+    public ResultSet getCourseList(){
+        query = "SELECT * FROM " + name+"_COURSES";
+        if (resultSetHandler()) return resultSet;
+        return null;
+    }
+
+    /**
      * A method to get the Student ID, Name, Address and Contact Number of all students present in the section.
      * @return ResultSet Contains 4 columns. ColumnLabel: "SID" , "NAME" , "ADDRESS" , "CONTACT_NUMBER".
+     * Returns NULL in case of error.
      */
     public ResultSet getStudentList(){
         query = "SELECT * FROM " + sectionname;
@@ -123,7 +214,7 @@ public class XEbase {
      */
     public int getTotalStudentCount(){
         query = "SELECT * FROM " + sectionname + "_STUDENT_COUNT";
-        if (integerHandler()) return rt;
+        if (integerHandler(1)) return rt;
         return -1; // returns -1 if error
     }
 
@@ -208,21 +299,14 @@ public class XEbase {
     }
 
     /**
-     * A method to get total attendance count for every student based on Student ID.
-     * @return the Attendance count of the sstudent with _id
+     * A method to get attendance count for a specific student.
+     * @param _id int ID of the student for whom attendance count needs to be found.
+     * @return int Attendance count of the specific student. Returns -1 in case of error.
      */
-    public int getAttendanceCountBySIDList(String _id){
-        query = "SELECT * FROM " + classname + "_ATTENDANCE_COUNT" + " WHERE SID = '" + _id + "'" ;;
-        try{
-            resultSet = statement.executeQuery(query);
-            resultSet.next();
-            return resultSet.getInt(2);
-        }
-        catch (SQLException ex){
-            error = true;
-            ex.printStackTrace();
-        }
-        return -1;
+    public int getAttendanceCountBySID(String _id){
+        query = "SELECT * FROM " + classname + "_ATTENDANCE_COUNT" + " WHERE SID = '" + _id + "'";
+        if (integerHandler(2)) return rt;
+        return -1; // returns -1 if error
     }
 
     /**
@@ -231,7 +315,7 @@ public class XEbase {
      */
     public int getTotalClassCount() {
         query = "SELECT * FROM " + classname + "_TOTAL_CLASS_COUNT";
-        if (integerHandler()) return rt;
+        if (integerHandler(1)) return rt;
         return -1; // returns -1 if error
     }
 
@@ -248,27 +332,9 @@ public class XEbase {
     }
 
     /**
-     * A method to get attendance percentage for every student.
-     * @return the Attendance count of the sstudent with _id
-     */
-    public int getAttendancePercentageListBySIDList(String _id){
-        int classcount = this.getTotalClassCount();
-        query ="SELECT * FROM " + classname + "_PERCENTAGE" + " WHERE SID = '" + _id + "'" ;
-        if(classcount > 0)
-            try {
-                resultSet = statement.executeQuery(query);
-                resultSet.next();
-                return resultSet.getInt(2);
-            } catch (SQLException ex) {
-                error = true;
-                ex.printStackTrace();
-            }
-        return -1;
-    }
-
-    /**
      * A method to get attendance percentage for every student alongside their names.
-     * @return ResultSet Contains 3 columns. ColumnLabel : "SID" , "NAME" , "ATTENDANCE_PERCENTAGE". Returns NULL in case of error.
+     * @return ResultSet Contains 3 columns. ColumnLabel : "SID" , "NAME" , "ATTENDANCE_PERCENTAGE".
+     * Returns NULL in case of error.
      */
     public ResultSet getAttendancePercentageListWithName(){
         int classcount = this.getTotalClassCount();
@@ -276,6 +342,19 @@ public class XEbase {
         if(classcount > 0)
             if (resultSetHandler()) return resultSet;
         return null;
+    }
+
+    /**
+     * A method to get attendance percentage of a specific student
+     * @param _id int ID of the student for whom attendance percentage needs to be found
+     * @return int Attendance percentage of the specific student. Returns -1 in case of error.
+     */
+    public int getAttendancePercentageBySID(String _id){
+        int classcount = this.getTotalClassCount();
+        query ="SELECT * FROM " + classname + "_PERCENTAGE" + " WHERE SID = '" + _id + "'" ;
+        if(classcount > 0)
+            if (integerHandler(2)) return rt;
+        return -1; // returns -1 if error
     }
 
     /**
@@ -310,15 +389,7 @@ public class XEbase {
      */
     public int getDefaulterCount() {
         query = "SELECT * FROM " + classname + "_DEFAULTERS_COUNT";
-        try {
-            resultSet = statement.executeQuery(query);
-            while(resultSet.next())
-                rt = resultSet.getInt("DEFAULTER_COUNT");
-            return rt;
-        } catch (SQLException ex) {
-            error = true;
-            ex.printStackTrace();
-        }
+        if (integerHandler(1)) return rt;
         return -1; // returns -1 if error
     }
 
@@ -341,13 +412,14 @@ public class XEbase {
 
     /**
      * Repetition preventing method.
-     * @return boolean Whether setting value of rs was successful or not.
+     * @param columnIndex int Index of the column of result set to derive integer value from.
+     * @return boolean Whether setting value of ResultSet rs was successful or not.
      */
-    private boolean integerHandler() {
+    private boolean integerHandler(int columnIndex) {
         try {
             resultSet = statement.executeQuery(query);
             while(resultSet.next())
-                rt = resultSet.getInt(1);
+                rt = resultSet.getInt(columnIndex);
             return true;
         } catch (SQLException ex) {
             error = true;
