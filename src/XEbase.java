@@ -19,15 +19,15 @@ import java.sql.*;
 public class XEbase {
     private Connection connection; // Connection type object to get connection using driver.
     private String dbURL; // URL for database used.
-    private Statement statement; // Statement type object to execute DDL and DML queries.
-    private String query; // Holds query for execution by statement object.
-    private ResultSet resultSet; // ResultSet type object to return database tables.
-    String name; // Username of teacher.
-    private String password; // Password for database.
-    private String sectionname; // Name of section, e.g. CSE16, EEE17A etc. Name formats are subject to change.
-    private String classname; // Name of subject wise class, e.g. MATH4441, CSE4407. Name formats are subject to change.
-    private boolean error; // Error state. Can be called at any time to check for errors.
-    boolean connected; // Connection state. Can be called at any time to check for connectivity.
+    public Statement statement; // Statement type object to execute DDL and DML queries.
+    public String query; // Holds query for execution by statement object.
+    public ResultSet resultSet; // ResultSet type object to return database tables.
+    public String name; // Username of teacher.
+    public String password; // Password for database.
+    public String sectionname; // Name of section, e.g. CSE16, EEE17A etc. Name formats are subject to change.
+    public String classname; // Name of subject wise class, e.g. MATH4441, CSE4407. Name formats are subject to change.
+    public boolean error; // Error state. Can be called at any time to check for errors.
+    public boolean connected; // Connection state. Can be called at any time to check for connectivity.
     private int rt; // Private variable to return int type data by methods.
 
     /**
@@ -108,99 +108,8 @@ public class XEbase {
     }
 
     /**
-     * Setter method for username.
-     * @param _name String Username to be set.
-     */
-    void setUsername(String _name){
-        name = _name;
-    }
-
-    /**
-     * Getter method for username.
-     * @return String Username.
-     */
-    String getUsername(){
-        return name;
-    }
-
-    /**
-     * Setter method for password.
-     * @param _password String Password to be set.
-     */
-    void setPassword(String _password){
-        password = _password;
-    }
-
-    /**
-     * Getter method for password.
-     * @return String Password.
-     */
-    String getPassword(){
-        return password;
-    }
-
-    /**
-     * Setter method for section name.
-     * @param _sectionname String Section name to be set.
-     */
-    void setSectionname(String _sectionname){
-        sectionname = _sectionname;
-    }
-
-    /**
-     * Getter method for section name.
-     * @return String Section name.
-     */
-    String getSectionname(){
-        return sectionname;
-    }
-
-    /**
-     * Setter method for class name.
-     * @param _classname String Class name to be set.
-     */
-    void setClassname(String _classname){
-        classname = _classname;
-    }
-
-    /**
-     * Getter method for class name.
-     * @return String Class name.
-     */
-    String getClassname(){
-        return classname;
-    }
-
-    /**
-     * A method for checking error state.
-     * @return boolean True if there is any error.
-     */
-    boolean getErrorState(){
-        return error;
-    }
-
-    /**
-     * A method for checking connection state.
-     * @return boolean False if there is no connection.
-     */
-    boolean getConnectonState(){
-        return connected;
-    }
-
-    /**
-     * A method to get the sections and corresponding classes of logged in teacher.
-     * @return ResultSet Contains 2 columns. ColumnLabel: "SECTION" , "CLASS". Returns NULL in case of error.
-     */
-    public ResultSet getCourseList(){
-        query = "SELECT * FROM " + name+"_COURSES";
-        if (resultSetHandler()) return resultSet;
-        return null;
-    }
-
-    /**
      * A method to get the Student ID, Name, Address and Contact Number of all students present in the section.
      * @return ResultSet Contains 4 columns. ColumnLabel: "SID" , "NAME" , "ADDRESS" , "CONTACT_NUMBER".
-     * Returns NULL in case of error.
      */
     public ResultSet getStudentList(){
         query = "SELECT * FROM " + sectionname;
