@@ -21,18 +21,29 @@
                 </Label>
             </HBox>
 
-            <!-- Displaying log in and date info -->
-            <GridPane vgap="10" hgap="10" alignment="CENTER_LEFT">
-                <!-- Displays the date -->
-                <Text fx:id="DateText" text="Date" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <font>
-                        <Font name="Times New Roman" size="20" />
-                    </font>
-                </Text>
+            <!-- Menu bar with options -->
+            <MenuBar>
+                <Menu text="File">
+                    <items>
+                        <MenuItem text="Add attendnace" onAction="#handleInsertDialog"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Exit program" onAction="#handleExit"/>
+                    </items>
+                </Menu>
 
+                <Menu text="Help">
+                    <items>
+                        <MenuItem text="Search"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Controls"/>
+                    </items>
+                </Menu>
+            </MenuBar>
+
+            <!-- Toolbar -->
+            <ToolBar>
                 <!-- Log in and Log Out Button -->
-                <Button fx:id="AccountButton" onAction="#showLogInDialogue" text="Log In"
-                        GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Button fx:id="AccountButton" onAction="#showLogInDialogue" text="Log In">
                     <tooltip>
                         <Tooltip text="Add a new Todo Item" style="-fx-background-color: GREEN">
                             <font>
@@ -43,17 +54,16 @@
                 </Button>
 
                 <!-- Toggle button to toggle between full list and defaulter list -->
-                <ToggleButton fx:id="FXFilterDefaulter" onAction="#handleFilter" text="Show Only Defaulters"
-                              GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <ToggleButton fx:id="FXFilterDefaulter" onAction="#handleFilter" text="Show Only Defaulters">
                     <tooltip>
-                        <Tooltip text="Show only defaulters" style="-fx-background-color: GREEN">
+                        <Tooltip text="Toggle defaulters" style="-fx-background-color: GREEN">
                             <font>
                                 <Font name="Times New Roman" size="16"/>
                             </font>
                         </Tooltip>
                     </tooltip>
                 </ToggleButton>
-            </GridPane>
+            </ToolBar>
         </VBox>
     </top>
 
@@ -63,6 +73,12 @@
             <padding>
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
+            <!-- Displays the date -->
+            <Text fx:id="DateText" text="Date" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <font>
+                    <Font name="Times New Roman" size="20" />
+                </font>
+            </Text>
 
             <!-- Label for class details -->
             <Label text="Class details">
@@ -131,7 +147,7 @@
                     <Font name="Times New Roman bold" size="24"/>
                 </font>
             </Label>
-            <ListView fx:id="FXStudentInfoListView" onKeyPressed="#handleKeyPressed"/>
+            <ListView fx:id="FXStudentInfoListView" onKeyPressed="#handleKeyPressed" VBox.vgrow="ALWAYS"/>
         </VBox>
     </center>
 
@@ -237,6 +253,17 @@
                     </font>
                 </Text>
             </HBox>
+
+            <!-- Displays the days a student was present -->
+            <VBox alignment="CENTER_LEFT">
+                <Text text="Days present : " style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
+
+                <ListView fx:id="FXPresentDaysListView" onKeyPressed="#handleKeyPressed" VBox.vgrow="ALWAYS"/>
+            </VBox>
         </VBox>
     </right>
 </BorderPane>

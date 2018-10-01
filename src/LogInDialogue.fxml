@@ -13,9 +13,8 @@
 
     <content>
         <GridPane alignment="CENTER" vgap="10" hgap="10">
-
             <!-- User Name -->
-            <Label text="User Name" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <Label text="User name" GridPane.columnIndex="0" GridPane.rowIndex="0">
                 <font>
                     <Font name="Times New Roman" size="20" />
                 </font>
@@ -23,7 +22,7 @@
                     <Insets right="10.0" />
                 </padding>
             </Label>
-            <TextField fx:id="FXUserName" text="Enter User Name" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <TextField fx:id="FXUserName" text="DEMOTEACHER" GridPane.columnIndex="1" GridPane.rowIndex="0">
                 <GridPane.margin>
                     <Insets left="10.0" />
                 </GridPane.margin>
@@ -38,7 +37,7 @@
                     <Insets right="10.0" />
                 </padding>
             </Label>
-            <PasswordField fx:id="FXPassword" text="Enter Password" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <PasswordField fx:id="FXPassword" text="DEMOPASSWORD" GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets left="10.0" />
                 </GridPane.margin>

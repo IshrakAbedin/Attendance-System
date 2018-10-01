@@ -2,8 +2,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import java.sql.SQLOutput;
-
 public class LogInDialogueController {
     @FXML private TextField FXUserName;         // FXML User Name field
     @FXML private PasswordField FXPassword;     // FXML Password Field
