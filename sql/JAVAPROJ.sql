@@ -6,6 +6,18 @@ GRANT CONNECT, RESOURCE, CREATE SESSION, DBA TO DEMOTEACHER;
 -- After creating the account, log out from system or dba account and sign in as DEMOTEACHER
 -- Create the following tables/views after that
 
+-- An arbitrary table representing collection of class and section info per teacher
+-- In ideal case, it should be kept under admin only and only the corresponding view mentioned later should be accessible by a teacher
+-- Also all the atributes in the table should be foreign keys from different tables since it is a junction table
+-- It is done in this way for simplification of protyping since the actual implementation of database is still unknown
+CREATE TABLE DEMOCLASSHUB(
+    TID NUMBER,
+    TNAME VARCHAR2(25),
+    SECTION VARCHAR2(15),
+    CLASS VARCHAR2(15),
+    CONSTRAINT PK_DEMOCLASSHUB PRIMARY KEY (TID, SECTION, CLASS)
+);
+
 -- An arbitrary table representing section DEMOSECTION
 -- A section holds the information about student ID, name, address and contact number
 CREATE TABLE DEMOSECTION(
@@ -47,6 +59,21 @@ INSERT INTO DEMOCLASS VALUES (102, 'SEP24');
 INSERT INTO DEMOCLASS VALUES (103, 'SEP24');
 INSERT INTO DEMOCLASS VALUES (104, 'SEP24');
 INSERT INTO DEMOCLASS VALUES (105, 'SEP24');
+
+-- Arbitrary value insertion into DEMOCLASS for test purpose
+INSERT INTO DEMOCLASSHUB VALUES (11, 'DEMOTEACHER', 'DEMOSECTION', 'DEMOCLASS');
+INSERT INTO DEMOCLASSHUB VALUES (11, 'DEMOTEACHER', 'CSE16', 'CSE9406');
+INSERT INTO DEMOCLASSHUB VALUES (11, 'DEMOTEACHER', 'CSE17', 'CSE8321');
+INSERT INTO DEMOCLASSHUB VALUES (12, 'MRX', 'SWE13', 'MAT1112');
+INSERT INTO DEMOCLASSHUB VALUES (12, 'MRX', 'MCE99', 'MCE2283');
+INSERT INTO DEMOCLASSHUB VALUES (13, 'MRY', 'EEE55', 'EEE4848');
+
+-- A View:DEMOTEACHER_COURSES returning sections and classes available to demoteacher
+CREATE OR REPLACE VIEW DEMOTEACHER_COURSES AS
+SELECT SECTION, CLASS FROM DEMOCLASSHUB
+WHERE TNAME = 'DEMOTEACHER'
+ORDER BY SECTION ASC;
+-- SELECT * FROM DEMOTEACHER_COURSES;
 
 -- A View:DEMOSECTION_STUDENT_COUNT returning total student count of section
 CREATE OR REPLACE VIEW DEMOSECTION_STUDENT_COUNT AS

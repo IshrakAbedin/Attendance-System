@@ -56,6 +56,20 @@ public class Driver extends Application {
             }
             System.out.println("-----------------------------------\n\n");
 
+            // getCourseList() method use
+            rs = dbase.getCourseList();
+            if (rs == null)
+                System.out.println("No Result Found");
+            else {
+                System.out.println("Section\tClass");
+                while (rs.next()) { // ResultSet must be exhausted by continuous use of next() method to avoid errors.
+                    // columnIndex of ResultSet is used here. Use of columnLabel is shown later.
+                    System.out.print(rs.getString("SECTION") + "\t");
+                    System.out.print(rs.getString("CLASS") + "\n");
+                }
+            }
+            System.out.println("-----------------------------------\n\n");
+
             rs = dbase.getCompleteAttendanceList(); // getCompleteAttendanceList() method use
             if (rs == null) System.out.println("No Result Found");
             else {
