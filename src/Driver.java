@@ -200,6 +200,22 @@ public class Driver extends Application {
             System.out.println("Def count: "+dbase.getDefaulterCount()); // getDefaulterCount()
             System.out.println("-----------------------------------\n\n");
 
+            rs = dbase.getTakenDayList(); // getAttendanceDefauterListWithName()
+            if (rs == null) System.out.println("No Result Found");
+            else {
+                System.out.println("Day\n");
+                while (rs.next()) {
+                    System.out.print(rs.getString("DAY") + "\n");
+                }
+            }
+            System.out.println("-----------------------------------\n\n");
+
+            System.out.println(dbase.wasTakenOnDay("SEP24"));
+            System.out.println(dbase.wasTakenOnDay("SEP25"));
+            System.out.println(dbase.wasTakenOnDay("SEP23"));
+            System.out.println(dbase.wasTakenOnDay("SEP26"));
+            System.out.println("-----------------------------------\n\n");
+
         }
         catch (SQLException ex){
             ex.printStackTrace(); // Exception handled and printed

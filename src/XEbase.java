@@ -98,8 +98,10 @@ public class XEbase {
      */
     public void close(){
         try{
-            if(connection != null && !connection.isClosed())
+            if(connection != null && !connection.isClosed()){
+                resultSet.close();
                 connection.close();
+            }
         }
         catch (SQLException ex){
             error = true;
@@ -195,6 +197,26 @@ public class XEbase {
         query = "SELECT * FROM " + name+"_COURSES";
         if (resultSetHandler()) return resultSet;
         return null;
+    }
+
+    /**
+     * A method to get the list of all the days where class was taken
+     * @return ResultSet Contains 1 column. ColumnLabel: "DAY". Returns NULL in case of error.
+     */
+    public ResultSet getTakenDayList(){
+        query = "SELECT * FROM " + classname + "_TAKENDAYS";
+        if (resultSetHandler()) return resultSet;
+        return null;
+    }
+
+    /**
+     * A method to find out if class was taken on a specific day.
+     * @param _day String Specific day to find out whether class was taken on.
+     * @return boolean True if class was taken on the specific day.
+     */
+    public boolean wasTakenOnDay(String _day){
+        query = "SELECT * FROM " + classname + "_TAKENDAYS WHERE DAY = '" + _day + "'";
+        return boolHandler(_day);
     }
 
     /**
@@ -438,6 +460,23 @@ public class XEbase {
             return true;
         }
         catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Repetition preventing method.
+     * @return boolean Whether a certain value is present or not in a single attribute returning ResultSet.
+     */
+    private boolean boolHandler(String match){
+        try {
+            resultSet = statement.executeQuery(query);
+            if (resultSet.next()){
+                return match.equals(resultSet.getString(1));
+            }
+        } catch (SQLException ex) {
             error = true;
             ex.printStackTrace();
         }
