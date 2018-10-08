@@ -9,6 +9,7 @@ public class TeacherAccountData {
     private String AccountName;
     private String Password;
     private ObservableList<String> CourseList;
+    private ObservableList<String> SectionList;
     private ObservableList<String> ClassDaysList;
     private DateTimeFormatter dateTimeFormatter;
 
@@ -16,12 +17,14 @@ public class TeacherAccountData {
         AccountName = accountName;
         Password = password;
         CourseList = FXCollections.observableArrayList();
+        SectionList = FXCollections.observableArrayList();
         ClassDaysList = FXCollections.observableArrayList();
         dateTimeFormatter = DateTimeFormatter.ofPattern("MMMdd");
     }
 
     public void addToCourseList(String Course, String Section){
-        CourseList.add(Course + " for " + Section);
+        CourseList.add(Course);
+        SectionList.add(Section);
     }
 
     public void addToClassDays(LocalDate ClassDate){
@@ -55,5 +58,19 @@ public class TeacherAccountData {
 
     public ObservableList<String> getClassDaysList() {
         return ClassDaysList;
+    }
+
+    public ObservableList<String> getSectionList() {
+        return SectionList;
+    }
+
+    public String getSectionForCourse(String Course){
+        int index = CourseList.indexOf(Course);
+
+        if (index == -1){
+            return null;
+        }
+
+        return SectionList.get(index);
     }
 }

@@ -73,6 +73,7 @@
             <padding>
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
+
             <!-- Displays the date -->
             <Text fx:id="DateText" text="Date" GridPane.columnIndex="0" GridPane.rowIndex="0">
                 <font>
@@ -132,13 +133,15 @@
                 </Text>
             </HBox>
 
-            <Text text="Courses" style="-fx-background-color: white">
-                <font>
-                    <Font name="Times New Roman bold" size="20"/>
-                </font>
-            </Text>
+            <HBox>
+                <Text text="Courses" style="-fx-background-color: white">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+                </Text>
 
-            <ComboBox fx:id="FXCourseList"/>
+                <ComboBox fx:id="FXCourseList" onAction="#handleCourseChange" minWidth="100"/>
+            </HBox>
 
             <Text text="Days classes were taken" style="-fx-background-color: white">
                 <font>
@@ -270,15 +273,16 @@
             </HBox>
 
             <!-- Displays the days a student was present -->
-            <VBox alignment="CENTER_LEFT">
+            <!--<VBox alignment="CENTER_LEFT">-->
                 <Text text="Days present : " style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
                     </font>
                 </Text>
 
-                <ListView fx:id="FXPresentDaysListView" onKeyPressed="#handleKeyPressed" VBox.vgrow="ALWAYS"/>
-            </VBox>
+
+                <ListView fx:id="FXPresentDaysListView" VBox.vgrow="ALWAYS" minWidth="400"/>
+            <!--</VBox>-->
         </VBox>
     </right>
 </BorderPane>

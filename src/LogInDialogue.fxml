@@ -43,35 +43,35 @@
                 </GridPane.margin>
             </PasswordField>
 
-            <!-- Section Name -->
-            <Label text="Section Name" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                <font>
-                    <Font name="Times New Roman" size="20" />
-                </font>
-                <padding>
-                    <Insets right="10.0" />
-                </padding>
-            </Label>
-            <TextField fx:id="FXSectionName" text="Enter Section Name" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                <GridPane.margin>
-                    <Insets left="10.0" />
-                </GridPane.margin>
-            </TextField>
+            <!--&lt;!&ndash; Section Name &ndash;&gt;-->
+            <!--<Label text="Section Name" GridPane.columnIndex="0" GridPane.rowIndex="2">-->
+                <!--<font>-->
+                    <!--<Font name="Times New Roman" size="20" />-->
+                <!--</font>-->
+                <!--<padding>-->
+                    <!--<Insets right="10.0" />-->
+                <!--</padding>-->
+            <!--</Label>-->
+            <!--<TextField fx:id="FXSectionName" text="Enter Section Name" GridPane.columnIndex="1" GridPane.rowIndex="2">-->
+                <!--<GridPane.margin>-->
+                    <!--<Insets left="10.0" />-->
+                <!--</GridPane.margin>-->
+            <!--</TextField>-->
 
-            <!-- Class Name-->
-            <Label text="Class Name" GridPane.columnIndex="0" GridPane.rowIndex="3">
-                <font>
-                    <Font name="Times New Roman" size="20" />
-                </font>
-                <padding>
-                    <Insets right="10.0" />
-                </padding>
-            </Label>
-            <TextField fx:id="FXClassName" text="Enter Class Name" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                <GridPane.margin>
-                    <Insets left="10.0" />
-                </GridPane.margin>
-            </TextField>
+            <!--&lt;!&ndash; Class Name&ndash;&gt;-->
+            <!--<Label text="Class Name" GridPane.columnIndex="0" GridPane.rowIndex="3">-->
+                <!--<font>-->
+                    <!--<Font name="Times New Roman" size="20" />-->
+                <!--</font>-->
+                <!--<padding>-->
+                    <!--<Insets right="10.0" />-->
+                <!--</padding>-->
+            <!--</Label>-->
+            <!--<TextField fx:id="FXClassName" text="Enter Class Name" GridPane.columnIndex="1" GridPane.rowIndex="3">-->
+                <!--<GridPane.margin>-->
+                    <!--<Insets left="10.0" />-->
+                <!--</GridPane.margin>-->
+            <!--</TextField>-->
         </GridPane>
     </content>
 </DialogPane>

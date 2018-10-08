@@ -62,7 +62,7 @@ public class Mainwindow {
      * Runs when first launching the application.
      */
     public void initialize(){
-        /**
+        /*
          * Create a context menu with 2 options.
          * Delete item or modify item.
          */
@@ -84,9 +84,10 @@ public class Mainwindow {
         listContextMenu.getItems().add(edit);
         listContextMenu.getItems().add(delete);              // Attaching menu item in context menu
 
-        /**
+        /*
          * Sets up student and class information viewing base.
          */
+        AccountData = null;
         StudentInfoList = FXCollections.observableArrayList();
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         DateText.setText("Date : " + df.format(LocalDateTime.now()));
@@ -98,7 +99,7 @@ public class Mainwindow {
             setupAccountButton(dbmsUserAccount.name, "Press to log out");
         }
 
-        /**
+        /*
          * Instantiating predicates for filtering on and off.
          * AllStudents predicate is used to view all students.
          * DefaulterStudents predicate is used to view only defaulter students.
@@ -147,7 +148,7 @@ public class Mainwindow {
     /**
      * Creates a dialogue through which you log in to your account.
      */
-    @FXML public void showLogInDialogue(){
+    @FXML private void showLogInDialogue(){
         // If the dbmsUserAccount is null that means no one is logged in. So log in possible.
         if (dbmsUserAccount == null){
             boolean failed = false;             // Variable keeps track of invalid user name or password.
@@ -189,7 +190,6 @@ public class Mainwindow {
                                 getClassInformation();
                                 getStudentInformationList();
                                 setupAccountButton(dbmsUserAccount.name, "Press to log out");
-                                setCellFactory(null);
                             }
                             else {
                                 failed = true;
@@ -218,7 +218,7 @@ public class Mainwindow {
      * Handles key press events
      * @param k is the event when a keyboard button is pressed
      */
-    @FXML public void handleKeyPressed(KeyEvent k){
+    @FXML private void handleKeyPressed(KeyEvent k){
         if (dbmsUserAccount == null){
             showWarning(
                     "Error",
@@ -248,12 +248,13 @@ public class Mainwindow {
     /**
      * Closes connection and exits application.
      */
-    @FXML public void handleExit(){
-        if (dbmsUserAccount != null){
-            dbmsUserAccount.close();
-        }
-
-        Platform.exit();
+    @FXML private void handleExit(){
+        showWarning(
+                "Exit warning",
+                "Are you sure you want to exit?",
+                "Press OK to exit, otherwise press cancel",
+                "exit"
+        );
     }
 
 
@@ -262,7 +263,7 @@ public class Mainwindow {
      * Creates a Dialog to display old information
      * and runs the code to save the new information from the Dialog.
      */
-    @FXML public void handleInsertDialog(){
+    @FXML private void handleInsertDialog(){
         if (dbmsUserAccount == null){
             showWarning(
                     "Error",
@@ -280,7 +281,7 @@ public class Mainwindow {
      * handles the code for deleting a task.
      * Creates a confirmation Dialog and then proceeds to delete with consent.
      */
-    @FXML public void handleDelete(){
+    @FXML private void handleDelete(){
         if (dbmsUserAccount == null){
             showWarning(
                     "Error",
@@ -298,7 +299,7 @@ public class Mainwindow {
     /**
      * handles the filtering mechanism.
      */
-    @FXML public void handleFilter(){
+    @FXML private void handleFilter(){
         if (dbmsUserAccount == null){
             FXFilterDefaulter.setSelected(false);
             showWarning(
@@ -338,6 +339,37 @@ public class Mainwindow {
 
 
     /**
+     * Handles information viewing specific to a course of a specific section.
+     */
+    @FXML private void handleCourseChange(){
+        if (dbmsUserAccount == null){
+            FXFilterDefaulter.setSelected(false);
+            showWarning(
+                    "Error",
+                    "Please log in first",
+                    "To use the application logging in is required beforehand.",
+                    "account"
+            );
+            return;
+        }
+
+        // Get selected class and section info
+        String CourseName = FXCourseList.getSelectionModel().getSelectedItem();
+        String SectionName = AccountData.getSectionForCourse(CourseName);
+
+        // Set new class and section name in dbms.
+        dbmsUserAccount.setClassname(CourseName);
+        dbmsUserAccount.setSectionname(SectionName);
+
+        // Retrieve new class and section information
+        clearStudentInformation();
+        getStudentInformationList();
+        clearClassInformation();
+        getClassInformation();
+    }
+
+
+    /**
      * Setups the log in and out button text and tooltip text.
      * @param buttonText what the button text should be
      * @param buttonTooltip what the tooltip should say
@@ -366,7 +398,7 @@ public class Mainwindow {
             return false;
         }
 
-        /**
+        /*
          * Get the student information (SID, Name, Address, Contact no) from the dbms.
          * If Base information isn't accessible then none of the other portions will work.
          */
@@ -374,19 +406,18 @@ public class Mainwindow {
             ResultSet rs = dbmsUserAccount.getStudentList();
             if (rs != null) {       // Proceed if resultSet is not null
                 while(rs.next()){   // Create the student info list with base information
-                    StudentInformation std = new StudentInformation(
-                            rs.getString(1),    // SID
-                            rs.getString(2),    // NAME
-                            rs.getString(3),    // ADDRESS
-                            rs.getString(4)     // CONTACT INFORMATION
+                    StudentInfoList.add(
+                            new StudentInformation(
+                                rs.getString(1),    // SID
+                                rs.getString(2),    // NAME
+                                rs.getString(3),    // ADDRESS
+                                rs.getString(4)     // CONTACT INFORMATION
+                            )
                     );
-                    StudentInfoList.add(std);
                 }
                 rs.close();
 
-                /**
-                 * Setting the present days for each and every student of a class.
-                 */
+                //Setting the present days for each and every student of a class.
                 try{
                     for(int i = 0; i < StudentInfoList.size(); ++i){
                         rs = dbmsUserAccount.getAttendanceBySIDList(StudentInfoList.get(i).getSID());
@@ -404,9 +435,7 @@ public class Mainwindow {
                 }
 
 
-                /**
-                 * Get the student attendance count information from the dbms
-                 */
+                // Get the student attendance count information from the dbms
                 try{            // Try to Copy the info into a list (StudentInfoList).
                     rs = dbmsUserAccount.getAttendanceCountPerStudentList();
                     if (rs != null){    // Proceed if resultSet is not null and list created
@@ -428,9 +457,7 @@ public class Mainwindow {
                 }
 
 
-                /**
-                 * Get the student attendance percentage information from the dbms
-                 */
+                //Get the student attendance percentage information from the dbms
                 try{            // Try to Copy the info into a list (StudentInfoList).
                     rs = dbmsUserAccount.getAttendancePercentageList();
                     if (rs != null){    // Proceed if resultSet is not null
@@ -451,11 +478,9 @@ public class Mainwindow {
                     e.printStackTrace();
                 }
 
-                /**
-                 * Setting up filtered list.
-                 */
+                //Setting up filtered list.
                 filteredList = new FilteredList<>(StudentInfoList);
-
+                setCellFactory(null);
                 return true;
             }
             else {
@@ -488,15 +513,45 @@ public class Mainwindow {
 
         // Getting total student count
         Integer TotalStudents = dbmsUserAccount.getTotalStudentCount();
-        FXTotalStudents.setText(TotalStudents.toString());
+        if (TotalStudents != -1){
+            FXTotalStudents.setText(TotalStudents.toString());
+        } else{
+            FXTotalStudents.setText("0");
+        }
 
         // Getting total classes taken
         Integer TotalClasses = dbmsUserAccount.getTotalClassCount();
-        FXTotalClassCount.setText(TotalClasses.toString());
+        if (TotalClasses != -1){
+            FXTotalClassCount.setText(TotalClasses.toString());
+        }else{
+            FXTotalClassCount.setText("0");
+        }
 
         // Getting total defaulter student count
         Integer TotalDefaulters = dbmsUserAccount.getDefaulterCount();
-        FXTotalDefaulterStudents.setText(TotalDefaulters.toString());
+        if (TotalDefaulters != -1){
+            FXTotalDefaulterStudents.setText(TotalDefaulters.toString());
+        } else {
+            FXTotalDefaulterStudents.setText("0");
+        }
+
+        // Getting days the class was conducted
+        try{
+            ResultSet rs = dbmsUserAccount.getTakenDayList();
+
+            if (rs != null){
+                while(rs.next()){
+                    AccountData.addToClassDays(rs.getString("DAY"));
+                }
+
+                FXClassList.setItems(AccountData.getClassDaysList());
+                rs.close();
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+
+            return false;
+        }
 
         return true;
     }
@@ -507,6 +562,10 @@ public class Mainwindow {
      * @return true if successful. False otherwise.
      */
     private boolean getAccountInfo(){
+        if (AccountData != null){
+            return false;
+        }
+
         // Get teacher acount information
         AccountData = new TeacherAccountData(
                 dbmsUserAccount.getUsername(),
@@ -529,18 +588,6 @@ public class Mainwindow {
 
                 rs.close();
             }
-
-            rs = dbmsUserAccount.getTakenDayList();
-
-            if (rs != null){
-                while(rs.next()){
-                    AccountData.addToClassDays(rs.getString("DAY"));
-                }
-
-                FXClassList.setItems(AccountData.getClassDaysList());
-                rs.close();
-            }
-
         } catch(SQLException e){
             e.printStackTrace();
 
@@ -737,16 +784,22 @@ public class Mainwindow {
      * Also logs out from dbms account.
      */
     private void clearInformation(){
-        // Clearing dbms account
-        dbmsUserAccount.close();
-        dbmsUserAccount = null;
+        // Clearing account information
+        clearAccountInformation();
 
         // Clearing class information
-        FXTotalClassCount.setText("");
-        FXTotalStudents.setText("");
-        FXTotalDefaulterStudents.setText("");
+        clearClassInformation();
+
 
         // Clearing student information
+        clearStudentInformation();
+    }
+
+
+    /**
+     * Clears temporary student information.
+     */
+    private void clearStudentInformation(){
         StudentInfoList.clear();
         FXStudentName.setText("");
         FXStudentAddress.setText("");
@@ -756,11 +809,28 @@ public class Mainwindow {
         FXStudentAttendanceRemarks.setText("");
         FXStudentInfoListView.setItems(null);
         FXPresentDaysListView.setItems(null);
+    }
 
-        // Clear account info
+
+    /**
+     * Clears temporary Class information.
+     */
+    private void clearClassInformation(){
+        FXTotalClassCount.setText("");
+        FXTotalStudents.setText("");
+        FXTotalDefaulterStudents.setText("");
+        FXClassList.setItems(null);
+    }
+
+
+    /**
+     * Clears temporary Account information.
+     */
+    private void clearAccountInformation(){
+        dbmsUserAccount.close();
+        dbmsUserAccount = null;
         AccountData = null;
         FXCourseList.setItems(null);
-        FXClassList.setItems(null);
     }
 
 
@@ -772,19 +842,36 @@ public class Mainwindow {
      * @param Type Type of issue generating the command.
      */
     private void showWarning(String TitleText, String HeaderText, String ContentText, String Type){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        String type = Type.toLowerCase();
+
+        Alert alert = null;
+        if (type.equals("account") || type.equals("insert") || type.equals("delete")){
+            alert = new Alert(Alert.AlertType.ERROR);
+        }
+        else if (type.equals("exit")){
+            alert = new Alert(Alert.AlertType.ERROR);
+        }
+
         alert.setTitle(TitleText);
         alert.setHeaderText(HeaderText);
         alert.setContentText(ContentText);
 
-        String type = Type.toLowerCase();
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
-            if (type.equals("account"))
+            if (type.equals("account")) {
                 showLogInDialogue();
-            else if (type.equals("insert") || type.equals("delete"))
+            }
+            else if (type.equals("insert") || type.equals("delete")) {
                 modify(Type);
+            }
+            else if (type.equals("exit")){
+                if (dbmsUserAccount != null){
+                    dbmsUserAccount.close();
+                }
+
+                Platform.exit();
+            }
         }
     }
 }

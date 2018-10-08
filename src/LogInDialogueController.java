@@ -5,13 +5,13 @@ import javafx.scene.control.TextField;
 public class LogInDialogueController {
     @FXML private TextField FXUserName;         // FXML User Name field
     @FXML private PasswordField FXPassword;     // FXML Password Field
-    @FXML private TextField FXSectionName;      // FXML Section Name Field
-    @FXML private TextField FXClassName;        // FXML Class Name Field
+//    @FXML private TextField FXSectionName;      // FXML Section Name Field
+//    @FXML private TextField FXClassName;        // FXML Class Name Field
 
     private String UserName;                    // Stores FXML text converted to string.
     private String PassWord;                    // Stores FXML text converted to string.
-    private String SectionName;                 // Stores FXML text converted to string.
-    private String ClassName;                   // Stores FXML text converted to string.
+//    private String SectionName;                 // Stores FXML text converted to string.
+//    private String ClassName;                   // Stores FXML text converted to string.
 
     /**
      * A method that processes the text field information.
@@ -21,8 +21,8 @@ public class LogInDialogueController {
     @FXML public Boolean processLogIn(){
         UserName = FXUserName.getText().trim();
         PassWord = FXPassword.getText();
-        SectionName = FXSectionName.getText().trim();
-        ClassName = FXClassName.getText().trim();
+//        SectionName = FXSectionName.getText().trim();
+//        ClassName = FXClassName.getText().trim();
 
 //        System.out.println("User Name = " + UserName);
 //        System.out.println("Password = " + PassWord);
@@ -59,15 +59,15 @@ public class LogInDialogueController {
      * Gets the section name inputted.
      * @return Section Name.
      */
-    public String getSectionName() {
-        return SectionName;
-    }
+//    public String getSectionName() {
+//        return SectionName;
+//    }
 
     /**
      * Gets the class name inputted.
      * @return Class Name.
      */
-    public String getClassName() {
-        return ClassName;
-    }
+//    public String getClassName() {
+//        return ClassName;
+//    }
 }
