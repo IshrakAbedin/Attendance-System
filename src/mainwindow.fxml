@@ -131,6 +131,21 @@
                     </font>
                 </Text>
             </HBox>
+
+            <Text text="Courses" style="-fx-background-color: white">
+                <font>
+                    <Font name="Times New Roman bold" size="20"/>
+                </font>
+            </Text>
+
+            <ComboBox fx:id="FXCourseList"/>
+
+            <Text text="Days classes were taken" style="-fx-background-color: white">
+                <font>
+                    <Font name="Times New Roman bold" size="20"/>
+                </font>
+            </Text>
+            <ListView fx:id="FXClassList" VBox.vgrow="ALWAYS"/>
         </VBox>
     </left>
 

@@ -1,4 +1,5 @@
 import Data.StudentInformation;
+import Data.TeacherAccountData;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,11 +36,11 @@ public class Mainwindow {
     private Predicate<StudentInformation> DefaulterStudents;
     private Predicate<StudentInformation> AllStudents;
     private FilteredList<StudentInformation> filteredList;
+    private TeacherAccountData AccountData;
 
     @FXML private BorderPane mainBorderPane;        // FXML Main Border Pane
     @FXML private Button AccountButton;             // Account button related to log in and log out.
     @FXML private Text DateText;                    // Text that display's the date in the app.
-    @FXML private DatePicker FXDatePicker;          // Linking to date picker in FXML
     @FXML private ListView<StudentInformation> FXStudentInfoListView; // Linking the list view in FXML
     @FXML private Text FXStudentName;               // Linking student name
     @FXML private Text FXStudentAddress;            // Linking student Address
@@ -53,6 +54,9 @@ public class Mainwindow {
     @FXML private ToggleButton FXFilterDefaulter;
     @FXML private ContextMenu listContextMenu;
     @FXML private ListView<String> FXPresentDaysListView;
+    @FXML private ComboBox<String> FXCourseList;
+    @FXML private ListView<String> FXClassList;
+
 
     /**
      * Runs when first launching the application.
@@ -139,6 +143,7 @@ public class Mainwindow {
         setCellFactory(null);
     }
 
+
     /**
      * Creates a dialogue through which you log in to your account.
      */
@@ -180,6 +185,7 @@ public class Mainwindow {
                             );
 
                             if (dbmsUserAccount.connected == true){
+                                getAccountInfo();
                                 getClassInformation();
                                 getStudentInformationList();
                                 setupAccountButton(dbmsUserAccount.name, "Press to log out");
@@ -207,6 +213,7 @@ public class Mainwindow {
         }
     }
 
+
     /**
      * Handles key press events
      * @param k is the event when a keyboard button is pressed
@@ -216,7 +223,8 @@ public class Mainwindow {
             showWarning(
                     "Error",
                     "Please log in first",
-                    "To use the application logging in is required beforehand."
+                    "To use the application logging in is required beforehand.",
+                    "account"
             );
             return;
         }
@@ -236,6 +244,7 @@ public class Mainwindow {
         }
     }
 
+
     /**
      * Closes connection and exits application.
      */
@@ -243,8 +252,10 @@ public class Mainwindow {
         if (dbmsUserAccount != null){
             dbmsUserAccount.close();
         }
+
         Platform.exit();
     }
+
 
     /**
      * Handles the code for editing task details.
@@ -256,7 +267,8 @@ public class Mainwindow {
             showWarning(
                     "Error",
                     "Please log in first",
-                    "To use the application logging in is required beforehand."
+                    "To use the application logging in is required beforehand.",
+                    "account"
             );
             return;
         }
@@ -273,13 +285,15 @@ public class Mainwindow {
             showWarning(
                     "Error",
                     "Please log in first",
-                    "To use the application logging in is required beforehand."
+                    "To use the application logging in is required beforehand.",
+                    "account"
             );
             return;
         }
 
         modify("Delete");
     }
+
 
     /**
      * handles the filtering mechanism.
@@ -290,7 +304,8 @@ public class Mainwindow {
             showWarning(
                     "Error",
                     "Please log in first",
-                    "To use the application logging in is required beforehand."
+                    "To use the application logging in is required beforehand.",
+                    "account"
             );
             return;
         }
@@ -321,6 +336,7 @@ public class Mainwindow {
         }
     }
 
+
     /**
      * Setups the log in and out button text and tooltip text.
      * @param buttonText what the button text should be
@@ -333,6 +349,7 @@ public class Mainwindow {
         }
     }
 
+
     /**
      * Method copies the student information retrieved from the Database for displaying.
      * @return true if information successfully copied without error. False otherwise.
@@ -343,7 +360,8 @@ public class Mainwindow {
             showWarning(
                     "Error",
                     "Please log in first",
-                    "To use the application logging in is required beforehand."
+                    "To use the application logging in is required beforehand.",
+                    "account"
             );
             return false;
         }
@@ -452,6 +470,7 @@ public class Mainwindow {
         return false;
     }
 
+
     /**
      * Gets class information for a section.
      * @return true if information successfully copied without error. False otherwise.
@@ -461,7 +480,8 @@ public class Mainwindow {
             showWarning(
                     "Error",
                     "Please log in first",
-                    "To use the application logging in is required beforehand."
+                    "To use the application logging in is required beforehand.",
+                    "account"
             );
             return false;
         }
@@ -480,6 +500,56 @@ public class Mainwindow {
 
         return true;
     }
+
+
+    /**
+     * Gets the account information of the teacher.
+     * @return true if successful. False otherwise.
+     */
+    private boolean getAccountInfo(){
+        // Get teacher acount information
+        AccountData = new TeacherAccountData(
+                dbmsUserAccount.getUsername(),
+                dbmsUserAccount.getPassword()
+        );
+
+        try{
+            ResultSet rs = dbmsUserAccount.getCourseList();
+
+            if (rs != null){
+                while(rs.next()){
+                    AccountData.addToCourseList(
+                            rs.getString("CLASS"),
+                            rs.getString("SECTION")
+                    );
+                }
+
+                FXCourseList.setItems(AccountData.getCourseList());
+                FXCourseList.getSelectionModel().selectFirst();
+
+                rs.close();
+            }
+
+            rs = dbmsUserAccount.getTakenDayList();
+
+            if (rs != null){
+                while(rs.next()){
+                    AccountData.addToClassDays(rs.getString("DAY"));
+                }
+
+                FXClassList.setItems(AccountData.getClassDaysList());
+                rs.close();
+            }
+
+        } catch(SQLException e){
+            e.printStackTrace();
+
+            return false;
+        }
+
+        return true;
+    }
+
 
     /**
      * Setup cell factory.
@@ -550,7 +620,7 @@ public class Mainwindow {
         StudentInformation std = FXStudentInfoListView.getSelectionModel().getSelectedItem();// Get the selected student
         int index = StudentInfoList.indexOf(std);   // Get the index of this student in StudentInfoList Array
 
-        /**
+        /*
          * Dialog necessary variables.
          * Dialog Name is the name of the dialog to open.
          * Title Text is the text to be shown in the title.
@@ -572,7 +642,8 @@ public class Mainwindow {
                 String date = dateTimeFormatter.format(controller.getDate()).toUpperCase();
 
                 if(dbmsUserAccount != null){
-                    /**
+                    /*
+                     * Step 0 : Check if date inputted is valid.
                      * Step 1 : Execute insert or delete operation based on checking.
                      * Step 2 : Check the returned value. If it's 1 then we proceed.
                      * Step 3 : Execute Attendance count and percentage command for student std.getSID()
@@ -581,45 +652,55 @@ public class Mainwindow {
                      */
                     int returned = 0;   // Stores the number of columns modified by the SQL command
 
-                    // Step 1
-                    if (Operation.toLowerCase().equals("insert")){
-                        returned = dbmsUserAccount.insertAttendance(std.getSID(), date);
+                    // Step 0
+                    if (dbmsUserAccount.wasTakenOnDay(date)){
+                        String operation = Operation.toLowerCase();
+                        // Step 1
+                        if (operation.equals("insert"))
+                            returned = dbmsUserAccount.insertAttendance(std.getSID(), date);
+                        else if (Operation.toLowerCase().equals("delete"))
+                            returned = dbmsUserAccount.deleteAttendance(std.getSID(), date);
+
+                        // Step 2
+                        if (returned == 1){
+                            // Step 3
+                            Integer count = dbmsUserAccount.getAttendanceCountBySID(std.getSID());
+                            Integer percent = dbmsUserAccount.getAttendancePercentageBySID(std.getSID());
+
+                            // Step 4
+                            if (count != -1){
+                                StudentInfoList.get(index).setAttendanceCount(count);
+                                FXStudentAttendanceCount.setText(count.toString());
+                            }
+                            if (percent != -1){
+                                StudentInfoList.get(index).setAttendancePercentage(percent);
+                                FXStudentAttendancePercentage.setText(percent.toString());
+                            }
+
+                            // Step 5
+                            if (Operation.toLowerCase().equals("insert"))
+                                StudentInfoList.get(index).addPresentDayList(date);
+                            else if (Operation.toLowerCase().equals("delete"))
+                                StudentInfoList.get(index).removePresentDayList(date);
+
+                            FXPresentDaysListView.setItems(StudentInfoList.get(index).getPresentDayList());
+                            setCellFactory(std);
+                        }
                     }
-                    else if (Operation.toLowerCase().equals("delete")){
-                        returned = dbmsUserAccount.deleteAttendance(std.getSID(), date);
-                    }
-
-                    // Step 2
-                    if (returned == 1){
-                        // Step 3
-                        Integer count = dbmsUserAccount.getAttendanceCountBySID(std.getSID());
-                        Integer percent = dbmsUserAccount.getAttendancePercentageBySID(std.getSID());
-
-                        // Step 4
-                        if (count != -1){
-                            StudentInfoList.get(index).setAttendanceCount(count);
-                            FXStudentAttendanceCount.setText(count.toString());
-                        }
-                        if (percent != -1){
-                            StudentInfoList.get(index).setAttendancePercentage(percent);
-                            FXStudentAttendancePercentage.setText(percent.toString());
-                        }
-
-                        // Step 5
-                        if (Operation.toLowerCase().equals("insert")){
-                            StudentInfoList.get(index).addPresentDayList(date);
-                        }
-                        else if (Operation.toLowerCase().equals("delete")){
-                            StudentInfoList.get(index).removePresentDayList(date);
-                        }
-
-                        FXPresentDaysListView.setItems(StudentInfoList.get(index).getPresentDayList());
-                        setCellFactory(std);
+                    else{
+                        // Show warning that invalid date was inputted
+                        showWarning(
+                                "Error",
+                                "Invalid date inputted",
+                                "Classes were not held in " + date,
+                                Operation
+                        );
                     }
                 }
             }
         }
     }
+
 
     /**
      * Create the log in dialog.
@@ -650,6 +731,7 @@ public class Mainwindow {
         return true;
     }
 
+
     /**
      * Clears everything temporarily stored and viewed on UI.
      * Also logs out from dbms account.
@@ -674,23 +756,35 @@ public class Mainwindow {
         FXStudentAttendanceRemarks.setText("");
         FXStudentInfoListView.setItems(null);
         FXPresentDaysListView.setItems(null);
+
+        // Clear account info
+        AccountData = null;
+        FXCourseList.setItems(null);
+        FXClassList.setItems(null);
     }
+
 
     /**
      * Displays an error message when trying to use the software without logging in.
-     * @param TitleText
-     * @param HeaderText
-     * @param ContentText
+     * @param TitleText The title of the warning
+     * @param HeaderText the header of the warning
+     * @param ContentText the context of the warning
+     * @param Type Type of issue generating the command.
      */
-    private void showWarning(String TitleText, String HeaderText, String ContentText){
+    private void showWarning(String TitleText, String HeaderText, String ContentText, String Type){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(TitleText);
         alert.setHeaderText(HeaderText);
         alert.setContentText(ContentText);
 
+        String type = Type.toLowerCase();
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
-            showLogInDialogue();
+            if (type.equals("account"))
+                showLogInDialogue();
+            else if (type.equals("insert") || type.equals("delete"))
+                modify(Type);
         }
     }
 }
