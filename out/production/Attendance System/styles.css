@@ -1,0 +1,69 @@
+#FXHeader {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial bold";
+    -fx-font-size: 24;
+    -fx-padding: 0 10 10 0;
+}
+
+
+#FXNormal {
+    -fx-text-fill: #efe68e;
+    -fx-font-family: "Arial";
+    -fx-font-size: 20;
+    -fx-padding: 0 10 10 0;
+}
+
+
+#FXToggle {
+    -fx-background-color: grey;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 12;
+    -fx-padding: 5 5 5 5;
+    -fx-alignment: CENTER;
+}
+
+
+.button {
+    -fx-background-color: #00007f;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+}
+
+
+.toggle-button:filled:selected {
+    -fx-background-color: #004ba8;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+}
+
+
+.toggle-button {
+    -fx-background-color: #00007f;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+}
+
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: white;
+}
+
+
+.list-cell:even {
+    -fx-background-color: #404040;
+}
+
+
+.list-cell:odd {
+    -fx-background-color: #404040;
+}
+
+
+.list-cell:filled:hover {
+    -fx-background-color: #00007f;
+}

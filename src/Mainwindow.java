@@ -9,12 +9,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -28,6 +32,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import javafx.util.Callback;
 
+
 public class Mainwindow {
     private XEbase dbmsUserAccount;
     private ObservableList<StudentInformation> StudentInfoList;
@@ -37,6 +42,8 @@ public class Mainwindow {
     private Predicate<StudentInformation> AllStudents;
     private FilteredList<StudentInformation> filteredList;
     private TeacherAccountData AccountData;
+    private String FontName;
+
 
     @FXML private BorderPane mainBorderPane;        // FXML Main Border Pane
     @FXML private Button AccountButton;             // Account button related to log in and log out.
@@ -62,6 +69,17 @@ public class Mainwindow {
      * Runs when first launching the application.
      */
     public void initialize(){
+        FXStudentName.setFill(Color.color(1, 1, 1, 1));
+        FXStudentAddress.setFill(Color.color(1, 1, 1, 1));
+        FXStudentContactNumber.setFill(Color.color(1, 1, 1, 1));
+        FXStudentAttendanceCount.setFill(Color.color(1, 1, 1, 1));
+        FXStudentAttendancePercentage.setFill(Color.color(1, 1, 1, 1));
+        FXTotalStudents.setFill(Color.color(1, 1, 1, 1));
+        FXTotalClassCount.setFill(Color.color(1, 1, 1, 1));
+        FXTotalDefaulterStudents.setFill(Color.color(1, 1, 1, 1));
+
+        FontName = "Arial";
+
         /*
          * Create a context menu with 2 options.
          * Delete item or modify item.
@@ -130,18 +148,55 @@ public class Mainwindow {
                     FXStudentAttendancePercentage.setText(sd.getAttendancePercentage().toString());
                     if (sd.getAttendancePercentage() >= 75){
                         FXStudentAttendanceRemarks.setText("Regular");
-                        FXStudentAttendanceRemarks.setFont(Font.font("Times New Roman", null, null, 20));
+                        FXStudentAttendanceRemarks.setFill(Color.color(0, 0.86, 0.86, 1));
+                        FXStudentAttendanceRemarks.setFont(Font.font(FontName, null, null, 20));
                     }
                     else{
                         FXStudentAttendanceRemarks.setText("Defaulter");
-                        FXStudentAttendanceRemarks.setFont(Font.font("Times New Roman bold", null, null, 20));
+                        FXStudentAttendanceRemarks.setFill(Color.color(0.86, 0, 0, 1));
+                        FXStudentAttendanceRemarks.setFont(Font.font(FontName, null, null, 20));
                     }
                     FXPresentDaysListView.setItems(sd.getPresentDayList());
                 }
             }
         });
-
         setCellFactory(null);
+
+        Callback<ListView<String>, ListCell<String>> cellColor = new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                ListCell <String> cell = new ListCell<String>(){
+                    @Override
+                    protected void updateItem(String std, boolean empty) {
+                        super.updateItem(std, empty);
+                        setFont(Font.font(FontName, 16));
+                        setTextFill(Color.color(0, 1, 0.86, 1));
+
+                        if (empty){
+                            setText("- - -");
+                        } else {
+                            setText(std);
+                        }
+                    }
+                };
+
+                // Setting cell background color
+                cell.backgroundProperty().setValue(
+                        new Background(
+                                new BackgroundFill(
+                                        Color.color(0.25,0.25,0.25,1),
+                                        CornerRadii.EMPTY,
+                                        Insets.EMPTY
+                                )
+                        )
+                );
+
+                return cell;
+            }
+        };
+        FXClassList.setCellFactory(cellColor);
+        FXPresentDaysListView.setCellFactory(cellColor);
+        FXCourseList.setCellFactory(cellColor);
     }
 
 
@@ -366,6 +421,11 @@ public class Mainwindow {
         getStudentInformationList();
         clearClassInformation();
         getClassInformation();
+    }
+
+
+    @FXML private void handleSearch(){
+
     }
 
 
@@ -630,13 +690,11 @@ public class Mainwindow {
                                     setText(null);
                                 } else {
                                     setText(std.getSID());
+                                    setFont(Font.font(FontName, 16));
 
-                                    if (std.getAttendancePercentage() >= 85){
-                                        setTextFill(Color.GREEN);
-                                    } else if (std.getAttendancePercentage() >= 75){
-                                        setTextFill(Color.BLUE);
+                                    if (std.getAttendancePercentage() >= 75){
+                                        setTextFill(Color.color(0, 1, 0.86, 1));
                                     } else if (std.getAttendancePercentage() < 75){
-                                        setFont(Font.font("Times New Roman bold", null, null, 16));
                                         setTextFill(Color.RED);
                                     }
 
@@ -644,11 +702,24 @@ public class Mainwindow {
                             }
                         };
 
+                        // Setting cell background color
+                        cell.backgroundProperty().setValue(
+                                new Background(
+                                        new BackgroundFill(
+                                                Color.color(0.25,0.25,0.25,1),
+                                                CornerRadii.EMPTY,
+                                                Insets.EMPTY
+                                        )
+                                )
+                        );
+
                         // Attaching context menu to respond to only cells
                         cell.emptyProperty().addListener(
                                 (obs, wasEmpty, isNowEmpty) -> {
-                                    if (isNowEmpty)cell.setContextMenu(null);
-                                    else           cell.setContextMenu(listContextMenu);
+                                    if (isNowEmpty)
+                                        cell.setContextMenu(null);
+                                    else
+                                        cell.setContextMenu(listContextMenu);
                                 }
                         );
                         return cell;
@@ -789,7 +860,6 @@ public class Mainwindow {
 
         // Clearing class information
         clearClassInformation();
-
 
         // Clearing student information
         clearStudentInformation();

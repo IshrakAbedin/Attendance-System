@@ -7,25 +7,16 @@
 
 <?import javafx.geometry.Insets?>
 <BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Mainwindow" prefHeight="400.0" prefWidth="600.0">
+            fx:controller="Mainwindow" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css">
 
     <!-- Display's controls and buttons -->
     <top>
         <VBox>
-            <!-- Displaying title of the app -->
-            <HBox alignment="CENTER" style="-fx-background-color: black">
-                <Label text="Attendance System" textFill="white">
-                    <font>
-                        <Font name="Times New Roman bold" size="32"/>
-                    </font>
-                </Label>
-            </HBox>
-
             <!-- Menu bar with options -->
             <MenuBar>
                 <Menu text="File">
                     <items>
-                        <MenuItem text="Add attendnace" onAction="#handleInsertDialog"/>
+                        <MenuItem text="Add attendance" onAction="#handleInsertDialog"/>
                         <SeparatorMenuItem />
                         <MenuItem text="Exit program" onAction="#handleExit"/>
                     </items>
@@ -33,7 +24,7 @@
 
                 <Menu text="Help">
                     <items>
-                        <MenuItem text="Search"/>
+                        <MenuItem text="Search" onAction="#handleSearch"/>
                         <SeparatorMenuItem />
                         <MenuItem text="Controls"/>
                     </items>
@@ -41,61 +32,53 @@
             </MenuBar>
 
             <!-- Toolbar -->
-            <ToolBar>
+            <ToolBar style="-fx-background-color: #bebebe">
                 <!-- Log in and Log Out Button -->
                 <Button fx:id="AccountButton" onAction="#showLogInDialogue" text="Log In">
                     <tooltip>
-                        <Tooltip text="Add a new Todo Item" style="-fx-background-color: GREEN">
-                            <font>
-                                <Font name="Times New Roman" size="16"/>
-                            </font>
-                        </Tooltip>
+                        <Tooltip fx:id="FXToggle"/>
                     </tooltip>
                 </Button>
 
                 <!-- Toggle button to toggle between full list and defaulter list -->
                 <ToggleButton fx:id="FXFilterDefaulter" onAction="#handleFilter" text="Show Only Defaulters">
                     <tooltip>
-                        <Tooltip text="Toggle defaulters" style="-fx-background-color: GREEN">
-                            <font>
-                                <Font name="Times New Roman" size="16"/>
-                            </font>
-                        </Tooltip>
+                        <Tooltip text="Toggle defaulters" fx:id="FXToggle"/>
                     </tooltip>
                 </ToggleButton>
             </ToolBar>
+
+            <!-- Displaying title of the app -->
+            <HBox alignment="CENTER" style="-fx-background-color: grey">
+                <Label text="Attendance System" textFill="white">
+                    <font>
+                        <Font name="Arial bold" size="32"/>
+                    </font>
+                </Label>
+            </HBox>
         </VBox>
     </top>
 
     <!-- Displays class information : Class Name, Total number of students and number of defaulters -->
     <left>
-        <VBox>
+        <VBox style="-fx-background-color: #999999">
             <padding>
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
 
             <!-- Displays the date -->
-            <Text fx:id="DateText" text="Date" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <Text fx:id="DateText" text="Date" fill = "white">
                 <font>
-                    <Font name="Times New Roman" size="20" />
+                    <Font name="Arial bold" size="20"/>
                 </font>
             </Text>
 
             <!-- Label for class details -->
-            <Label text="Class details">
-                <font>
-                    <Font name="Times New Roman bold" size="24"/>
-                </font>
-            </Label>
+            <Label text="Class details" fx:id="FXHeader"/>
 
             <!-- Displays total student count -->
             <HBox>
-                <Text text="Total Students : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+                <Label text="Total Students : " fx:id="FXNormal"/>
                 <Text fx:id="FXTotalStudents" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
@@ -105,12 +88,7 @@
 
             <!-- Displays total classes taken -->
             <HBox>
-                <Text text="Total Classes taken : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+                <Label text="Total Classes taken : " fx:id="FXNormal"/>
                 <Text fx:id="FXTotalClassCount" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
@@ -120,12 +98,7 @@
 
             <!-- Displays total defaulter student count -->
             <HBox>
-                <Text text="Total Defaulter Students : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+                <Label text="Total Defaulter Students : " fx:id="FXNormal"/>
                 <Text fx:id="FXTotalDefaulterStudents" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
@@ -133,63 +106,45 @@
                 </Text>
             </HBox>
 
-            <HBox>
-                <Text text="Courses" style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
+            <Label text="Courses" fx:id="FXHeader"/>
+            <ComboBox fx:id="FXCourseList" onAction="#handleCourseChange" minWidth="100"
+                    style="-fx-background-color: #aaaaaa">
+                <tooltip>
+                    <Tooltip text="The courses you take" fx:id="FXToggle"/>
+                </tooltip>
+            </ComboBox>
 
-                <ComboBox fx:id="FXCourseList" onAction="#handleCourseChange" minWidth="100"/>
-            </HBox>
-
-            <Text text="Days classes were taken" style="-fx-background-color: white">
-                <font>
-                    <Font name="Times New Roman bold" size="20"/>
-                </font>
-            </Text>
-            <ListView fx:id="FXClassList" VBox.vgrow="ALWAYS"/>
+            <Label text="Days classes were taken" fx:id="FXHeader"/>
+            <ListView fx:id="FXClassList" VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
         </VBox>
     </left>
 
     <!-- Displays a list of students in the class -->
     <center>
-        <VBox style="-fx-background-color: white">
+        <VBox style="-fx-background-color: #606060">
             <padding>
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
 
             <!-- Displays student IDs -->
-            <Label text="Student ID">
-                <font>
-                    <Font name="Times New Roman bold" size="24"/>
-                </font>
-            </Label>
-            <ListView fx:id="FXStudentInfoListView" onKeyPressed="#handleKeyPressed" VBox.vgrow="ALWAYS"/>
+            <Label text="Student ID" fx:id="FXHeader"/>
+            <ListView fx:id="FXStudentInfoListView" onKeyPressed="#handleKeyPressed"
+                      VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
         </VBox>
     </center>
 
     <!-- Displays student information : Name, Address, Contact no.-->
     <right>
-        <VBox style="-fx-background-color: white">
+        <VBox style="-fx-background-color: #999999">
             <padding>
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
 
-            <Label text="Student details">
-                <font>
-                    <Font name="Times New Roman bold" size="24"/>
-                </font>
-            </Label>
+            <Label text="Student details" fx:id="FXHeader"/>
 
             <!-- Displays student name -->
-            <HBox alignment="CENTER_LEFT">
-                <Text text="Name : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+            <HBox>
+                <Label text="Name : " fx:id="FXNormal"/>
                 <Text fx:id="FXStudentName" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
@@ -198,13 +153,8 @@
             </HBox>
 
             <!-- Displays student Address -->
-            <HBox alignment="CENTER_LEFT">
-                <Text text="Address : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+            <HBox>
+                <Label text="Address : " fx:id="FXNormal"/>
                 <Text fx:id="FXStudentAddress" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
@@ -213,13 +163,8 @@
             </HBox>
 
             <!-- Displays student contact number -->
-            <HBox alignment="CENTER_LEFT">
-                <Text text="Contact Number : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+            <HBox>
+                <Label text="Contact Number : " fx:id="FXNormal"/>
                 <Text fx:id="FXStudentContactNumber" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
@@ -228,13 +173,8 @@
             </HBox>
 
             <!-- Displays student attendance count -->
-            <HBox alignment="CENTER_LEFT">
-                <Text text="Attendance count : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+            <HBox>
+                <Label text="Attendance count : " fx:id="FXNormal"/>
                 <Text fx:id="FXStudentAttendanceCount" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
@@ -243,13 +183,8 @@
             </HBox>
 
             <!-- Displays student attendance percentage -->
-            <HBox alignment="CENTER_LEFT">
-                <Text text="Attendance percentage : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+            <HBox>
+                <Label text="Attendance percentage : " fx:id="FXNormal"/>
                 <Text fx:id="FXStudentAttendancePercentage" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
@@ -258,13 +193,8 @@
             </HBox>
 
             <!-- Displays student attendance remark -->
-            <HBox alignment="CENTER_LEFT">
-                <Text text="Remark : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
+            <HBox>
+                <Label text="Remark : " fx:id="FXNormal"/>
                 <Text fx:id="FXStudentAttendanceRemarks" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
@@ -273,16 +203,9 @@
             </HBox>
 
             <!-- Displays the days a student was present -->
-            <!--<VBox alignment="CENTER_LEFT">-->
-                <Text text="Days present : " style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-
-
-                <ListView fx:id="FXPresentDaysListView" VBox.vgrow="ALWAYS" minWidth="400"/>
-            <!--</VBox>-->
+            <Label text="Days present : " fx:id="FXHeader"/>
+            <ListView fx:id="FXPresentDaysListView" VBox.vgrow="ALWAYS" minWidth="400"
+                      style="-fx-background-color: grey"/>
         </VBox>
     </right>
 </BorderPane>
