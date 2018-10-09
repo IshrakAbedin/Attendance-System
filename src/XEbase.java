@@ -257,7 +257,19 @@ public class XEbase {
      * "ATTENDANCE_COUNT" , "ATTENDANCE_PERCENTAGE". Returns NULL in case of error.
      */
     public ResultSet getExtendedAttendanceList(){
-        query = "SELECT * FROM " + classname+"_EXTENDED_ATTENDANCE";
+        query = "SELECT * FROM " + classname +"_EXTENDED_ATTENDANCE";
+        if (resultSetHandler()) return resultSet;
+        return null;
+    }
+
+    /**
+     * A method to get extended attendance for a specific student based on his/her ID.
+     * @param _id String ID of the student to get extend attendance of.
+     * @return ResultSet Contains 6 columns. ColumnLabel: "SID" , "NAME" , "ADDRESS" , "CONTACT_NUMBER" ,
+     * "ATTENDANCE_COUNT" , "ATTENDANCE_PERCENTAGE". Returns NULL in case of error.
+     */
+    public ResultSet getExtendedAttendanceBySIDList(String _id){
+        query = "SELECT * FROM " + classname +"_EXTENDED_ATTENDANCE WHERE SID = '" + _id + "'";
         if (resultSetHandler()) return resultSet;
         return null;
     }
