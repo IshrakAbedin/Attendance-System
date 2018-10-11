@@ -32,7 +32,6 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import javafx.util.Callback;
 
-
 public class Mainwindow {
     private XEbase dbmsUserAccount;
     private ObservableList<StudentInformation> StudentInfoList;
@@ -43,6 +42,8 @@ public class Mainwindow {
     private FilteredList<StudentInformation> filteredList;
     private TeacherAccountData AccountData;
     private String FontName;
+    private Background ListViewBackground;
+    private Background DialogBackground;
 
 
     @FXML private BorderPane mainBorderPane;        // FXML Main Border Pane
@@ -69,59 +70,27 @@ public class Mainwindow {
      * Runs when first launching the application.
      */
     public void initialize(){
-        FXStudentName.setFill(Color.color(1, 1, 1, 1));
-        FXStudentAddress.setFill(Color.color(1, 1, 1, 1));
-        FXStudentContactNumber.setFill(Color.color(1, 1, 1, 1));
-        FXStudentAttendanceCount.setFill(Color.color(1, 1, 1, 1));
-        FXStudentAttendancePercentage.setFill(Color.color(1, 1, 1, 1));
-        FXTotalStudents.setFill(Color.color(1, 1, 1, 1));
-        FXTotalClassCount.setFill(Color.color(1, 1, 1, 1));
-        FXTotalDefaulterStudents.setFill(Color.color(1, 1, 1, 1));
-
+        /*
+         * Setup necessary variables for software.
+         *
+         * FontName - The default font for everything that will be viewed in the app.
+         * AccountData - Teacher information is kept in this temporary variable.
+         * df - Time Date formatter.
+         * DateText - the current day is viewed here
+         *
+         * <Predicates are for filtering on and off>
+         * AllStudents - is used to view all students.
+         * DefaulterStudents - is used to view only defaulter students.
+         *
+         * ListViewBackground - Used for background color of list views.
+         * DialogBackground - Used for background color of dialog boxes.
+         * CellColor - used for setting cell color.
+         */
         FontName = "Arial";
-
-        /*
-         * Create a context menu with 2 options.
-         * Delete item or modify item.
-         */
-        listContextMenu = new ContextMenu();                    // Creating a context menu
-        MenuItem delete = new MenuItem("Delete Attendance");      // Creating a menu item
-        delete.setOnAction(new EventHandler<ActionEvent>() {    // Binding method on action
-            @Override
-            public void handle(ActionEvent event) {
-                handleDelete();
-            }
-        });
-        MenuItem edit = new MenuItem("Insert Attendance");
-        edit.setOnAction(new EventHandler<ActionEvent>() {    // Binding method on action
-            @Override
-            public void handle(ActionEvent event) {
-                handleInsertDialog();
-            }
-        });
-        listContextMenu.getItems().add(edit);
-        listContextMenu.getItems().add(delete);              // Attaching menu item in context menu
-
-        /*
-         * Sets up student and class information viewing base.
-         */
         AccountData = null;
         StudentInfoList = FXCollections.observableArrayList();
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         DateText.setText("Date : " + df.format(LocalDateTime.now()));
-
-        // Setting up Account button (log in and log out) button
-        if (dbmsUserAccount == null){
-            setupAccountButton("Log In", "Press to log in");
-        } else {
-            setupAccountButton(dbmsUserAccount.name, "Press to log out");
-        }
-
-        /*
-         * Instantiating predicates for filtering on and off.
-         * AllStudents predicate is used to view all students.
-         * DefaulterStudents predicate is used to view only defaulter students.
-         */
         AllStudents = new Predicate<StudentInformation>() {
             @Override
             public boolean test(StudentInformation stdInfo) {
@@ -131,10 +100,60 @@ public class Mainwindow {
         DefaulterStudents = new Predicate<StudentInformation>() {
             @Override
             public boolean test(StudentInformation stdInfo) {
-                return (stdInfo.getAttendancePercentage() <= 75);
+                return (stdInfo.getAttendancePercentage() < 75);
+            }
+        };
+        ListViewBackground = new Background(
+                new BackgroundFill(
+                        Color.color(0.25,0.25,0.25,1),
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        );
+        DialogBackground = new Background(
+                new BackgroundFill(
+                        Color.GRAY,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY
+                )
+        );
+        Callback<ListView<String>, ListCell<String>> cellColor = new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                ListCell <String> cell = new ListCell<String>(){
+                    @Override
+                    protected void updateItem(String std, boolean empty) {
+                        super.updateItem(std, empty);
+                        setFont(Font.font(FontName, 16));
+                        setTextFill(Color.color(0, 1, 0.86, 1));
+
+                        if (empty){
+                            setText("- - -");
+                        } else {
+                            setText(std);
+                        }
+                    }
+                };
+
+                // Setting cell background color
+                cell.backgroundProperty().setValue(ListViewBackground);
+
+                return cell;
             }
         };
 
+
+        /*
+         * Calling necessary functions for running software.
+         * Does initial setup of structure.
+         *
+         * SetTextColor - Sets the default color of the information viewing texts.
+         * SetupContextMenu - Creates and attaches the context menu.
+         * SetupAccountButton - Sets up Account button (log in and log out) button
+         */
+        setTextColor(Color.color(1,1,1,1));
+        setupContextMenu();
+        setupAccountButton("Log In", "Press to log in");
         // Change listener
         FXStudentInfoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<StudentInformation>() {
             @Override
@@ -160,43 +179,10 @@ public class Mainwindow {
                 }
             }
         });
-        setCellFactory(null);
-
-        Callback<ListView<String>, ListCell<String>> cellColor = new Callback<ListView<String>, ListCell<String>>() {
-            @Override
-            public ListCell<String> call(ListView<String> param) {
-                ListCell <String> cell = new ListCell<String>(){
-                    @Override
-                    protected void updateItem(String std, boolean empty) {
-                        super.updateItem(std, empty);
-                        setFont(Font.font(FontName, 16));
-                        setTextFill(Color.color(0, 1, 0.86, 1));
-
-                        if (empty){
-                            setText("- - -");
-                        } else {
-                            setText(std);
-                        }
-                    }
-                };
-
-                // Setting cell background color
-                cell.backgroundProperty().setValue(
-                        new Background(
-                                new BackgroundFill(
-                                        Color.color(0.25,0.25,0.25,1),
-                                        CornerRadii.EMPTY,
-                                        Insets.EMPTY
-                                )
-                        )
-                );
-
-                return cell;
-            }
-        };
         FXClassList.setCellFactory(cellColor);
         FXPresentDaysListView.setCellFactory(cellColor);
         FXCourseList.setCellFactory(cellColor);
+        setCellFactory(null);
     }
 
 
@@ -275,6 +261,7 @@ public class Mainwindow {
      */
     @FXML private void handleKeyPressed(KeyEvent k){
         if (dbmsUserAccount == null){
+            System.out.println("Showing from keyPressed");
             showWarning(
                     "Error",
                     "Please log in first",
@@ -320,6 +307,8 @@ public class Mainwindow {
      */
     @FXML private void handleInsertDialog(){
         if (dbmsUserAccount == null){
+            System.out.println("Showing from insert");
+
             showWarning(
                     "Error",
                     "Please log in first",
@@ -338,6 +327,8 @@ public class Mainwindow {
      */
     @FXML private void handleDelete(){
         if (dbmsUserAccount == null){
+            System.out.println("Showing from delete");
+
             showWarning(
                     "Error",
                     "Please log in first",
@@ -356,6 +347,8 @@ public class Mainwindow {
      */
     @FXML private void handleFilter(){
         if (dbmsUserAccount == null){
+            System.out.println("Showing from filter");
+
             FXFilterDefaulter.setSelected(false);
             showWarning(
                     "Error",
@@ -398,13 +391,7 @@ public class Mainwindow {
      */
     @FXML private void handleCourseChange(){
         if (dbmsUserAccount == null){
-            FXFilterDefaulter.setSelected(false);
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
+            System.out.println("Showing from course change");
             return;
         }
 
@@ -425,7 +412,28 @@ public class Mainwindow {
 
 
     @FXML private void handleSearch(){
+        if (dbmsUserAccount == null){
+            System.out.println("Showing from search");
 
+            FXFilterDefaulter.setSelected(false);
+            showWarning(
+                    "Error",
+                    "Please log in first",
+                    "To use the application logging in is required beforehand.",
+                    "account"
+            );
+            return;
+        }
+
+        String DialogName = "SearchDialog.fxml";
+        String TitleText = "Search for student";
+        String HeaderText = "Enter student ID and section to begin searching";
+        if (createDialog(DialogName, TitleText, HeaderText)){
+            Optional<ButtonType> result = Dialog.showAndWait();
+            System.out.println("Created!");
+        } else {
+            System.out.println("NOT CREATED!");
+        }
     }
 
 
@@ -449,6 +457,8 @@ public class Mainwindow {
     private boolean getStudentInformationList(){
         // Check if the dbmsUserAccount is valid. Meaning if a log in was successful
         if (dbmsUserAccount == null){
+            System.out.println("Showing from getStudentInformation");
+
             showWarning(
                     "Error",
                     "Please log in first",
@@ -457,6 +467,8 @@ public class Mainwindow {
             );
             return false;
         }
+
+        clearStudentInformation();
 
         /*
          * Get the student information (SID, Name, Address, Contact no) from the dbms.
@@ -562,6 +574,8 @@ public class Mainwindow {
      */
     private boolean getClassInformation(){
         if (dbmsUserAccount == null){
+            System.out.println("Showing from getClassInformation");
+
             showWarning(
                     "Error",
                     "Please log in first",
@@ -570,6 +584,8 @@ public class Mainwindow {
             );
             return false;
         }
+
+        clearClassInformation();
 
         // Getting total student count
         Integer TotalStudents = dbmsUserAccount.getTotalStudentCount();
@@ -597,6 +613,7 @@ public class Mainwindow {
 
         // Getting days the class was conducted
         try{
+            AccountData.clearClassDays();
             ResultSet rs = dbmsUserAccount.getTakenDayList();
 
             if (rs != null){
@@ -622,6 +639,18 @@ public class Mainwindow {
      * @return true if successful. False otherwise.
      */
     private boolean getAccountInfo(){
+        if (dbmsUserAccount == null){
+            System.out.println("Showing from getAccountInformation");
+
+            showWarning(
+                    "Error",
+                    "Please log in first",
+                    "To use the application logging in is required beforehand.",
+                    "account"
+            );
+            return false;
+        }
+
         if (AccountData != null){
             return false;
         }
@@ -669,6 +698,7 @@ public class Mainwindow {
         if (StudentInfoList != null){
             if (filteredList != null){
                 FXStudentInfoListView.setItems(filteredList);
+                System.out.println(StudentInfoList.size() + filteredList.size());
                 FXStudentInfoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 if (std == null) {
@@ -703,15 +733,7 @@ public class Mainwindow {
                         };
 
                         // Setting cell background color
-                        cell.backgroundProperty().setValue(
-                                new Background(
-                                        new BackgroundFill(
-                                                Color.color(0.25,0.25,0.25,1),
-                                                CornerRadii.EMPTY,
-                                                Insets.EMPTY
-                                        )
-                                )
-                        );
+                        cell.backgroundProperty().setValue(ListViewBackground);
 
                         // Attaching context menu to respond to only cells
                         cell.emptyProperty().addListener(
@@ -828,23 +850,23 @@ public class Mainwindow {
      * @return true if successfully created. False otherwise.
      */
     private boolean createDialog(String DialogName, String TitleText, String HeaderText){
-        Dialog = new Dialog<>();
-        fxmlLoader = new FXMLLoader();
-        Dialog.initOwner(mainBorderPane.getScene().getWindow());
-        Dialog.setTitle(TitleText);
-        Dialog.setHeaderText(HeaderText);
-        fxmlLoader.setLocation(getClass().getResource(DialogName));
-
         try{
+            Dialog = new Dialog<>();
+            fxmlLoader = new FXMLLoader();
+            Dialog.initOwner(mainBorderPane.getScene().getWindow());
+            Dialog.setTitle(TitleText);
+            Dialog.setHeaderText(HeaderText);
+            fxmlLoader.setLocation(getClass().getResource(DialogName));
+
             Dialog.getDialogPane().setContent(fxmlLoader.load());
+            Dialog.getDialogPane().setBackground(DialogBackground);
+            Dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            Dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         } catch(IOException e){
             System.out.println("Couldn't load dialogue " + DialogName);
             e.printStackTrace();
             return false;
         }
-
-        Dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        Dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
         return true;
     }
@@ -926,7 +948,6 @@ public class Mainwindow {
         alert.setHeaderText(HeaderText);
         alert.setContentText(ContentText);
 
-
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
             if (type.equals("account")) {
@@ -943,5 +964,42 @@ public class Mainwindow {
                 Platform.exit();
             }
         }
+    }
+
+
+    /**
+     * Create a context menu with 2 options.
+     * Delete item or modify item.
+     */
+    private void setupContextMenu(){
+        listContextMenu = new ContextMenu();                    // Creating a context menu
+        MenuItem delete = new MenuItem("Delete Attendance");      // Creating a menu item
+        delete.setOnAction(new EventHandler<ActionEvent>() {    // Binding method on action
+            @Override
+            public void handle(ActionEvent event) {
+                handleDelete();
+            }
+        });
+        MenuItem edit = new MenuItem("Insert Attendance");
+        edit.setOnAction(new EventHandler<ActionEvent>() {    // Binding method on action
+            @Override
+            public void handle(ActionEvent event) {
+                handleInsertDialog();
+            }
+        });
+        listContextMenu.getItems().add(edit);
+        listContextMenu.getItems().add(delete);              // Attaching menu item in context menu
+    }
+    
+    
+    private void setTextColor(Color TextColor){
+        FXStudentName.setFill(TextColor);
+        FXStudentAddress.setFill(TextColor);
+        FXStudentContactNumber.setFill(TextColor);
+        FXStudentAttendanceCount.setFill(TextColor);
+        FXStudentAttendancePercentage.setFill(TextColor);
+        FXTotalStudents.setFill(TextColor);
+        FXTotalClassCount.setFill(TextColor);
+        FXTotalDefaulterStudents.setFill(TextColor);
     }
 }

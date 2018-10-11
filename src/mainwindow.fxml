@@ -32,18 +32,18 @@
             </MenuBar>
 
             <!-- Toolbar -->
-            <ToolBar style="-fx-background-color: #bebebe">
+            <ToolBar>
                 <!-- Log in and Log Out Button -->
                 <Button fx:id="AccountButton" onAction="#showLogInDialogue" text="Log In">
                     <tooltip>
-                        <Tooltip fx:id="FXToggle"/>
+                        <Tooltip/>
                     </tooltip>
                 </Button>
 
                 <!-- Toggle button to toggle between full list and defaulter list -->
                 <ToggleButton fx:id="FXFilterDefaulter" onAction="#handleFilter" text="Show Only Defaulters">
                     <tooltip>
-                        <Tooltip text="Toggle defaulters" fx:id="FXToggle"/>
+                        <Tooltip text="Toggle defaulters"/>
                     </tooltip>
                 </ToggleButton>
             </ToolBar>
@@ -61,7 +61,8 @@
 
     <!-- Displays class information : Class Name, Total number of students and number of defaulters -->
     <left>
-        <VBox style="-fx-background-color: #999999">
+        <!--<VBox style="-fx-background-color: #999999">-->
+        <VBox fx:id="Background">
             <padding>
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
@@ -108,9 +109,9 @@
 
             <Label text="Courses" fx:id="FXHeader"/>
             <ComboBox fx:id="FXCourseList" onAction="#handleCourseChange" minWidth="100"
-                    style="-fx-background-color: #aaaaaa">
+                      style="-fx-background-color: #aaaaaa">
                 <tooltip>
-                    <Tooltip text="The courses you take" fx:id="FXToggle"/>
+                    <Tooltip text="The courses you take"/>
                 </tooltip>
             </ComboBox>
 
@@ -121,7 +122,8 @@
 
     <!-- Displays a list of students in the class -->
     <center>
-        <VBox style="-fx-background-color: #606060">
+        <!--<VBox style="-fx-background-color: #606060">-->
+        <VBox fx:id="Background">
             <padding>
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
@@ -135,7 +137,8 @@
 
     <!-- Displays student information : Name, Address, Contact no.-->
     <right>
-        <VBox style="-fx-background-color: #999999">
+        <!--<VBox style="-fx-background-color: #999999">-->
+        <VBox fx:id="Background">
             <padding>
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>

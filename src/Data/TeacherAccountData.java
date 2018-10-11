@@ -36,6 +36,10 @@ public class TeacherAccountData {
         ClassDaysList.add(date);
     }
 
+    public void clearClassDays(){
+        ClassDaysList.clear();
+    }
+
     public String getAccountName() {
         return AccountName;
     }
