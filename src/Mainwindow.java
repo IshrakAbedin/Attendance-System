@@ -45,6 +45,7 @@ public class Mainwindow {
     private Background ListViewBackground;
     private Background DialogBackground;
     private DialogPane dialogPane;
+    private String DialogStyleCSS;
 
     /*
      * Necessary variables to maintain connections.
@@ -94,19 +95,21 @@ public class Mainwindow {
         /*
          * Setup necessary variables for software.
          *
-         * FontName - The default font for everything that will be viewed in the app.
-         * AccountData - Teacher information is kept in this temporary variable.
-         * df - Time Date formatter.
-         * FX_T_Date - the current day is viewed here
+         * DialogStyleCSS       - the dialog file name
+         * FontName             - The default font for everything that will be viewed in the app.
+         * AccountData          - Teacher information is kept in this temporary variable.
+         * df                   - Time Date formatter.
+         * FX_T_Date            - the current day is viewed here
          *
          * <Predicates are for filtering on and off>
-         * AllStudents - is used to view all students.
-         * DefaulterStudents - is used to view only defaulter students.
+         * AllStudents          - is used to view all students.
+         * DefaulterStudents    - is used to view only defaulter students.
          *
-         * ListViewBackground - Used for background color of list views.
-         * DialogBackground - Used for background color of dialog boxes.
-         * CellColor - used for setting cell color.
+         * ListViewBackground   - Used for background color of list views.
+         * DialogBackground     - Used for background color of dialog boxes.
+         * CellColor            - used for setting cell color.
          */
+        DialogStyleCSS = "dialog.css";
         FontName = "Arial";
         AccountData = null;
         StudentInfoList = FXCollections.observableArrayList();
@@ -891,10 +894,8 @@ public class Mainwindow {
             Dialog.setTitle(TitleText);
             Dialog.setHeaderText(HeaderText);
             dialogPane = Dialog.getDialogPane();
-            dialogPane.getStylesheets().add(getClass().getResource("dialog.css").toExternalForm());
-            //dialogPane.getStyleClass().add("dialog");
+            dialogPane.getStylesheets().add(getClass().getResource(DialogStyleCSS).toExternalForm());
             fxmlLoader.setLocation(getClass().getResource(DialogName));
-
             Dialog.getDialogPane().setContent(fxmlLoader.load());
             Dialog.getDialogPane().setBackground(DialogBackground);
             Dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
@@ -978,12 +979,14 @@ public class Mainwindow {
             alert = new Alert(Alert.AlertType.ERROR);
         }
         else if (type.equals("exit")){
-            alert = new Alert(Alert.AlertType.ERROR);
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
         }
 
         alert.setTitle(TitleText);
         alert.setHeaderText(HeaderText);
         alert.setContentText(ContentText);
+        dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource(DialogStyleCSS).toExternalForm());
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
