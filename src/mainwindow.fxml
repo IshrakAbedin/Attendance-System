@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.geometry.Insets?>
-<BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+<BorderPane fx:id="FX_BorderPane_Teacher" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="Mainwindow" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css">
 
     <!-- Display's controls and buttons -->
@@ -34,14 +34,14 @@
             <!-- Toolbar -->
             <ToolBar>
                 <!-- Log in and Log Out Button -->
-                <Button fx:id="AccountButton" onAction="#showLogInDialogue" text="Log In">
+                <Button fx:id="FX_B_Account" onAction="#showLogInDialogue" text="Log In">
                     <tooltip>
                         <Tooltip/>
                     </tooltip>
                 </Button>
 
                 <!-- Toggle button to toggle between full list and defaulter list -->
-                <ToggleButton fx:id="FXFilterDefaulter" onAction="#handleFilter" text="Show Only Defaulters">
+                <ToggleButton fx:id="FX_TB_FilterDefaulter" onAction="#handleFilter" text="Show Only Defaulters">
                     <tooltip>
                         <Tooltip text="Toggle defaulters"/>
                     </tooltip>
@@ -68,7 +68,7 @@
             </padding>
 
             <!-- Displays the date -->
-            <Text fx:id="DateText" text="Date" fill = "white">
+            <Text fx:id="FX_T_Date" text="Date" fill = "white">
                 <font>
                     <Font name="Arial bold" size="20"/>
                 </font>
@@ -80,7 +80,7 @@
             <!-- Displays total student count -->
             <HBox>
                 <Label text="Total Students : " fx:id="FXNormal"/>
-                <Text fx:id="FXTotalStudents" style="-fx-background-color: white">
+                <Text fx:id="FX_T_TotalStudents" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
                     </font>
@@ -90,7 +90,7 @@
             <!-- Displays total classes taken -->
             <HBox>
                 <Label text="Total Classes taken : " fx:id="FXNormal"/>
-                <Text fx:id="FXTotalClassCount" style="-fx-background-color: white">
+                <Text fx:id="FX_T_TotalLectureCount" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
                     </font>
@@ -100,7 +100,7 @@
             <!-- Displays total defaulter student count -->
             <HBox>
                 <Label text="Total Defaulter Students : " fx:id="FXNormal"/>
-                <Text fx:id="FXTotalDefaulterStudents" style="-fx-background-color: white">
+                <Text fx:id="FX_T_TotalDefaulterStudents" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
                     </font>
@@ -108,7 +108,7 @@
             </HBox>
 
             <Label text="Courses" fx:id="FXHeader"/>
-            <ComboBox fx:id="FXCourseList" onAction="#handleCourseChange" minWidth="100"
+            <ComboBox fx:id="FX_CB_CourseList" onAction="#handleCourseChange" minWidth="100"
                       style="-fx-background-color: #aaaaaa">
                 <tooltip>
                     <Tooltip text="The courses you take"/>
@@ -116,7 +116,7 @@
             </ComboBox>
 
             <Label text="Days classes were taken" fx:id="FXHeader"/>
-            <ListView fx:id="FXClassList" VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
+            <ListView fx:id="FX_LV_ClassList" VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
         </VBox>
     </left>
 
@@ -130,7 +130,7 @@
 
             <!-- Displays student IDs -->
             <Label text="Student ID" fx:id="FXHeader"/>
-            <ListView fx:id="FXStudentInfoListView" onKeyPressed="#handleKeyPressed"
+            <ListView fx:id="FX_LV_StudentInfo" onKeyPressed="#handleKeyPressed"
                       VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
         </VBox>
     </center>
@@ -148,7 +148,7 @@
             <!-- Displays student name -->
             <HBox>
                 <Label text="Name : " fx:id="FXNormal"/>
-                <Text fx:id="FXStudentName" style="-fx-background-color: white">
+                <Text fx:id="FX_T_SName" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
                     </font>
@@ -158,7 +158,7 @@
             <!-- Displays student Address -->
             <HBox>
                 <Label text="Address : " fx:id="FXNormal"/>
-                <Text fx:id="FXStudentAddress" style="-fx-background-color: white">
+                <Text fx:id="FX_T_SAddress" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
                     </font>
@@ -168,7 +168,7 @@
             <!-- Displays student contact number -->
             <HBox>
                 <Label text="Contact Number : " fx:id="FXNormal"/>
-                <Text fx:id="FXStudentContactNumber" style="-fx-background-color: white">
+                <Text fx:id="FX_T_SContactNumber" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
                     </font>
@@ -178,7 +178,7 @@
             <!-- Displays student attendance count -->
             <HBox>
                 <Label text="Attendance count : " fx:id="FXNormal"/>
-                <Text fx:id="FXStudentAttendanceCount" style="-fx-background-color: white">
+                <Text fx:id="FX_T_SAttendanceCount" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
                     </font>
@@ -188,7 +188,7 @@
             <!-- Displays student attendance percentage -->
             <HBox>
                 <Label text="Attendance percentage : " fx:id="FXNormal"/>
-                <Text fx:id="FXStudentAttendancePercentage" style="-fx-background-color: white">
+                <Text fx:id="FX_T_SAttendancePercentage" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
                     </font>
@@ -198,7 +198,7 @@
             <!-- Displays student attendance remark -->
             <HBox>
                 <Label text="Remark : " fx:id="FXNormal"/>
-                <Text fx:id="FXStudentAttendanceRemarks" style="-fx-background-color: white">
+                <Text fx:id="FX_T_SAttendanceRemarks" style="-fx-background-color: white">
                     <font>
                         <Font name="Times New Roman" size="20"/>
                     </font>
@@ -207,7 +207,7 @@
 
             <!-- Displays the days a student was present -->
             <Label text="Days present : " fx:id="FXHeader"/>
-            <ListView fx:id="FXPresentDaysListView" VBox.vgrow="ALWAYS" minWidth="400"
+            <ListView fx:id="FX_LV_PresentDays" VBox.vgrow="ALWAYS" minWidth="400"
                       style="-fx-background-color: grey"/>
         </VBox>
     </right>

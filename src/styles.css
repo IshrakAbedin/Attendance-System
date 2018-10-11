@@ -1,3 +1,4 @@
+/* Used for titles or header texts */
 #FXHeader {
     -fx-text-fill: white;
     -fx-font-family: "Arial bold";
@@ -5,7 +6,7 @@
     -fx-padding: 0 10 10 0;
 }
 
-
+/* Used for normal texts */
 #FXNormal {
     -fx-text-fill: #efe68e;
     -fx-font-family: "Arial";
@@ -13,7 +14,7 @@
     -fx-padding: 0 10 10 0;
 }
 
-
+/* Used for all tooltips */
 .tooltip {
     -fx-background-color: grey;
     -fx-text-fill: white;
@@ -24,39 +25,39 @@
     -fx-alignment: CENTER;
 }
 
-
+/* Used for buttons and toggle-buttons */
 .button, .toggle-button {
     -fx-background-color: linear-gradient(#0000c4 0%, #0000aa 25%, #00009c 75%, #00007f 100%);
     -fx-border-color: white;
     -fx-text-fill: white;
     -fx-font-family: "Arial";
 }
+.button:hover, .toggle-button:hover {
+    -fx-background-color: linear-gradient(#00f0ff 0%, #00d0e6 25%, #09bdcd 75%, #06a2b4 100%);
+}
+.toggle-button:selected {
+    -fx-background-color: linear-gradient(#329cec 0%, #206cc0 25%, #195cb2 75%, #0a56ab 100%);
+}
 
-
+/* Used for toolbar */
 .tool-bar{
     -fx-background-color: linear-gradient(#9b9b9b 0%, #828282 25%, #696969 75%, #505050 100%);
 }
 
-
+/* Used for background */
 #Background {
-    /*-fx-background-color: linear-gradient(#ffffff 0%, #cdcdcd 25%, #afafaf 75%, #9a9a9a 100%);*/
     -fx-background-color: #606060;
 }
 
-
-
-.list-cell:filled:selected:focused, .list-cell:filled:selected, .toggle-button:selected {
-    /*-fx-background-color: white;*/
+/* Used for list cells in ListView and ComboBox */
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
     -fx-background-color: linear-gradient(#329cec 0%, #206cc0 25%, #195cb2 75%, #0a56ab 100%);
 }
-
-
 .list-cell:even, .list-cell:odd {
     -fx-background-color: #404040;
 }
-
-
-.list-cell:filled:hover, .button:hover, .toggle-button:hover {
-    /*-fx-background-color: #00007f;*/
+.list-cell:filled:hover {
     -fx-background-color: linear-gradient(#00f0ff 0%, #00d0e6 25%, #09bdcd 75%, #06a2b4 100%);
 }
+
+

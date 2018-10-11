@@ -44,26 +44,47 @@ public class Mainwindow {
     private String FontName;
     private Background ListViewBackground;
     private Background DialogBackground;
+    private DialogPane dialogPane;
 
-
-    @FXML private BorderPane mainBorderPane;        // FXML Main Border Pane
-    @FXML private Button AccountButton;             // Account button related to log in and log out.
-    @FXML private Text DateText;                    // Text that display's the date in the app.
-    @FXML private ListView<StudentInformation> FXStudentInfoListView; // Linking the list view in FXML
-    @FXML private Text FXStudentName;               // Linking student name
-    @FXML private Text FXStudentAddress;            // Linking student Address
-    @FXML private Text FXStudentContactNumber;      // Linking student contact info
-    @FXML private Text FXTotalStudents;             // Linking the total number of students
-    @FXML private Text FXStudentAttendanceCount;    // Linking the total attendance count of a student
-    @FXML private Text FXStudentAttendancePercentage; // Linking the total attendance percentage of a student
-    @FXML private Text FXStudentAttendanceRemarks;  // Linking the total attendance percentage of a student
-    @FXML private Text FXTotalClassCount;
-    @FXML private Text FXTotalDefaulterStudents;
-    @FXML private ToggleButton FXFilterDefaulter;
-    @FXML private ContextMenu listContextMenu;
-    @FXML private ListView<String> FXPresentDaysListView;
-    @FXML private ComboBox<String> FXCourseList;
-    @FXML private ListView<String> FXClassList;
+    /*
+     * Necessary variables to maintain connections.
+     * FX_BorderPane_Teacher        -       The main border pane for teacher.
+     * FX_B_Account                 -       Account button for log in and out.
+     * FX_T_Date                    -       To show the current date.
+     * FX_LV_StudentInfo            -       List to show the SID list of students in a course.
+     * FX_T_SName                   -       Text to show student name.
+     * FX_T_SAddress                -       Text to show student Address.
+     * FX_T_SContactNumber          -       Text to show student contact info.
+     * FX_T_SAttendanceCount        -       Text to show student attendance count.
+     * FX_T_SAttendancePercentage   -       Text to show student attendance percentage.
+     * FX_T_SAttendanceRemarks      -       Text to show student attendance remarks.
+     * FX_T_TotalStudents           -       Text to show total students in a course.
+     * FX_T_TotalLectureCount       -       Text to show total lecture count of a course.
+     * FX_T_TotalDefaulterStudents  -       Text to show total defaulters of a course.
+     * FX_TB_FilterDefaulter        -       A toggle button for filtering defaulters.
+     * FX_CM_list                   -       A context menu to show when right clicked on SID.
+     * FX_LV_PresentDays            -       Shows which days a student was present.
+     * FX_LV_ClassList              -       Shows which days a lecture was held.
+     * FX_CB_CourseList             -       Shows which courses the teacher takes.
+     */
+    @FXML private BorderPane FX_BorderPane_Teacher;
+    @FXML private Button FX_B_Account;
+    @FXML private ToggleButton FX_TB_FilterDefaulter;
+    @FXML private ListView<StudentInformation> FX_LV_StudentInfo;
+    @FXML private ListView<String> FX_LV_PresentDays;
+    @FXML private ListView<String> FX_LV_ClassList;
+    @FXML private Text FX_T_Date;
+    @FXML private Text FX_T_SName;
+    @FXML private Text FX_T_SAddress;
+    @FXML private Text FX_T_SContactNumber;
+    @FXML private Text FX_T_TotalStudents;
+    @FXML private Text FX_T_SAttendanceCount;
+    @FXML private Text FX_T_SAttendancePercentage;
+    @FXML private Text FX_T_SAttendanceRemarks;
+    @FXML private Text FX_T_TotalLectureCount;
+    @FXML private Text FX_T_TotalDefaulterStudents;
+    @FXML private ContextMenu FX_CM_list;
+    @FXML private ComboBox<String> FX_CB_CourseList;
 
 
     /**
@@ -76,7 +97,7 @@ public class Mainwindow {
          * FontName - The default font for everything that will be viewed in the app.
          * AccountData - Teacher information is kept in this temporary variable.
          * df - Time Date formatter.
-         * DateText - the current day is viewed here
+         * FX_T_Date - the current day is viewed here
          *
          * <Predicates are for filtering on and off>
          * AllStudents - is used to view all students.
@@ -90,7 +111,7 @@ public class Mainwindow {
         AccountData = null;
         StudentInfoList = FXCollections.observableArrayList();
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        DateText.setText("Date : " + df.format(LocalDateTime.now()));
+        FX_T_Date.setText("Date : " + df.format(LocalDateTime.now()));
         AllStudents = new Predicate<StudentInformation>() {
             @Override
             public boolean test(StudentInformation stdInfo) {
@@ -155,33 +176,33 @@ public class Mainwindow {
         setupContextMenu();
         setupAccountButton("Log In", "Press to log in");
         // Change listener
-        FXStudentInfoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<StudentInformation>() {
+        FX_LV_StudentInfo.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<StudentInformation>() {
             @Override
             public void changed(ObservableValue<? extends StudentInformation> observable, StudentInformation oldValue, StudentInformation newValue) {
                 if (newValue != null){
-                    StudentInformation sd = FXStudentInfoListView.getSelectionModel().getSelectedItem();
-                    FXStudentName.setText(sd.getName());
-                    FXStudentAddress.setText(sd.getAddress());
-                    FXStudentContactNumber.setText(sd.getContactNumber());
-                    FXStudentAttendanceCount.setText(sd.getAttendanceCount().toString());
-                    FXStudentAttendancePercentage.setText(sd.getAttendancePercentage().toString());
+                    StudentInformation sd = FX_LV_StudentInfo.getSelectionModel().getSelectedItem();
+                    FX_T_SName.setText(sd.getName());
+                    FX_T_SAddress.setText(sd.getAddress());
+                    FX_T_SContactNumber.setText(sd.getContactNumber());
+                    FX_T_SAttendanceCount.setText(sd.getAttendanceCount().toString());
+                    FX_T_SAttendancePercentage.setText(sd.getAttendancePercentage().toString());
                     if (sd.getAttendancePercentage() >= 75){
-                        FXStudentAttendanceRemarks.setText("Regular");
-                        FXStudentAttendanceRemarks.setFill(Color.color(0, 0.86, 0.86, 1));
-                        FXStudentAttendanceRemarks.setFont(Font.font(FontName, null, null, 20));
+                        FX_T_SAttendanceRemarks.setText("Regular");
+                        FX_T_SAttendanceRemarks.setFill(Color.color(0, 0.86, 0.86, 1));
+                        FX_T_SAttendanceRemarks.setFont(Font.font(FontName, null, null, 20));
                     }
                     else{
-                        FXStudentAttendanceRemarks.setText("Defaulter");
-                        FXStudentAttendanceRemarks.setFill(Color.color(0.86, 0, 0, 1));
-                        FXStudentAttendanceRemarks.setFont(Font.font(FontName, null, null, 20));
+                        FX_T_SAttendanceRemarks.setText("Defaulter");
+                        FX_T_SAttendanceRemarks.setFill(Color.color(0.86, 0, 0, 1));
+                        FX_T_SAttendanceRemarks.setFont(Font.font(FontName, null, null, 20));
                     }
-                    FXPresentDaysListView.setItems(sd.getPresentDayList());
+                    FX_LV_PresentDays.setItems(sd.getPresentDayList());
                 }
             }
         });
-        FXClassList.setCellFactory(cellColor);
-        FXPresentDaysListView.setCellFactory(cellColor);
-        FXCourseList.setCellFactory(cellColor);
+        FX_LV_ClassList.setCellFactory(cellColor);
+        FX_LV_PresentDays.setCellFactory(cellColor);
+        FX_CB_CourseList.setCellFactory(cellColor);
         setCellFactory(null);
     }
 
@@ -271,7 +292,7 @@ public class Mainwindow {
             return;
         }
 
-        StudentInformation item = FXStudentInfoListView.getSelectionModel().getSelectedItem();
+        StudentInformation item = FX_LV_StudentInfo.getSelectionModel().getSelectedItem();
 
         if (k.getCode().equals(KeyCode.ESCAPE)){
             handleExit();
@@ -349,7 +370,7 @@ public class Mainwindow {
         if (dbmsUserAccount == null){
             System.out.println("Showing from filter");
 
-            FXFilterDefaulter.setSelected(false);
+            FX_TB_FilterDefaulter.setSelected(false);
             showWarning(
                     "Error",
                     "Please log in first",
@@ -359,29 +380,29 @@ public class Mainwindow {
             return;
         }
 
-        StudentInformation std = FXStudentInfoListView.getSelectionModel().getSelectedItem();
+        StudentInformation std = FX_LV_StudentInfo.getSelectionModel().getSelectedItem();
 
-        if (FXFilterDefaulter.isSelected()){
+        if (FX_TB_FilterDefaulter.isSelected()){
             System.out.println("FILTER ON!");
             filteredList.setPredicate(DefaulterStudents);
 
             if (filteredList.isEmpty()){
-                FXStudentName.setText("");
-                FXStudentAddress.setText("");
-                FXStudentContactNumber.setText("");
-                FXStudentAttendanceCount.setText("");
-                FXStudentAttendancePercentage.setText("");
+                FX_T_SName.setText("");
+                FX_T_SAddress.setText("");
+                FX_T_SContactNumber.setText("");
+                FX_T_SAttendanceCount.setText("");
+                FX_T_SAttendancePercentage.setText("");
             }
             else if (filteredList.contains(std)){
-                FXStudentInfoListView.getSelectionModel().select(std);
+                FX_LV_StudentInfo.getSelectionModel().select(std);
             }
             else {
-                FXStudentInfoListView.getSelectionModel().selectFirst();
+                FX_LV_StudentInfo.getSelectionModel().selectFirst();
             }
         } else {
             System.out.println("FILTER OFF!");
             filteredList.setPredicate(AllStudents);
-            FXStudentInfoListView.getSelectionModel().selectFirst();
+            FX_LV_StudentInfo.getSelectionModel().selectFirst();
         }
     }
 
@@ -396,7 +417,7 @@ public class Mainwindow {
         }
 
         // Get selected class and section info
-        String CourseName = FXCourseList.getSelectionModel().getSelectedItem();
+        String CourseName = FX_CB_CourseList.getSelectionModel().getSelectedItem();
         String SectionName = AccountData.getSectionForCourse(CourseName);
 
         // Set new class and section name in dbms.
@@ -411,11 +432,14 @@ public class Mainwindow {
     }
 
 
+    /**
+     * Handles searching for student info
+     */
     @FXML private void handleSearch(){
         if (dbmsUserAccount == null){
             System.out.println("Showing from search");
 
-            FXFilterDefaulter.setSelected(false);
+            FX_TB_FilterDefaulter.setSelected(false);
             showWarning(
                     "Error",
                     "Please log in first",
@@ -429,8 +453,18 @@ public class Mainwindow {
         String TitleText = "Search for student";
         String HeaderText = "Enter student ID and section to begin searching";
         if (createDialog(DialogName, TitleText, HeaderText)){
-            Optional<ButtonType> result = Dialog.showAndWait();
             System.out.println("Created!");
+            SearchDialog controller = fxmlLoader.getController();
+            String CourseName = FX_CB_CourseList.getSelectionModel().getSelectedItem();
+            String SectionName = AccountData.getSectionForCourse(CourseName);
+            controller.process(dbmsUserAccount);
+
+            Optional<ButtonType> result = Dialog.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Dialog.close();
+                dbmsUserAccount.setUsername(SectionName);
+            }
         } else {
             System.out.println("NOT CREATED!");
         }
@@ -444,8 +478,8 @@ public class Mainwindow {
      */
     private void setupAccountButton(String buttonText, String buttonTooltip){
         if (buttonText.length() > 0 && buttonTooltip.length() > 0) {
-            AccountButton.setText(buttonText);
-            AccountButton.getTooltip().setText(buttonTooltip);
+            FX_B_Account.setText(buttonText);
+            FX_B_Account.getTooltip().setText(buttonTooltip);
         }
     }
 
@@ -590,25 +624,25 @@ public class Mainwindow {
         // Getting total student count
         Integer TotalStudents = dbmsUserAccount.getTotalStudentCount();
         if (TotalStudents != -1){
-            FXTotalStudents.setText(TotalStudents.toString());
+            FX_T_TotalStudents.setText(TotalStudents.toString());
         } else{
-            FXTotalStudents.setText("0");
+            FX_T_TotalStudents.setText("0");
         }
 
         // Getting total classes taken
         Integer TotalClasses = dbmsUserAccount.getTotalClassCount();
         if (TotalClasses != -1){
-            FXTotalClassCount.setText(TotalClasses.toString());
+            FX_T_TotalLectureCount.setText(TotalClasses.toString());
         }else{
-            FXTotalClassCount.setText("0");
+            FX_T_TotalLectureCount.setText("0");
         }
 
         // Getting total defaulter student count
         Integer TotalDefaulters = dbmsUserAccount.getDefaulterCount();
         if (TotalDefaulters != -1){
-            FXTotalDefaulterStudents.setText(TotalDefaulters.toString());
+            FX_T_TotalDefaulterStudents.setText(TotalDefaulters.toString());
         } else {
-            FXTotalDefaulterStudents.setText("0");
+            FX_T_TotalDefaulterStudents.setText("0");
         }
 
         // Getting days the class was conducted
@@ -621,7 +655,7 @@ public class Mainwindow {
                     AccountData.addToClassDays(rs.getString("DAY"));
                 }
 
-                FXClassList.setItems(AccountData.getClassDaysList());
+                FX_LV_ClassList.setItems(AccountData.getClassDaysList());
                 rs.close();
             }
         } catch(SQLException e){
@@ -672,8 +706,8 @@ public class Mainwindow {
                     );
                 }
 
-                FXCourseList.setItems(AccountData.getCourseList());
-                FXCourseList.getSelectionModel().selectFirst();
+                FX_CB_CourseList.setItems(AccountData.getCourseList());
+                FX_CB_CourseList.getSelectionModel().selectFirst();
 
                 rs.close();
             }
@@ -697,19 +731,19 @@ public class Mainwindow {
 
         if (StudentInfoList != null){
             if (filteredList != null){
-                FXStudentInfoListView.setItems(filteredList);
+                FX_LV_StudentInfo.setItems(filteredList);
                 System.out.println(StudentInfoList.size() + filteredList.size());
-                FXStudentInfoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                FX_LV_StudentInfo.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
                 if (std == null) {
-                    FXStudentInfoListView.getSelectionModel().selectFirst();
+                    FX_LV_StudentInfo.getSelectionModel().selectFirst();
                 }
                 else{
-                    FXStudentInfoListView.getSelectionModel().select(std);
+                    FX_LV_StudentInfo.getSelectionModel().select(std);
                 }
 
                 // Setting up cell factory
-                FXStudentInfoListView.setCellFactory(new Callback<ListView<StudentInformation>, ListCell<StudentInformation>>() {
+                FX_LV_StudentInfo.setCellFactory(new Callback<ListView<StudentInformation>, ListCell<StudentInformation>>() {
                     @Override
                     public ListCell<StudentInformation> call(ListView<StudentInformation> param) {
                         ListCell <StudentInformation> cell = new ListCell<StudentInformation>(){
@@ -741,7 +775,7 @@ public class Mainwindow {
                                     if (isNowEmpty)
                                         cell.setContextMenu(null);
                                     else
-                                        cell.setContextMenu(listContextMenu);
+                                        cell.setContextMenu(FX_CM_list);
                                 }
                         );
                         return cell;
@@ -757,7 +791,7 @@ public class Mainwindow {
      * @param Operation which operation to perform. (Options : Insert, Delete)
      */
     private void modify(String Operation){
-        StudentInformation std = FXStudentInfoListView.getSelectionModel().getSelectedItem();// Get the selected student
+        StudentInformation std = FX_LV_StudentInfo.getSelectionModel().getSelectedItem();// Get the selected student
         int index = StudentInfoList.indexOf(std);   // Get the index of this student in StudentInfoList Array
 
         /*
@@ -810,11 +844,11 @@ public class Mainwindow {
                             // Step 4
                             if (count != -1){
                                 StudentInfoList.get(index).setAttendanceCount(count);
-                                FXStudentAttendanceCount.setText(count.toString());
+                                FX_T_SAttendanceCount.setText(count.toString());
                             }
                             if (percent != -1){
                                 StudentInfoList.get(index).setAttendancePercentage(percent);
-                                FXStudentAttendancePercentage.setText(percent.toString());
+                                FX_T_SAttendancePercentage.setText(percent.toString());
                             }
 
                             // Step 5
@@ -823,7 +857,7 @@ public class Mainwindow {
                             else if (Operation.toLowerCase().equals("delete"))
                                 StudentInfoList.get(index).removePresentDayList(date);
 
-                            FXPresentDaysListView.setItems(StudentInfoList.get(index).getPresentDayList());
+                            FX_LV_PresentDays.setItems(StudentInfoList.get(index).getPresentDayList());
                             setCellFactory(std);
                         }
                     }
@@ -853,9 +887,12 @@ public class Mainwindow {
         try{
             Dialog = new Dialog<>();
             fxmlLoader = new FXMLLoader();
-            Dialog.initOwner(mainBorderPane.getScene().getWindow());
+            Dialog.initOwner(FX_BorderPane_Teacher.getScene().getWindow());
             Dialog.setTitle(TitleText);
             Dialog.setHeaderText(HeaderText);
+            dialogPane = Dialog.getDialogPane();
+            dialogPane.getStylesheets().add(getClass().getResource("dialog.css").toExternalForm());
+            //dialogPane.getStyleClass().add("dialog");
             fxmlLoader.setLocation(getClass().getResource(DialogName));
 
             Dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -893,14 +930,14 @@ public class Mainwindow {
      */
     private void clearStudentInformation(){
         StudentInfoList.clear();
-        FXStudentName.setText("");
-        FXStudentAddress.setText("");
-        FXStudentContactNumber.setText("");
-        FXStudentAttendanceCount.setText("");
-        FXStudentAttendancePercentage.setText("");
-        FXStudentAttendanceRemarks.setText("");
-        FXStudentInfoListView.setItems(null);
-        FXPresentDaysListView.setItems(null);
+        FX_T_SName.setText("");
+        FX_T_SAddress.setText("");
+        FX_T_SContactNumber.setText("");
+        FX_T_SAttendanceCount.setText("");
+        FX_T_SAttendancePercentage.setText("");
+        FX_T_SAttendanceRemarks.setText("");
+        FX_LV_StudentInfo.setItems(null);
+        FX_LV_PresentDays.setItems(null);
     }
 
 
@@ -908,10 +945,10 @@ public class Mainwindow {
      * Clears temporary Class information.
      */
     private void clearClassInformation(){
-        FXTotalClassCount.setText("");
-        FXTotalStudents.setText("");
-        FXTotalDefaulterStudents.setText("");
-        FXClassList.setItems(null);
+        FX_T_TotalLectureCount.setText("");
+        FX_T_TotalStudents.setText("");
+        FX_T_TotalDefaulterStudents.setText("");
+        FX_LV_ClassList.setItems(null);
     }
 
 
@@ -922,7 +959,7 @@ public class Mainwindow {
         dbmsUserAccount.close();
         dbmsUserAccount = null;
         AccountData = null;
-        FXCourseList.setItems(null);
+        FX_CB_CourseList.setItems(null);
     }
 
 
@@ -972,7 +1009,7 @@ public class Mainwindow {
      * Delete item or modify item.
      */
     private void setupContextMenu(){
-        listContextMenu = new ContextMenu();                    // Creating a context menu
+        FX_CM_list = new ContextMenu();                    // Creating a context menu
         MenuItem delete = new MenuItem("Delete Attendance");      // Creating a menu item
         delete.setOnAction(new EventHandler<ActionEvent>() {    // Binding method on action
             @Override
@@ -987,19 +1024,22 @@ public class Mainwindow {
                 handleInsertDialog();
             }
         });
-        listContextMenu.getItems().add(edit);
-        listContextMenu.getItems().add(delete);              // Attaching menu item in context menu
+        FX_CM_list.getItems().add(edit);
+        FX_CM_list.getItems().add(delete);              // Attaching menu item in context menu
     }
-    
-    
+
+    /**
+     * Sets text colors for information displaying.
+     * @param TextColor the color to show.
+     */
     private void setTextColor(Color TextColor){
-        FXStudentName.setFill(TextColor);
-        FXStudentAddress.setFill(TextColor);
-        FXStudentContactNumber.setFill(TextColor);
-        FXStudentAttendanceCount.setFill(TextColor);
-        FXStudentAttendancePercentage.setFill(TextColor);
-        FXTotalStudents.setFill(TextColor);
-        FXTotalClassCount.setFill(TextColor);
-        FXTotalDefaulterStudents.setFill(TextColor);
+        FX_T_SName.setFill(TextColor);
+        FX_T_SAddress.setFill(TextColor);
+        FX_T_SContactNumber.setFill(TextColor);
+        FX_T_SAttendanceCount.setFill(TextColor);
+        FX_T_SAttendancePercentage.setFill(TextColor);
+        FX_T_TotalStudents.setFill(TextColor);
+        FX_T_TotalLectureCount.setFill(TextColor);
+        FX_T_TotalDefaulterStudents.setFill(TextColor);
     }
 }

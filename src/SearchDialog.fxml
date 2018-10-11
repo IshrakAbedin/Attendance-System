@@ -8,52 +8,51 @@
 
 <?import javafx.geometry.Insets?>
 <DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="SearchDialog"
-            stylesheets="@styles.css" prefHeight="400.0" prefWidth="600.0"
-            style="-fx-background-color: gray">
+            stylesheets="@dialog.css" prefHeight="400.0" prefWidth="600.0">
 
     <content>
         <GridPane>
             <HBox GridPane.rowIndex="0" GridPane.columnIndex="0">
                 <Label text="SID" fx:id="FXNormal"/>
-                <TextField GridPane.vgrow="NEVER">
+                <TextField fx:id="FX_TF_SID" GridPane.vgrow="NEVER">
                     <padding>
                         <Insets top="10" right="10" left="10" bottom="10"/>
                     </padding>
                 </TextField>
 
-                <Label text="Section" GridPane.rowIndex="0" GridPane.columnIndex="3" fx:id="FXNormal"/>
-                <TextField GridPane.vgrow="NEVER">
+                <Label text="Class" GridPane.rowIndex="0" GridPane.columnIndex="3" fx:id="FXNormal"/>
+                <TextField fx:id="FX_TF_Class" GridPane.vgrow="NEVER">
                     <padding>
                         <Insets top="10" right="10" left="10" bottom="10"/>
                     </padding>
                 </TextField>
             </HBox>
 
-            <Button text="Search" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Button text="Search" onAction="#handleSearch" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
             <!-- Display searched student ID -->
             <Label text="ID" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="FXNormal"/>
-            <Label GridPane.rowIndex="2" GridPane.columnIndex="2" fx:id="FXNormal"/>
+            <Label GridPane.rowIndex="2" GridPane.columnIndex="2" fx:id="FX_L_SID"/>
 
             <!-- Display searched student Name -->
             <Label text="Name" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="FXNormal"/>
-            <Label GridPane.rowIndex="3" GridPane.columnIndex="2" fx:id="FXNormal"/>
+            <Label GridPane.rowIndex="3" GridPane.columnIndex="2" fx:id="FX_L_Name"/>
 
             <!-- Display searched student Address -->
             <Label text="Address" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="FXNormal"/>
-            <Label GridPane.rowIndex="4" GridPane.columnIndex="2" fx:id="FXNormal"/>
+            <Label GridPane.rowIndex="4" GridPane.columnIndex="2" fx:id="FX_L_Address"/>
 
             <!-- Display searched student Contact number -->
             <Label text="Contact number" GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="FXNormal"/>
-            <Label GridPane.rowIndex="5" GridPane.columnIndex="2" fx:id="FXNormal"/>
+            <Label GridPane.rowIndex="5" GridPane.columnIndex="2" fx:id="FX_L_ContactNumber"/>
 
             <!-- Display searched student Attendance count -->
             <Label text="Attendance count" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="FXNormal"/>
-            <Label GridPane.rowIndex="6" GridPane.columnIndex="2" fx:id="FXNormal"/>
+            <Label GridPane.rowIndex="6" GridPane.columnIndex="2" fx:id="FX_L_AttendanceCount"/>
 
             <!-- Display searched student attendance percentage -->
             <Label text="Attendance percentage" GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2" fx:id="FXNormal"/>
-            <Label GridPane.rowIndex="7" GridPane.columnIndex="2" fx:id="FXNormal"/>
+            <Label GridPane.rowIndex="7" GridPane.columnIndex="2" fx:id="FX_L_AttendancePercentage"/>
         </GridPane>
     </content>
 </DialogPane>
