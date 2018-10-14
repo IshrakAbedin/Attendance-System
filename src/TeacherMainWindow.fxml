@@ -7,7 +7,8 @@
 
 <?import javafx.geometry.Insets?>
 <BorderPane fx:id="FX_BorderPane_Teacher" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="TeacherMainWindow" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css">
+            fx:controller="TeacherMainWindow" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css"
+            onKeyPressed="#handleKeyPressed">
 
     <!-- Display's controls and buttons -->
     <top>
@@ -41,9 +42,16 @@
                 </Button>
 
                 <!-- Search Button -->
-                <Button fx:id="FX_B_Search" onAction="#handleSearch" text="Search">
+                <Button onAction="#handleSearch" text="Search">
                     <tooltip>
                         <Tooltip text="Search for student info"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Search Button -->
+                <Button onAction="#handleTakeAttendance" text="Take Attendance">
+                    <tooltip>
+                        <Tooltip text="Take attendance"/>
                     </tooltip>
                 </Button>
 
@@ -123,7 +131,7 @@
             </ComboBox>
 
             <Label text="Days classes were taken" fx:id="FXHeader"/>
-            <ListView fx:id="FX_LV_ClassList" VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
+            <ListView fx:id="FX_LV_ClassDayList" VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
         </VBox>
     </left>
 
@@ -137,8 +145,11 @@
 
             <!-- Displays student IDs -->
             <Label text="Student ID" fx:id="FXHeader"/>
-            <ListView fx:id="FX_LV_StudentInfo" onKeyPressed="#handleKeyPressed"
-                      VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
+            <ListView fx:id="FX_LV_StudentInfo" VBox.vgrow="ALWAYS" style="-fx-background-color: grey">
+                <tooltip>
+                    <Tooltip text="Present students"/>
+                </tooltip>
+            </ListView>
         </VBox>
     </center>
 

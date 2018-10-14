@@ -1,6 +1,5 @@
 import Data.StudentInformation;
 import Data.TeacherAccountData;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,6 +25,7 @@ import javafx.scene.text.Text;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -36,6 +36,7 @@ import javafx.util.Callback;
 public class TeacherMainWindow {
     private XEbase dbmsUserAccount;
     private ObservableList<StudentInformation> StudentInfoList;
+    private ObservableList<String> SIDList;
     private Dialog<ButtonType> Dialog;
     private FXMLLoader fxmlLoader;
     private Predicate<StudentInformation> DefaulterStudents;
@@ -47,6 +48,8 @@ public class TeacherMainWindow {
     private Background DialogBackground;
     private DialogPane dialogPane;
     private String DialogStyleCSS;
+    private ContextMenu FX_CM_list;
+    private DateTimeFormatter dateTimeFormatter;
 
     /*
      * Necessary variables to maintain connections.
@@ -65,18 +68,16 @@ public class TeacherMainWindow {
      * FX_T_TotalLectureCount       -       Text to show total lecture count of a course.
      * FX_T_TotalDefaulterStudents  -       Text to show total defaulters of a course.
      * FX_TB_FilterDefaulter        -       A toggle button for filtering defaulters.
-     * FX_CM_list                   -       A context menu to show when right clicked on SID.
      * FX_LV_PresentDays            -       Shows which days a student was present.
-     * FX_LV_ClassList              -       Shows which days a lecture was held.
+     * FX_LV_ClassDayList              -       Shows which days a lecture was held.
      * FX_CB_CourseList             -       Shows which courses the teacher takes.
      */
     @FXML private BorderPane FX_BorderPane_Teacher;
     @FXML private Button FX_B_Account;
-    @FXML private Button FX_B_Search;
     @FXML private ToggleButton FX_TB_FilterDefaulter;
     @FXML private ListView<StudentInformation> FX_LV_StudentInfo;
     @FXML private ListView<String> FX_LV_PresentDays;
-    @FXML private ListView<String> FX_LV_ClassList;
+    @FXML private ListView<String> FX_LV_ClassDayList;
     @FXML private Text FX_T_Date;
     @FXML private Text FX_T_SName;
     @FXML private Text FX_T_SAddress;
@@ -87,7 +88,6 @@ public class TeacherMainWindow {
     @FXML private Text FX_T_SAttendanceRemarks;
     @FXML private Text FX_T_TotalLectureCount;
     @FXML private Text FX_T_TotalDefaulterStudents;
-    @FXML private ContextMenu FX_CM_list;
     @FXML private ComboBox<String> FX_CB_CourseList;
 
     /**
@@ -101,7 +101,8 @@ public class TeacherMainWindow {
             setupAccountButton(dbmsUserAccount.name, "Press to log out");
             getAccountInfo();
             getClassInformation();
-            getStudentInformationList();
+            FX_LV_ClassDayList.getSelectionModel().selectFirst();
+            FX_LV_StudentInfo.getSelectionModel().selectFirst();
         }
         else {
             setupAccountButton("Log In", "Press to log in");
@@ -185,7 +186,7 @@ public class TeacherMainWindow {
                 return cell;
             }
         };
-
+        dateTimeFormatter = DateTimeFormatter.ofPattern("MMMdd");
 
         /*
          * Calling necessary functions for running software.
@@ -221,7 +222,13 @@ public class TeacherMainWindow {
                 }
             }
         });
-        FX_LV_ClassList.setCellFactory(cellColor);
+        FX_LV_ClassDayList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                getStudentInformationList();
+            }
+        });
+        FX_LV_ClassDayList.setCellFactory(cellColor);
         FX_LV_PresentDays.setCellFactory(cellColor);
         FX_CB_CourseList.setCellFactory(cellColor);
         setCellFactory(null);
@@ -252,18 +259,14 @@ public class TeacherMainWindow {
             return;
         }
 
-        StudentInformation item = FX_LV_StudentInfo.getSelectionModel().getSelectedItem();
-
-        if (k.getCode().equals(KeyCode.ESCAPE)){
+        if (k.getCode().equals(KeyCode.DELETE)){
+            handleDelete();
+        } else if (k.getCode().equals(KeyCode.INSERT)){
+            handleInsertDialog();
+        } else if (k.getCode().equals(KeyCode.ENTER)){
+            handleInsertDialog();
+        } else if (k.getCode().equals(KeyCode.ESCAPE)){
             handleExit();
-        } else if (item != null){
-            if (k.getCode().equals(KeyCode.DELETE)){
-                handleDelete();
-            } else if (k.getCode().equals(KeyCode.INSERT)){
-                handleInsertDialog();
-            } else if (k.getCode().equals(KeyCode.ENTER)){
-                handleInsertDialog();
-            }
         }
     }
 
@@ -385,10 +388,11 @@ public class TeacherMainWindow {
         dbmsUserAccount.setSectionname(SectionName);
 
         // Retrieve new class and section information
-        clearStudentInformation();
-        getStudentInformationList();
         clearClassInformation();
         getClassInformation();
+        clearStudentInformation();
+        FX_LV_ClassDayList.getSelectionModel().selectFirst();
+        FX_LV_StudentInfo.getSelectionModel().selectFirst();
     }
 
 
@@ -430,6 +434,46 @@ public class TeacherMainWindow {
         }
     }
 
+    /**
+     * Handles attendance taking.
+     * Temporary method.
+     */
+    @FXML void handleTakeAttendance(){
+        if (dbmsUserAccount == null){
+            System.out.println("FROM Take attendance");
+            return;
+        }
+
+        boolean dialogCreation = createDialog(
+                "TakeAttendance.fxml",
+                "Take attendance",
+                "Move the present students to the present list to give them attendance"
+        );
+
+        if (dialogCreation){
+            TakeAttendance takeAttendance = fxmlLoader.getController();
+            takeAttendance.setFX_LV_AbsentStudents(SIDList);
+            Optional<ButtonType> result = Dialog.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                ObservableList<String> PresentStudents = takeAttendance.getFX_LV_PresentStudents();
+                int state = 0;
+
+                for(int i = 0; i < PresentStudents.size(); ++i){
+                    String date = dateTimeFormatter.format(LocalDate.now());
+                    date = date.toUpperCase();
+                    state = dbmsUserAccount.insertAttendance(PresentStudents.get(i), date);
+
+                    if (state == -1){
+                        System.out.println("Failed for " + PresentStudents.get(i));
+                    }
+                }
+
+                getClassInformation();
+            }
+        }
+    }
+
 
     /**
      * Setups the log in and out button text and tooltip text.
@@ -452,13 +496,6 @@ public class TeacherMainWindow {
         // Check if the dbmsUserAccount is valid. Meaning if a log in was successful
         if (dbmsUserAccount == null){
             System.out.println("Showing from getStudentInformation");
-
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
             return false;
         }
 
@@ -469,92 +506,50 @@ public class TeacherMainWindow {
          * If Base information isn't accessible then none of the other portions will work.
          */
         try{
-            ResultSet rs = dbmsUserAccount.getStudentList();
-            if (rs != null) {       // Proceed if resultSet is not null
-                while(rs.next()){   // Create the student info list with base information
-                    StudentInfoList.add(
-                            new StudentInformation(
-                                rs.getString(1),    // SID
-                                rs.getString(2),    // NAME
-                                rs.getString(3),    // ADDRESS
-                                rs.getString(4)     // CONTACT INFORMATION
-                            )
-                    );
+            clearStudentInformation();
+
+            String day = FX_LV_ClassDayList.getSelectionModel().getSelectedItem();
+            ResultSet rs = dbmsUserAccount.getAttendanceByDayList(day);
+
+            if (rs != null){
+                while(rs.next()){
+                    StudentInformation std = new StudentInformation(rs.getString(1));
+                    StudentInfoList.add(std);
                 }
                 rs.close();
-
-                //Setting the present days for each and every student of a class.
-                try{
-                    for(int i = 0; i < StudentInfoList.size(); ++i){
-                        rs = dbmsUserAccount.getAttendanceBySIDList(StudentInfoList.get(i).getSID());
-
-                        if (rs != null){
-                            while(rs.next()) {
-                                StudentInfoList.get(i).addPresentDayList(rs.getString(2));
-                            }
-                        }
-                    }
-                }
-                catch (SQLException e){
-                    System.out.println("Error occurred");
-                    e.printStackTrace();
-                }
-
-
-                // Get the student attendance count information from the dbms
-                try{            // Try to Copy the info into a list (StudentInfoList).
-                    rs = dbmsUserAccount.getAttendanceCountPerStudentList();
-                    if (rs != null){    // Proceed if resultSet is not null and list created
-                        int i = 0;
-                        while (rs.next()){
-                            StudentInformation std = StudentInfoList.get(i);
-                            std.setAttendanceCount(rs.getInt("ATTENDANCE_COUNT"));
-                            ++i;
-                        }
-                        rs.close();
-                    }
-                    else{
-                        System.out.println("getAttendanceCountPerStudentList returned null!");
-                    }
-                }
-                catch (SQLException e){
-                    System.out.println("Error occurred");
-                    e.printStackTrace();
-                }
-
-
-                //Get the student attendance percentage information from the dbms
-                try{            // Try to Copy the info into a list (StudentInfoList).
-                    rs = dbmsUserAccount.getAttendancePercentageList();
-                    if (rs != null){    // Proceed if resultSet is not null
-                        int i = 0;
-                        while (rs.next()){
-                            StudentInformation std = StudentInfoList.get(i);
-                            std.setAttendancePercentage(rs.getInt("ATTENDANCE_PERCENTAGE"));
-                            ++i;
-                        }
-                        rs.close();
-                    }
-                    else{
-                        System.out.println("getAttendancePercentageList returned null!");
-                    }
-                }
-                catch (SQLException e){
-                    System.out.println("Error occurred");
-                    e.printStackTrace();
-                }
-
-                //Setting up filtered list.
-                filteredList = new FilteredList<>(StudentInfoList);
-                setCellFactory(null);
-                return true;
             }
-            else {
-                System.out.println("getStudentList returned null!");
+
+            for(int i = 0; i < StudentInfoList.size(); ++i){
+                rs = dbmsUserAccount.getExtendedAttendanceBySIDList(StudentInfoList.get(i).getSID());
+
+                if (rs != null){
+                    while(rs.next()) {
+                        StudentInfoList.get(i).setName(rs.getString(2));
+                        StudentInfoList.get(i).setAddress(rs.getString(3));
+                        StudentInfoList.get(i).setContactNumber(rs.getString(4));
+                        StudentInfoList.get(i).setAttendanceCount(rs.getInt(5));
+                        StudentInfoList.get(i).setAttendancePercentage(rs.getInt(6));
+                    }
+                }
+
+                rs.close();
+
+                rs = dbmsUserAccount.getAttendanceBySIDList(StudentInfoList.get(i).getSID());
+
+                if (rs != null){
+                    while(rs.next()) {
+                        StudentInfoList.get(i).addPresentDayList(rs.getString(2));
+                    }
+                }
             }
+
+            //Setting up filtered list.
+            filteredList = new FilteredList<>(StudentInfoList);
+            setCellFactory(null);
+
+            return true;
         }
-        catch (SQLException e){
-            System.out.println("Error occurred");
+        catch(SQLException e){
             e.printStackTrace();
         }
 
@@ -615,7 +610,21 @@ public class TeacherMainWindow {
                     AccountData.addToClassDays(rs.getString("DAY"));
                 }
 
-                FX_LV_ClassList.setItems(AccountData.getClassDaysList());
+                FX_LV_ClassDayList.setItems(AccountData.getClassDaysList());
+                rs.close();
+            }
+
+            rs = dbmsUserAccount.getStudentList();
+            if (SIDList != null){
+                SIDList.clear();
+            } else {
+                SIDList = FXCollections.observableArrayList();
+            }
+
+            if (rs != null){
+                while(rs.next()){
+                    SIDList.add(rs.getString(1));
+                }
                 rs.close();
             }
         } catch(SQLException e){
@@ -771,8 +780,6 @@ public class TeacherMainWindow {
             // If the user presses the OK button perform the following.
             if (result.isPresent() && result.get() == ButtonType.OK){
                 ModificationDialogController controller = fxmlLoader.getController();// Get controller of FXML.
-
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMdd");
                 String date = dateTimeFormatter.format(controller.getDate()).toUpperCase();
 
                 if(dbmsUserAccount != null){
@@ -906,7 +913,7 @@ public class TeacherMainWindow {
         FX_T_TotalLectureCount.setText("");
         FX_T_TotalStudents.setText("");
         FX_T_TotalDefaulterStudents.setText("");
-        FX_LV_ClassList.setItems(null);
+        FX_LV_ClassDayList.setItems(null);
     }
 
 

@@ -36,6 +36,15 @@ public class StudentInformation {
     }
 
     /**
+     * Constructor for creating Data.StudentInformation type object.
+     * @param SID Student ID
+     */
+    public StudentInformation(String SID) {
+        this.SID = SID;
+        PresentDayList = FXCollections.observableArrayList();
+    }
+
+    /**
      * @return Student ID
      */
     public String getSID() {
@@ -114,5 +123,17 @@ public class StudentInformation {
      */
     public boolean removePresentDayList(String presentDay){
         return PresentDayList.remove(presentDay);
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        ContactNumber = contactNumber;
     }
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<DialogPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="TakeAttendance" stylesheets="@styles.css">
+    <content>
+        <BorderPane>
+            <left>
+                <VBox alignment="CENTER">
+                    <Label text="Absent students list" />
+                    <ListView fx:id="FX_LV_AbsentStudents" />
+                </VBox>
+            </left>
+
+            <center>
+                <VBox alignment="CENTER">
+                    <Button fx:id="FX_B_Select" onAction="#handleGivePresent" maxWidth="100" minWidth="100">
+                        <VBox.margin>
+                            <Insets bottom="25.0"/>
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="FX_B_SelectAll" onAction="#handleGivePresentToAll" maxWidth="100" minWidth="100">
+                        <VBox.margin>
+                            <Insets bottom="25.0" top="25.0" />
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="FX_B_Deselect" onAction="#handleGiveAbsent" maxWidth="100" minWidth="100">
+                        <VBox.margin>
+                            <Insets bottom="25.0" top="25.0" />
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="FX_B_DeselectAll" onAction="#handleGiveAbsentToAll" maxWidth="100" minWidth="100">
+                        <VBox.margin>
+                            <Insets top="25.0" />
+                        </VBox.margin>
+                    </Button>
+                </VBox>
+            </center>
+
+            <right>
+                <VBox alignment="CENTER">
+                    <Label text="Present students list" />
+                    <ListView fx:id="FX_LV_PresentStudents"/>
+                </VBox>
+            </right>
+        </BorderPane>
+
+        <!--<HBox>-->
+            <!--<VBox alignment="CENTER">-->
+                <!--<Label text="Absent students list"/>-->
+                <!--<ListView/>-->
+            <!--</VBox>-->
+
+            <!--<VBox alignment="CENTER">-->
+                <!--<Label text="Present students list"/>-->
+                <!--<ListView/>-->
+            <!--</VBox>-->
+        <!--</HBox>-->
+    </content>
+</DialogPane>
