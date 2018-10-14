@@ -1,17 +1,25 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class LogInDialogueController {
     @FXML private TextField FXUserName;         // FXML User Name field
     @FXML private PasswordField FXPassword;     // FXML Password Field
-//    @FXML private TextField FXSectionName;      // FXML Section Name Field
-//    @FXML private TextField FXClassName;        // FXML Class Name Field
+    @FXML private ComboBox<String> FX_CB_AccountType;
 
     private String UserName;                    // Stores FXML text converted to string.
     private String PassWord;                    // Stores FXML text converted to string.
-//    private String SectionName;                 // Stores FXML text converted to string.
-//    private String ClassName;                   // Stores FXML text converted to string.
+
+    public void initialize(){
+        ObservableList<String> items = FXCollections.observableArrayList();
+        items.add("Teacher");
+        items.add("Department Head");
+        FX_CB_AccountType.setItems(items);
+        FX_CB_AccountType.getSelectionModel().selectFirst();
+    }
 
     /**
      * A method that processes the text field information.
@@ -21,13 +29,6 @@ public class LogInDialogueController {
     @FXML public Boolean processLogIn(){
         UserName = FXUserName.getText().trim();
         PassWord = FXPassword.getText();
-//        SectionName = FXSectionName.getText().trim();
-//        ClassName = FXClassName.getText().trim();
-
-//        System.out.println("User Name = " + UserName);
-//        System.out.println("Password = " + PassWord);
-//        System.out.println("Section Name = " + SectionName);
-//        System.out.println("Class Name = " + ClassName);
 
         // User Name and password fields can not be empty.
         if (UserName.length() > 0 && PassWord.length() > 0){
@@ -55,19 +56,7 @@ public class LogInDialogueController {
         return PassWord;
     }
 
-    /**
-     * Gets the section name inputted.
-     * @return Section Name.
-     */
-//    public String getSectionName() {
-//        return SectionName;
-//    }
-
-    /**
-     * Gets the class name inputted.
-     * @return Class Name.
-     */
-//    public String getClassName() {
-//        return ClassName;
-//    }
+    public String getAccountType(){
+        return FX_CB_AccountType.getSelectionModel().getSelectedItem();
+    }
 }

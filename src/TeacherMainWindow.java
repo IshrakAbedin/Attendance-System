@@ -1,5 +1,6 @@
 import Data.StudentInformation;
 import Data.TeacherAccountData;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,7 +33,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import javafx.util.Callback;
 
-public class Mainwindow {
+public class TeacherMainWindow {
     private XEbase dbmsUserAccount;
     private ObservableList<StudentInformation> StudentInfoList;
     private Dialog<ButtonType> Dialog;
@@ -51,6 +52,7 @@ public class Mainwindow {
      * Necessary variables to maintain connections.
      * FX_BorderPane_Teacher        -       The main border pane for teacher.
      * FX_B_Account                 -       Account button for log in and out.
+     * FX_B_Search                  -       Button for searching student information.
      * FX_T_Date                    -       To show the current date.
      * FX_LV_StudentInfo            -       List to show the SID list of students in a course.
      * FX_T_SName                   -       Text to show student name.
@@ -70,6 +72,7 @@ public class Mainwindow {
      */
     @FXML private BorderPane FX_BorderPane_Teacher;
     @FXML private Button FX_B_Account;
+    @FXML private Button FX_B_Search;
     @FXML private ToggleButton FX_TB_FilterDefaulter;
     @FXML private ListView<StudentInformation> FX_LV_StudentInfo;
     @FXML private ListView<String> FX_LV_PresentDays;
@@ -87,6 +90,23 @@ public class Mainwindow {
     @FXML private ContextMenu FX_CM_list;
     @FXML private ComboBox<String> FX_CB_CourseList;
 
+    /**
+     * Sets up the dbmsAccount
+     * @param dbmsUserAccount
+     */
+    public void setDbmsUserAccount(XEbase dbmsUserAccount) {
+        this.dbmsUserAccount = dbmsUserAccount;
+
+        if (dbmsUserAccount != null) {
+            setupAccountButton(dbmsUserAccount.name, "Press to log out");
+            getAccountInfo();
+            getClassInformation();
+            getStudentInformationList();
+        }
+        else {
+            setupAccountButton("Log In", "Press to log in");
+        }
+    }
 
     /**
      * Runs when first launching the application.
@@ -173,11 +193,9 @@ public class Mainwindow {
          *
          * SetTextColor - Sets the default color of the information viewing texts.
          * SetupContextMenu - Creates and attaches the context menu.
-         * SetupAccountButton - Sets up Account button (log in and log out) button
          */
         setTextColor(Color.color(1,1,1,1));
         setupContextMenu();
-        setupAccountButton("Log In", "Press to log in");
         // Change listener
         FX_LV_StudentInfo.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<StudentInformation>() {
             @Override
@@ -213,69 +231,8 @@ public class Mainwindow {
     /**
      * Creates a dialogue through which you log in to your account.
      */
-    @FXML private void showLogInDialogue(){
-        // If the dbmsUserAccount is null that means no one is logged in. So log in possible.
-        if (dbmsUserAccount == null){
-            boolean failed = false;             // Variable keeps track of invalid user name or password.
-            boolean dialogCreation = false;     // Variable keeps track of unsuccessful dialog creation.
-
-            // Keep doing unless the user enters a legit username and password.
-            do{
-                if (failed){    // If log in failed then show this
-                    dialogCreation = createDialog(
-                            "LogInDialogue.fxml",
-                            "Log In Dialogue",
-                            "Invalid Username and/or password."
-                    );
-                } else {        // If log in for first time then show this
-                    dialogCreation = createDialog(
-                            "LogInDialogue.fxml",
-                            "Log In Dialogue",
-                            "Use this Dialog to Log In"
-                    );
-                }
-
-                // If dialog was successfully created then proceed.
-                if (dialogCreation){
-                    Optional<ButtonType> result = Dialog.showAndWait();
-
-                    // If the user presses the OK button perform the following.
-                    if (result.isPresent() && result.get() == ButtonType.OK){
-                        // Get controller of FXML.
-                        LogInDialogueController controller = fxmlLoader.getController();
-
-                        if (controller.processLogIn()){
-                            dbmsUserAccount = new XEbase(
-                                    controller.getUserName(),
-                                    controller.getPassWord()
-                            );
-
-                            if (dbmsUserAccount.connected == true){
-                                getAccountInfo();
-                                getClassInformation();
-                                getStudentInformationList();
-                                setupAccountButton(dbmsUserAccount.name, "Press to log out");
-                            }
-                            else {
-                                failed = true;
-                            }
-                        }
-                    } else{
-                        System.out.println("CANCEL");
-                        break;
-                    }
-                }
-                else {
-                    System.out.println("Dialog couldn't be created!");
-                    break;
-                }
-            } while (dbmsUserAccount.connected == false);
-        }
-        // Not null so log out
-        else {
-            clearInformation();
-            setupAccountButton("Log In", "Press to log in");
-        }
+    @FXML private void handleLogOut(){
+        handleExit();
     }
 
 
@@ -914,7 +871,7 @@ public class Mainwindow {
      * Clears everything temporarily stored and viewed on UI.
      * Also logs out from dbms account.
      */
-    private void clearInformation(){
+    public void clearInformation(){
         // Clearing account information
         clearAccountInformation();
 
@@ -991,7 +948,7 @@ public class Mainwindow {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
             if (type.equals("account")) {
-                showLogInDialogue();
+                handleLogOut();
             }
             else if (type.equals("insert") || type.equals("delete")) {
                 modify(Type);

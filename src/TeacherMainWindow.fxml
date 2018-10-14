@@ -7,7 +7,7 @@
 
 <?import javafx.geometry.Insets?>
 <BorderPane fx:id="FX_BorderPane_Teacher" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Mainwindow" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css">
+            fx:controller="TeacherMainWindow" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css">
 
     <!-- Display's controls and buttons -->
     <top>
@@ -34,9 +34,16 @@
             <!-- Toolbar -->
             <ToolBar>
                 <!-- Log in and Log Out Button -->
-                <Button fx:id="FX_B_Account" onAction="#showLogInDialogue" text="Log In">
+                <Button fx:id="FX_B_Account" onAction="#handleLogOut" text="Log In">
                     <tooltip>
                         <Tooltip/>
+                    </tooltip>
+                </Button>
+
+                <!-- Search Button -->
+                <Button fx:id="FX_B_Search" onAction="#handleSearch" text="Search">
+                    <tooltip>
+                        <Tooltip text="Search for student info"/>
                     </tooltip>
                 </Button>
 

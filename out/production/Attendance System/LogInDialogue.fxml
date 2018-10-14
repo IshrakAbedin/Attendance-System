@@ -4,21 +4,30 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
+<?import java.lang.String?>
 <DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="LogInDialogueController"
             prefHeight="200.0" prefWidth="400.0">
     <content>
         <GridPane alignment="CENTER" vgap="10" hgap="10">
+            <!-- Account type -->
+            <Label text="Account type" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <ComboBox fx:id="FX_CB_AccountType" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </ComboBox>
+
             <!-- User Name -->
-            <Label text="User name" GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="FXNormal" />
-            <TextField fx:id="FXUserName" text="DEMOTEACHER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+            <Label text="User name" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="FXUserName" text="DEMOTEACHER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets left="10.0" />
                 </GridPane.margin>
             </TextField>
 
             <!-- Password -->
-            <Label text="Password" GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="FXNormal" />
-            <PasswordField fx:id="FXPassword" text="DEMOPASSWORD" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Label text="Password" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <PasswordField fx:id="FXPassword" text="DEMOPASSWORD" GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <GridPane.margin>
                     <Insets left="10.0" />
                 </GridPane.margin>
