@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
+import java.sql.*;
 
 /**
  * A temporary driver to debug and demonstrate XEbase's different methods.
@@ -142,9 +143,9 @@ public class Driver extends Application {
     public static void main(String[] args){
 //        System.out.println("Hell-o-World");
 //
-//        XEbase dbase = new XEbase("DEMOTEACHER", "DEMOPASSWORD"); // Constructor
-//        dbase.setClassname("CSE9406");
-//        dbase.setSectionname("CSE16");
+//        XEbase dbase = new XEbase("testingsalt", "testingsalt","disco","fisco"); // Constructor
+////        dbase.setClassname("disco");
+////        dbase.setSectionname("fisco");
 //        ResultSet rs;
 //        try {
 //
@@ -227,7 +228,7 @@ public class Driver extends Application {
 //            }
 //            System.out.println("-----------------------------------\n\n");
 //
-//            System.out.println("Inserted Rows: " + dbase.insertAttendance("101", "SEP25")); // insertAttendance() method use
+//            System.out.println("Inserted Rows: " + dbase.insertAttendance("402", "OCT15")); // insertAttendance() method use
 //            System.out.println("-----------------------------------\n\n");
 //
 //            rs = dbase.getAttendanceByDayList("SEP24"); // getAttendanceByDayList() method use
@@ -352,6 +353,55 @@ public class Driver extends Application {
 //        finally {
 //            dbase.close(); // finally statement makes sure database is always closed at end regardless of the occurrence of exception
 //        }
+
+        XEadmin xeadmin = new XEadmin("ADMIN", "ADMIN");
+//        System.out.println(xeadmin.createTeacher("testingsalt", "testingsalt"));
+//        System.out.println(xeadmin.deleteTeacher("testingsalt"));
+//        System.out.println(xeadmin.createSection("testingsalt","disco"));
+//        System.out.println(xeadmin.createClass("testingsalt","disco","fisco"));
+//        System.out.println(xeadmin.deleteClass("testingsalt","disco","fisco"));
+//        System.out.println(xeadmin.deleteSection("testingsalt","disco"));
+//        System.out.println(xeadmin.insertStudent("testingsalt","disco","401","Waterfall","Niagara","420911"));
+//        System.out.println(xeadmin.deleteStudent("testingsalt","disco","401"));
+//        System.out.println(xeadmin.insertStudent("testingsalt","disco","402","Nvidia GeForce","GTX1080","420912"));
+        try {
+            ResultSet rs = xeadmin.getCompleteTeacherSectionCourseList();
+            if (rs == null) System.out.println("No Result Found");
+            else {
+                System.out.println("Teacher\tSection\tClass");
+                while (rs.next()) {
+                    System.out.print(rs.getString("TNAME") + "\t");
+                    System.out.print(rs.getString("SECTION") + "\t");
+                    System.out.print(rs.getString("CLASS") + "\n");
+                }
+            }
+            System.out.println("-----------------------------------\n\n");
+
+            rs = xeadmin.getSectionCourseByTeacherList("DEMOTEACHER");
+            if (rs == null) System.out.println("No Result Found");
+            else {
+                System.out.println("Section\tClass");
+                while (rs.next()) {
+                    System.out.print(rs.getString("SECTION") + "\t");
+                    System.out.print(rs.getString("CLASS") + "\n");
+                }
+            }
+            System.out.println("-----------------------------------\n\n");
+
+            rs = xeadmin.getTeacherList();
+            if (rs == null) System.out.println("No Result Found");
+            else {
+                System.out.println("Teacher's Name");
+                while (rs.next()) {
+                    System.out.print(rs.getString("TNAME") + "\n");
+                }
+            }
+            System.out.println("-----------------------------------\n\n");
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        xeadmin.close();
 
         launch(args);
     }

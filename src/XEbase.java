@@ -99,7 +99,6 @@ public class XEbase {
     public void close(){
         try{
             if(connection != null && !connection.isClosed()){
-                resultSet.close();
                 connection.close();
             }
         }
@@ -489,6 +488,235 @@ public class XEbase {
                 return match.equals(resultSet.getString(1));
             }
         } catch (SQLException ex) {
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A method used to initialize CLASSHUB table for each of the teacher after creation.
+     * @return boolean REturns 'true' if initialization is successful. Returns 'false' in case of error.
+     */
+    public boolean init(){
+        try {
+            query = "CREATE TABLE CLASSHUB( TNAME VARCHAR2(25), SECTION VARCHAR2(15), CLASS VARCHAR2(15), CONSTRAINT PK_DEMOCLASSHUB PRIMARY KEY (TNAME, SECTION, CLASS))";
+            statement.execute(query);
+            return userCreationFollowUp();
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A method to create section under currently logged in user.
+     * Always called by admin and not the actual user (teacher).
+     * @param sectionName String Name of the section that needs to be created.
+     * @return boolean Returns 'true' if section creation is successful. Returns 'false' in case of error.
+     */
+    public boolean createSection (String sectionName){
+        try{
+            query = "CREATE TABLE "+ sectionName +"( SID NUMBER, NAME VARCHAR2(25), ADDRESS VARCHAR2(30), CONTACT_NUMBER VARCHAR2(14), CONSTRAINT PK_"+ sectionName +" PRIMARY KEY (SID))";
+            statement.execute(query);
+            return sectionCreationFollowUp(sectionName);
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A method to delete a section under currently logged in user.
+     * Always called by admin and not the actual user (teacher).
+     * @param sectionName String Name of the section that needs to be deleted.
+     * @return boolean Returns 'true' if section deletion is successful. Returns 'false' in case of error.
+     */
+    public boolean deleteSection (String sectionName){
+        try{
+            query = "DROP TABLE " + sectionName;
+            statement.execute(query);
+            return true;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A method to create a class of a specific section under currently logged in user.
+     * Always called by admin and not the actual user (teacher).
+     * @param classname String Name of the class that needs to be created.
+     * @param sectionname String Name of the owning section of the class.
+     * @return boolean Returns 'true' if class creation is successful. Returns 'false' in case of error.
+     */
+    public boolean createClass (String classname, String sectionname){
+        try{
+            query = "INSERT INTO CLASSHUB VALUES ('" + name + "', '" + sectionname + "', '" + classname + "')";
+            int temp = statement.executeUpdate(query);
+            if(temp > 0) {
+                query = "CREATE TABLE " + classname + "( SID NUMBER, DAY VARCHAR2(6), CONSTRAINT PK_" + classname + " PRIMARY KEY (SID, DAY), CONSTRAINT FK_" + classname + " FOREIGN KEY (SID) REFERENCES " + sectionname + " (SID))";
+                statement.execute(query);
+                return classCreationFollowUp(classname, sectionname);
+            }
+            else return false;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A method to delete a class of a specific section under currently logged in user.
+     * Always called by admin and not the actual user (teacher).
+     * @param classname String Name of the class that needs to be deleted.
+     * @param sectionname String Name of the owning section of the class.
+     * @return boolean Returns 'true' if class deletion is successful. Returns 'false' in case of error.
+     */
+    public boolean deleteClass (String classname, String sectionname){
+        try{
+            query = "DELETE FROM CLASSHUB WHERE SECTION = '" + sectionname + "' AND CLASS = '" + classname + "'";
+            int temp = statement.executeUpdate(query);
+            if(temp > 0) {
+                query = "DROP TABLE " + classname;
+                statement.execute(query);
+                return true;
+            }
+            else return false;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A follow up method to create SQL views for a new teacher after the new account has been initialized.
+     * @return boolean Returns 'true' if view creation is successful. Returns 'false' in case of error.
+     */
+    private boolean userCreationFollowUp(){
+        try {
+            query = "CREATE OR REPLACE VIEW " + name + "_COURSES AS SELECT SECTION, CLASS FROM CLASSHUB WHERE TNAME = '" + name + "' ORDER BY SECTION ASC";
+            statement.execute(query);
+            return true;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A follow up method to create SQL views for a new section after it has been created.
+     * @param sectionname String Name of the section for which views needs to be initialized.
+     * @return boolean Returns 'true' if view creation is successful. Returns 'false' in case of error.
+     */
+    private boolean sectionCreationFollowUp(String sectionname){
+        try{
+            query = "CREATE OR REPLACE VIEW "+ sectionname +"_STUDENT_COUNT AS SELECT COUNT(SID) STUDENT_COUNT FROM "+ sectionname;
+            statement.execute(query);
+            return true;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A follow up method to create SQL views for a new class after it has been created.
+     * @param classname String Name of the class for which views needs to be created.
+     * @param sectionname String Name of the owning section of the class.
+     * @return boolean Returns 'true' if view creation is successful. Returns 'false' in case of error.
+     */
+    private boolean classCreationFollowUp(String classname, String sectionname){
+        try{
+            query = "CREATE OR REPLACE VIEW " + classname + "_ATTENDANCE_COUNT AS SELECT CLASS.SID, COUNT(CLASS.DAY) ATTENDANCE_COUNT FROM " + classname + " CLASS GROUP BY CLASS.SID";
+            statement.execute(query);
+
+            query = "CREATE OR REPLACE VIEW " + classname + "_TOTAL_CLASS_COUNT AS SELECT COUNT(UNIQUE DAY) TOTAL_CLASS_COUNT FROM " + classname;
+            statement.execute(query);
+
+            query = "CREATE OR REPLACE VIEW " + classname + "_PERCENTAGE AS SELECT ATTENDANCE.SID, (ATTENDANCE.ATTENDANCE_COUNT / (SELECT TOTAL_CLASS_COUNT FROM " + classname + "_TOTAL_CLASS_COUNT)) * 100 ATTENDANCE_PERCENTAGE FROM " + classname + "_ATTENDANCE_COUNT ATTENDANCE";
+            statement.execute(query);
+
+            query = "CREATE OR REPLACE VIEW " + classname + "_DEFAULTERS AS SELECT * FROM " + classname + "_PERCENTAGE WHERE ATTENDANCE_PERCENTAGE < 75 ORDER BY SID ASC";
+            statement.execute(query);
+
+            query = "CREATE OR REPLACE VIEW " + classname + "_DEFAULTERS_COUNT AS SELECT COUNT(SID) DEFAULTER_COUNT FROM " + classname + "_DEFAULTERS";
+            statement.execute(query);
+
+            query = "CREATE OR REPLACE VIEW " + classname + "_PERCENTAGE_W_NAME AS SELECT DEFAULTERS.SID, SECTION.NAME, DEFAULTERS.ATTENDANCE_PERCENTAGE FROM "+ sectionname + " SECTION, " + classname + "_PERCENTAGE DEFAULTERS WHERE DEFAULTERS.SID = SECTION.SID ORDER BY DEFAULTERS.SID ASC";
+            statement.execute(query);
+
+            query = "CREATE OR REPLACE VIEW " + classname + "_DEFAULTERS_W_NAME AS SELECT DEFAULTERS.SID, SECTION.NAME, DEFAULTERS.ATTENDANCE_PERCENTAGE FROM "+ sectionname + " SECTION, " + classname + "_DEFAULTERS DEFAULTERS WHERE DEFAULTERS.SID = SECTION.SID ORDER BY DEFAULTERS.SID ASC";
+            statement.execute(query);
+
+            query = "CREATE OR REPLACE VIEW " + classname + "_EXTENDED_ATTENDANCE AS SELECT SECTION.SID, SECTION.NAME, SECTION.ADDRESS, SECTION.CONTACT_NUMBER, ACOUNT.ATTENDANCE_COUNT, APERCENTAGE.ATTENDANCE_PERCENTAGE FROM "+ sectionname + " SECTION, " + classname + "_ATTENDANCE_COUNT ACOUNT, " + classname + "_PERCENTAGE APERCENTAGE WHERE SECTION.SID = ACOUNT.SID AND SECTION.SID = APERCENTAGE.SID ORDER BY SECTION.SID ASC";
+            statement.execute(query);
+
+            query = "CREATE OR REPLACE VIEW " + classname + "_TAKENDAYS AS SELECT UNIQUE DAY FROM " + classname;
+            statement.execute(query);
+
+            return true;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A method to insert new student to a section under the currently logged in user.
+     * Always called by admin and not the actual user (teacher).
+     * @param sectionname String Name of the section.
+     * @param SID String Student ID of the new student.
+     * @param name String Name of the new student.
+     * @param address String Address of the new student.
+     * @param contact_number String Contact number of the new student.
+     * @return boolean Returns 'true' if student insertion is successful. Returns 'false' in case of error.
+     */
+    public boolean insertStudent(String sectionname, String SID, String name, String address, String contact_number){
+        try {
+            query = "INSERT INTO " + sectionname + " VALUES (" + SID + ", '" + name + "', '" + address + "', '" + contact_number + "')";
+            int temp = statement.executeUpdate(query);
+            if(temp > 0) return true;
+            else return false;
+        }
+        catch (SQLException ex){
+            error = true;
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * A method to delete existing student of a specific section under the currently logged in user.
+     * Always called by admin and not the actual user (teacher).
+     * @param sectionname String Name of the section.
+     * @param SID String Student ID of the student that needs to be removed.
+     * @return boolean Returns 'true' if deletion is successful. Returns 'false' in case of error.
+     */
+    public boolean deleteStudent(String sectionname, String SID){
+        try{
+            query = "DELETE FROM " + sectionname + " WHERE SID = " + SID;
+            int temp = statement.executeUpdate(query);
+            if(temp > 0) return true;
+            else return false;
+        }
+        catch (SQLException ex){
             error = true;
             ex.printStackTrace();
         }
