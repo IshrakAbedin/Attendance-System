@@ -43,7 +43,7 @@
     <session id="-682714546">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="13" />
+          <entry key="project.closed" value="14" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.12" value="2" />
           <entry key="project.open.time.13" value="1" />
@@ -87,13 +87,13 @@
           <entry key="dummy" value="5" />
           <entry key="java" value="11553" />
           <entry key="sql" value="1221" />
-          <entry key="txt" value="768" />
+          <entry key="txt" value="803" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JAVA" value="11553" />
-          <entry key="PLAIN_TEXT" value="773" />
+          <entry key="PLAIN_TEXT" value="808" />
           <entry key="SQL" value="1221" />
         </counts>
       </usages-collector>
@@ -423,7 +423,7 @@
     <property name="DatabaseDriversLRU" value="oracle" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539611684148" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539611692647" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="G:/Assets/Animations" />
@@ -524,7 +524,7 @@
       <workItem from="1539508000307" duration="12063000" />
       <workItem from="1539529903173" duration="7114000" />
       <workItem from="1539608793851" duration="390000" />
-      <workItem from="1539610884857" duration="796000" />
+      <workItem from="1539610884857" duration="827000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit&#10;Built database connecting class">
       <created>1537794673738</created>
@@ -540,11 +540,18 @@
       <option name="project" value="LOCAL" />
       <updated>1539611185669</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="15 October, 2018 - Admin System Added&#10;Added admin Class XEadmin&#10;Added SQLs for admin&#10;Optimized and modified previous codes and SQLS&#10;Small Language level bug fixed">
+      <created>1539611716329</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1539611716329</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131000000" />
+    <option name="totallyTimeSpent" value="131031000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -558,7 +565,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3261745" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932885" visible="true" weight="0.32340425" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932885" weight="0.32340425" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -621,7 +628,8 @@
     <MESSAGE value="30 September, 2018&#10;Modified SQL views so that all tables are sorted according to SID ascending.&#10;Added a method at XEBase for searching days of attendance according to SID.&#10;Added a method for extended attendance list containing SID, name, contact number, address, attendance count and attendance percentage." />
     <MESSAGE value="5 October, 2018&#10;Added a view DEMOCLASS_TAKENDAYS to get the days where classes were taken&#10;Added a method getTakenOnDayList to find out all the days where classes were taken&#10;Added a method wasTakenOnDay to find out if class was taken on a specific day&#10;Added a boolHandler method" />
     <MESSAGE value="15 October, 2018 - Admin System Added&#10;Added admin Class XEadmin&#10;Added SQLs for admin&#10;Optimized and modified previous codes and SQLS" />
-    <option name="LAST_COMMIT_MESSAGE" value="15 October, 2018 - Admin System Added&#10;Added admin Class XEadmin&#10;Added SQLs for admin&#10;Optimized and modified previous codes and SQLS" />
+    <MESSAGE value="15 October, 2018 - Admin System Added&#10;Added admin Class XEadmin&#10;Added SQLs for admin&#10;Optimized and modified previous codes and SQLS&#10;Small Language level bug fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="15 October, 2018 - Admin System Added&#10;Added admin Class XEadmin&#10;Added SQLs for admin&#10;Optimized and modified previous codes and SQLS&#10;Small Language level bug fixed" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/java.sql/java/sql/DriverManager.java">
