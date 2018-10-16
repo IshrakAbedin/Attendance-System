@@ -8,8 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4bf2b84c-4d4e-4dd3-8d92-e1024f73108e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Driver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XEadmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/XEadmin.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,7 +42,7 @@
     <session id="-682714546">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="15" />
+          <entry key="project.closed" value="16" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.12" value="2" />
           <entry key="project.open.time.13" value="1" />
@@ -90,13 +88,13 @@
           <entry key="dummy" value="5" />
           <entry key="java" value="11972" />
           <entry key="sql" value="1221" />
-          <entry key="txt" value="803" />
+          <entry key="txt" value="917" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JAVA" value="11972" />
-          <entry key="PLAIN_TEXT" value="808" />
+          <entry key="PLAIN_TEXT" value="922" />
           <entry key="SQL" value="1221" />
         </counts>
       </usages-collector>
@@ -251,7 +249,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Driver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
+            <state relative-caret-position="437">
               <caret line="418" column="26" lean-forward="true" selection-start-line="418" selection-start-column="26" selection-end-line="418" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -275,8 +273,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/XEadmin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="313" column="5" selection-start-line="313" selection-start-column="5" selection-end-line="313" selection-end-column="5" />
+            <state relative-caret-position="143">
+              <caret line="300" column="44" selection-start-line="300" selection-start-column="44" selection-end-line="300" selection-end-column="44" />
               <folding>
                 <element signature="method#close#0;class#XEadmin#0" />
                 <element signature="method#createTeacher#0;class#XEadmin#0" />
@@ -415,11 +413,6 @@
             <path>
               <item name="Attendance System" type="b2602c69:ProjectViewProjectNode" />
               <item name="Attendance System" type="462c0819:PsiDirectoryNode" />
-              <item name="sql" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Attendance System" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Attendance System" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -546,7 +539,7 @@
       <workItem from="1539608793851" duration="390000" />
       <workItem from="1539610884857" duration="827000" />
       <workItem from="1539703829775" duration="169000" />
-      <workItem from="1539704186265" duration="736000" />
+      <workItem from="1539704186265" duration="898000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit&#10;Built database connecting class">
       <created>1537794673738</created>
@@ -569,17 +562,23 @@
       <option name="project" value="LOCAL" />
       <updated>1539611716329</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="16 October, 2018 - Student list method under admin added&#10;Added getStudentListByTeacher (String teacherName, String sectionName) added.">
+      <created>1539705092999</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1539705092999</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131936000" />
+    <option name="totallyTimeSpent" value="132098000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20469798" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20469798" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -652,7 +651,8 @@
     <MESSAGE value="5 October, 2018&#10;Added a view DEMOCLASS_TAKENDAYS to get the days where classes were taken&#10;Added a method getTakenOnDayList to find out all the days where classes were taken&#10;Added a method wasTakenOnDay to find out if class was taken on a specific day&#10;Added a boolHandler method" />
     <MESSAGE value="15 October, 2018 - Admin System Added&#10;Added admin Class XEadmin&#10;Added SQLs for admin&#10;Optimized and modified previous codes and SQLS" />
     <MESSAGE value="15 October, 2018 - Admin System Added&#10;Added admin Class XEadmin&#10;Added SQLs for admin&#10;Optimized and modified previous codes and SQLS&#10;Small Language level bug fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="15 October, 2018 - Admin System Added&#10;Added admin Class XEadmin&#10;Added SQLs for admin&#10;Optimized and modified previous codes and SQLS&#10;Small Language level bug fixed" />
+    <MESSAGE value="16 October, 2018 - Student list method under admin added&#10;Added getStudentListByTeacher (String teacherName, String sectionName) added." />
+    <option name="LAST_COMMIT_MESSAGE" value="16 October, 2018 - Student list method under admin added&#10;Added getStudentListByTeacher (String teacherName, String sectionName) added." />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/java.sql/java/sql/DriverManager.java">
@@ -895,19 +895,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Driver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="418" column="26" lean-forward="true" selection-start-line="418" selection-start-column="26" selection-end-line="418" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#createDialog#0;class#Driver#0" />
-            <element signature="method#start#0;class#Driver#0" />
-            <element signature="method#stop#0;class#Driver#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/XEbase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -919,10 +906,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Driver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="418" column="26" lean-forward="true" selection-start-line="418" selection-start-column="26" selection-end-line="418" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#createDialog#0;class#Driver#0" />
+            <element signature="method#start#0;class#Driver#0" />
+            <element signature="method#stop#0;class#Driver#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/XEadmin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="313" column="5" selection-start-line="313" selection-start-column="5" selection-end-line="313" selection-end-column="5" />
+        <state relative-caret-position="143">
+          <caret line="300" column="44" selection-start-line="300" selection-start-column="44" selection-end-line="300" selection-end-column="44" />
           <folding>
             <element signature="method#close#0;class#XEadmin#0" />
             <element signature="method#createTeacher#0;class#XEadmin#0" />
