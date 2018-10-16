@@ -307,6 +307,26 @@ public class XEadmin {
     }
 
     /**
+     * A method for getting the student lists of a section under a certain teacher.
+     * @param teacherName String Username of the teacher.
+     * @param sectionName String Name of the section.
+     * @return ResultSet Contains 4 columns. ColumnLabel: "SID" , "NAME" , "ADDRESS" , "CONTACT_NUMBER".
+     * Returns NULL in case of error.
+     */
+    public ResultSet getStudentListByTeacher (String teacherName, String sectionName){
+        teacherPassword = retrievePassword(teacherName);
+        if (teacherPassword != null){
+            XEbase teacher = new XEbase(teacherName, teacherPassword);
+            if (teacher != null){
+                teacher.setSectionname(sectionName);
+                return teacher.getStudentList();
+            }
+            else return null;
+        }
+        else return null;
+    }
+
+    /**
      * Repetition preventing method.
      * @return boolean Whether assigning resultSet was successful or not.
      */

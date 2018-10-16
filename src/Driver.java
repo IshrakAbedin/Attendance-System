@@ -354,7 +354,7 @@ public class Driver extends Application {
 //            dbase.close(); // finally statement makes sure database is always closed at end regardless of the occurrence of exception
 //        }
 
-        XEadmin xeadmin = new XEadmin("ADMIN", "ADMIN");
+//        XEadmin xeadmin = new XEadmin("ADMIN", "ADMIN");
 //        System.out.println(xeadmin.createTeacher("testingsalt", "testingsalt"));
 //        System.out.println(xeadmin.deleteTeacher("testingsalt"));
 //        System.out.println(xeadmin.createSection("testingsalt","disco"));
@@ -364,44 +364,59 @@ public class Driver extends Application {
 //        System.out.println(xeadmin.insertStudent("testingsalt","disco","401","Waterfall","Niagara","420911"));
 //        System.out.println(xeadmin.deleteStudent("testingsalt","disco","401"));
 //        System.out.println(xeadmin.insertStudent("testingsalt","disco","402","Nvidia GeForce","GTX1080","420912"));
-        try {
-            ResultSet rs = xeadmin.getCompleteTeacherSectionCourseList();
-            if (rs == null) System.out.println("No Result Found");
-            else {
-                System.out.println("Teacher\tSection\tClass");
-                while (rs.next()) {
-                    System.out.print(rs.getString("TNAME") + "\t");
-                    System.out.print(rs.getString("SECTION") + "\t");
-                    System.out.print(rs.getString("CLASS") + "\n");
-                }
-            }
-            System.out.println("-----------------------------------\n\n");
-
-            rs = xeadmin.getSectionCourseByTeacherList("DEMOTEACHER");
-            if (rs == null) System.out.println("No Result Found");
-            else {
-                System.out.println("Section\tClass");
-                while (rs.next()) {
-                    System.out.print(rs.getString("SECTION") + "\t");
-                    System.out.print(rs.getString("CLASS") + "\n");
-                }
-            }
-            System.out.println("-----------------------------------\n\n");
-
-            rs = xeadmin.getTeacherList();
-            if (rs == null) System.out.println("No Result Found");
-            else {
-                System.out.println("Teacher's Name");
-                while (rs.next()) {
-                    System.out.print(rs.getString("TNAME") + "\n");
-                }
-            }
-            System.out.println("-----------------------------------\n\n");
-        }
-        catch (SQLException ex){
-            ex.printStackTrace();
-        }
-        xeadmin.close();
+//        try {
+//            ResultSet rs = xeadmin.getCompleteTeacherSectionCourseList();
+//            if (rs == null) System.out.println("No Result Found");
+//            else {
+//                System.out.println("Teacher\tSection\tClass");
+//                while (rs.next()) {
+//                    System.out.print(rs.getString("TNAME") + "\t");
+//                    System.out.print(rs.getString("SECTION") + "\t");
+//                    System.out.print(rs.getString("CLASS") + "\n");
+//                }
+//            }
+//            System.out.println("-----------------------------------\n\n");
+//
+//            rs = xeadmin.getSectionCourseByTeacherList("DEMOTEACHER");
+//            if (rs == null) System.out.println("No Result Found");
+//            else {
+//                System.out.println("Section\tClass");
+//                while (rs.next()) {
+//                    System.out.print(rs.getString("SECTION") + "\t");
+//                    System.out.print(rs.getString("CLASS") + "\n");
+//                }
+//            }
+//            System.out.println("-----------------------------------\n\n");
+//
+//            rs = xeadmin.getTeacherList();
+//            if (rs == null) System.out.println("No Result Found");
+//            else {
+//                System.out.println("Teacher's Name");
+//                while (rs.next()) {
+//                    System.out.print(rs.getString("TNAME") + "\n");
+//                }
+//            }
+//            System.out.println("-----------------------------------\n\n");
+//
+//            rs = xeadmin.getStudentListByTeacher("DEMOTEACHER", "CSE16");
+//            if (rs == null)
+//                System.out.println("No Result Found");
+//            else {
+//                System.out.println("SID\tName\t\tAddress\t\tContact Number");
+//                while (rs.next()) { // ResultSet must be exhausted by continuous use of next() method to avoid errors.
+//                    // columnIndex of ResultSet is used here. Use of columnLabel is shown later.
+//                    System.out.print(rs.getString(1) + "\t");
+//                    System.out.print(rs.getString(2) + "\t");
+//                    System.out.print(rs.getString(3) + "\t");
+//                    System.out.print(rs.getString(4) + "\n");
+//                }
+//            }
+//            System.out.println("-----------------------------------\n\n");
+//        }
+//        catch (SQLException ex){
+//            ex.printStackTrace();
+//        }
+//        xeadmin.close();
 
         launch(args);
     }
