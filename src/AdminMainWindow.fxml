@@ -6,9 +6,8 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.geometry.Insets?>
-<BorderPane fx:id="FX_BorderPane_Teacher" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="TeacherMainWindow" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css"
-            onKeyPressed="#handleKeyPressed">
+<BorderPane fx:id="FX_BorderPane_Admin" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="AdminMainWindow" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css">
 
     <!-- Display's controls and buttons -->
     <top>
@@ -17,7 +16,21 @@
             <MenuBar>
                 <Menu text="File">
                     <items>
-                        <MenuItem text="Add attendance" onAction="#handleInsertDialog"/>
+                        <MenuItem text="Add Teacher" onAction="#handleInsertTeacherDialog"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Add Student" onAction="#handleInsertStudentDialog"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Add Section" onAction="#handleInsertSectionDialog"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Add Course" onAction="#handleInsertCourseDialog"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Delete Teacher" onAction="#handleDeleteTeacherDialog"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Delete Student" onAction="#handleDeleteStudentDialog"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Delete Section" onAction="#handleDeleteSectionDialog"/>
+                        <SeparatorMenuItem />
+                        <MenuItem text="Delete Course" onAction="#handleDeleteCourseDialog"/>
                         <SeparatorMenuItem />
                         <MenuItem text="Exit program" onAction="#handleExit"/>
                     </items>
@@ -25,7 +38,7 @@
 
                 <Menu text="Help">
                     <items>
-                        <MenuItem text="Search" onAction="#handleSearch"/>
+                        <MenuItem text="Search" onAction="#handleSearchTeacher"/>
                         <SeparatorMenuItem />
                         <MenuItem text="Controls"/>
                     </items>
@@ -42,30 +55,73 @@
                 </Button>
 
                 <!-- Search Button -->
-                <Button onAction="#handleSearch" text="Search">
+                <Button onAction="#handleSearchTeacher" text="Search">
                     <tooltip>
                         <Tooltip text="Search for student info"/>
                     </tooltip>
                 </Button>
 
-                <!-- Search Button -->
-                <Button onAction="#handleTakeAttendance" text="Take Attendance">
+                <!-- Create teacher Button -->
+                <Button onAction="#handleInsertTeacherDialog" text="Add Teacher">
                     <tooltip>
-                        <Tooltip text="Take attendance"/>
+                        <Tooltip text="Add a new Teacher"/>
                     </tooltip>
                 </Button>
 
-                <!-- Toggle button to toggle between full list and defaulter list -->
-                <ToggleButton fx:id="FX_TB_FilterDefaulter" onAction="#handleFilter" text="Show Only Defaulters">
+                <!-- Delete teacher Button -->
+                <Button onAction="#handleDeleteTeacherDialog" text="Delete Teacher">
                     <tooltip>
-                        <Tooltip text="Toggle defaulters"/>
+                        <Tooltip text="Delete Teacher"/>
                     </tooltip>
-                </ToggleButton>
+                </Button>
+
+                <!-- Create student Button -->
+                <Button onAction="#handleInsertStudentDialog" text="Add Student">
+                    <tooltip>
+                        <Tooltip text="Add new student"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Create student Button -->
+                <Button onAction="#handleDeleteStudentDialog" text="Delete Student">
+                    <tooltip>
+                        <Tooltip text="Delete student"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Create course Button -->
+                <Button onAction="#handleInsertCourseDialog" text="Add Course">
+                    <tooltip>
+                        <Tooltip text="Add new course"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Create course Button -->
+                <Button onAction="#handleDeleteCourseDialog" text="Delete Course">
+                    <tooltip>
+                        <Tooltip text="Delete course"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Create section Button -->
+                <Button onAction="#handleInsertSectionDialog" text="Add Section">
+                    <tooltip>
+                        <Tooltip text="Add new section"/>
+                    </tooltip>
+                </Button>
+
+                <!-- Create section Button -->
+                <Button onAction="#handleDeleteSectionDialog" text="Delete Section">
+                    <tooltip>
+                        <Tooltip text="Delete section"/>
+                    </tooltip>
+                </Button>
+
             </ToolBar>
 
             <!-- Displaying title of the app -->
             <HBox alignment="CENTER" style="-fx-background-color: grey">
-                <Label text="Attendance System - Teacher" textFill="white">
+                <Label text="Attendance System - Admin" textFill="white">
                     <font>
                         <Font name="Arial bold" size="32"/>
                     </font>
@@ -90,48 +146,20 @@
             </Text>
 
             <!-- Label for class details -->
-            <Label text="Class details" fx:id="FXHeader"/>
+            <Label text="Teacher details" fx:id="FXHeader"/>
 
             <!-- Displays total student count -->
             <HBox>
-                <Label text="Total Students : " fx:id="FXNormal"/>
-                <Text fx:id="FX_T_TotalStudents" style="-fx-background-color: white">
+                <Label text="Total Teachers : " fx:id="FXNormal"/>
+                <Text fx:id="FX_T_TotalTeachers" style="-fx-text-fill: white;">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
                     </font>
                 </Text>
             </HBox>
 
-            <!-- Displays total classes taken -->
-            <HBox>
-                <Label text="Total Classes taken : " fx:id="FXNormal"/>
-                <Text fx:id="FX_T_TotalLectureCount" style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-            </HBox>
-
-            <!-- Displays total defaulter student count -->
-            <HBox>
-                <Label text="Total Defaulter Students : " fx:id="FXNormal"/>
-                <Text fx:id="FX_T_TotalDefaulterStudents" style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman bold" size="20"/>
-                    </font>
-                </Text>
-            </HBox>
-
-            <Label text="Courses" fx:id="FXHeader"/>
-            <ComboBox fx:id="FX_CB_CourseList" minWidth="100"
-                      style="-fx-background-color: #aaaaaa">
-                <tooltip>
-                    <Tooltip text="The courses you take"/>
-                </tooltip>
-            </ComboBox>
-
-            <Label text="Days classes were taken" fx:id="FXHeader"/>
-            <ListView fx:id="FX_LV_ClassDayList" VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
+            <Label text="Teacher List" fx:id="FXHeader"/>
+            <ComboBox fx:id="FX_CB_TeacherList" VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
         </VBox>
     </left>
 
@@ -143,13 +171,14 @@
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
 
-            <!-- Displays student IDs -->
-            <Label text="Student ID" fx:id="FXHeader"/>
-            <ListView fx:id="FX_LV_StudentInfo" VBox.vgrow="ALWAYS" style="-fx-background-color: grey">
-                <tooltip>
-                    <Tooltip text="Present students"/>
-                </tooltip>
-            </ListView>
+            <Label text="Course List" fx:id="FXHeader"/>
+            <ListView fx:id="FX_LV_CourseList" VBox.vgrow="ALWAYS"/>
+
+            <Label text="Section List" fx:id="FXHeader"/>
+            <ListView fx:id="FX_LV_SectionList" VBox.vgrow="ALWAYS"/>
+
+            <Label text="Student List" fx:id="FXHeader"/>
+            <ListView fx:id="FX_LV_StudentList" VBox.vgrow="ALWAYS"/>
         </VBox>
     </center>
 
@@ -192,41 +221,6 @@
                     </font>
                 </Text>
             </HBox>
-
-            <!-- Displays student attendance count -->
-            <HBox>
-                <Label text="Attendance count : " fx:id="FXNormal"/>
-                <Text fx:id="FX_T_SAttendanceCount" style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman" size="20"/>
-                    </font>
-                </Text>
-            </HBox>
-
-            <!-- Displays student attendance percentage -->
-            <HBox>
-                <Label text="Attendance percentage : " fx:id="FXNormal"/>
-                <Text fx:id="FX_T_SAttendancePercentage" style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman" size="20"/>
-                    </font>
-                </Text>
-            </HBox>
-
-            <!-- Displays student attendance remark -->
-            <HBox>
-                <Label text="Remark : " fx:id="FXNormal"/>
-                <Text fx:id="FX_T_SAttendanceRemarks" style="-fx-background-color: white">
-                    <font>
-                        <Font name="Times New Roman" size="20"/>
-                    </font>
-                </Text>
-            </HBox>
-
-            <!-- Displays the days a student was present -->
-            <Label text="Days present : " fx:id="FXHeader"/>
-            <ListView fx:id="FX_LV_PresentDays" VBox.vgrow="ALWAYS" minWidth="400"
-                      style="-fx-background-color: grey"/>
         </VBox>
     </right>
 </BorderPane>

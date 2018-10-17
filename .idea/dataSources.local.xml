@@ -6,5 +6,11 @@
       <secret-storage>master_key</secret-storage>
       <first-sync>true</first-sync>
     </data-source>
+    <data-source name="sys" uuid="e55a3cd3-a7f3-4f03-8a85-1954cc43385b">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" family="ORACLE" exact-version="0.0" />
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+      <user-name>sys</user-name>
+    </data-source>
   </component>
 </project>

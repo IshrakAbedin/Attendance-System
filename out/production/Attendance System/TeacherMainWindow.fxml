@@ -65,7 +65,7 @@
 
             <!-- Displaying title of the app -->
             <HBox alignment="CENTER" style="-fx-background-color: grey">
-                <Label text="Attendance System" textFill="white">
+                <Label text="Attendance System - Teacher" textFill="white">
                     <font>
                         <Font name="Arial bold" size="32"/>
                     </font>
@@ -123,7 +123,7 @@
             </HBox>
 
             <Label text="Courses" fx:id="FXHeader"/>
-            <ComboBox fx:id="FX_CB_CourseList" onAction="#handleCourseChange" minWidth="100"
+            <ComboBox fx:id="FX_CB_CourseList" minWidth="100"
                       style="-fx-background-color: #aaaaaa">
                 <tooltip>
                     <Tooltip text="The courses you take"/>

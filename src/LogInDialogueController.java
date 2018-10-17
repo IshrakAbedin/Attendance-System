@@ -16,7 +16,7 @@ public class LogInDialogueController {
     public void initialize(){
         ObservableList<String> items = FXCollections.observableArrayList();
         items.add("Teacher");
-        items.add("Department Head");
+        items.add("Admin");
         FX_CB_AccountType.setItems(items);
         FX_CB_AccountType.getSelectionModel().selectFirst();
     }
@@ -28,7 +28,7 @@ public class LogInDialogueController {
      */
     @FXML public Boolean processLogIn(){
         UserName = FXUserName.getText().trim();
-        PassWord = FXPassword.getText();
+        PassWord = FXPassword.getText().trim();
 
         // User Name and password fields can not be empty.
         if (UserName.length() > 0 && PassWord.length() > 0){

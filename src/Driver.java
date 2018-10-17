@@ -28,7 +28,9 @@ public class Driver extends Application {
     private FXMLLoader fxmlLoader;
     private DialogPane dialogPane;
     private XEbase dbmsUserAccount;
+    private XEadmin dbmsAdminAccount;
     private TeacherMainWindow teacherMainWindow;
+    private AdminMainWindow adminMainWindow;
 
     private boolean createDialog(String DialogName, String TitleText, String HeaderText){
         try{
@@ -42,11 +44,11 @@ public class Driver extends Application {
             Dialog.getDialogPane().setContent(fxmlLoader.load());
             Dialog.getDialogPane().setBackground(
                     new Background(
-                        new BackgroundFill(
-                                Color.GRAY,
-                                CornerRadii.EMPTY,
-                                Insets.EMPTY
-                        )
+                            new BackgroundFill(
+                                    Color.GRAY,
+                                    CornerRadii.EMPTY,
+                                    Insets.EMPTY
+                            )
                     )
             );
             Dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
@@ -91,16 +93,16 @@ public class Driver extends Application {
                     LogInDialogueController controller = fxmlLoader.getController();
 
                     if (controller.processLogIn()){
-                        dbmsUserAccount = new XEbase(
-                                controller.getUserName(),
-                                controller.getPassWord()
-                        );
+                        AccountType = controller.getAccountType();
+                        FXMLLoader MainFXMLLoader = new FXMLLoader();
 
-                        if (dbmsUserAccount.connected == true){
-                            AccountType = controller.getAccountType();
-                            FXMLLoader MainFXMLLoader = new FXMLLoader();
+                        if (AccountType.equals("Teacher")) {
+                            dbmsUserAccount = new XEbase(
+                                    controller.getUserName(),
+                                    controller.getPassWord()
+                            );
 
-                            if (AccountType.equals("Teacher")) {
+                            if (dbmsUserAccount.connected == true){
                                 MainFXMLLoader.setLocation(getClass().getResource("TeacherMainWindow.fxml"));
                                 Parent root = MainFXMLLoader.load();
                                 primaryStage.setTitle("Attendance System - Teacher");
@@ -108,14 +110,35 @@ public class Driver extends Application {
                                 primaryStage.show();
                                 teacherMainWindow = MainFXMLLoader.getController();
                                 teacherMainWindow.setDbmsUserAccount(dbmsUserAccount);
+                                failed = false;
                             }
-                            else if (AccountType.equals("Department Head")){
+                            else {
+                                failed = true;
+                            }
+                        }
+                        else if (AccountType.equals("Admin")){
+                            dbmsAdminAccount = new XEadmin(
+                                    controller.getUserName(),
+                                    controller.getPassWord()
+                            );
 
+                            if (dbmsAdminAccount.connected == true){
+                                MainFXMLLoader.setLocation(getClass().getResource("AdminMainWindow.fxml"));
+                                Parent root = MainFXMLLoader.load();
+                                primaryStage.setTitle("Attendance System - Admin");
+                                primaryStage.setScene(new Scene(root, 1280, 720));
+                                primaryStage.show();
+                                adminMainWindow = MainFXMLLoader.getController();
+                                adminMainWindow.setDbmsAdminAccount(dbmsAdminAccount);
+                                failed = false;
+                            }
+                            else {
+                                failed = true;
                             }
                         }
-                        else {
-                            failed = true;
-                        }
+                    }
+                    else {
+                        failed = true;
                     }
                 } else{
                     System.out.println("CANCEL");
@@ -126,7 +149,7 @@ public class Driver extends Application {
                 System.out.println("Dialog couldn't be created!");
                 break;
             }
-        } while (dbmsUserAccount.connected == false);
+        } while (failed == true);
     }
 
     @Override

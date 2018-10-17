@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import java.lang.String?>
+<DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="InsertSection"
+            prefHeight="200.0" prefWidth="400.0">
+    <content>
+        <GridPane alignment="CENTER" vgap="10" hgap="10">
+            <!-- User Name -->
+            <Label text="Enter Teacher Name" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="FX_TF_TeacherName" text="Enter Teacher Name" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </TextField>
+
+            <!-- User Name -->
+            <Label text="Enter Section Name" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="FX_TF_SectionName" text="Enter Section Name" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </TextField>
+        </GridPane>
+    </content>
+</DialogPane>

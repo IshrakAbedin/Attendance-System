@@ -1,10 +1,10 @@
 import Data.StudentInformation;
-import Data.TeacherAccountData;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -37,12 +37,17 @@ public class TeacherMainWindow {
     private XEbase dbmsUserAccount;
     private ObservableList<StudentInformation> StudentInfoList;
     private ObservableList<String> SIDList;
+    private ObservableList<String> ClassDayList;
+    private ObservableList<String> CourseList;
+    private ObservableList<String> SectionList;
+    private ObservableList<String> PresentDayList;
     private Dialog<ButtonType> Dialog;
     private FXMLLoader fxmlLoader;
     private Predicate<StudentInformation> DefaulterStudents;
     private Predicate<StudentInformation> AllStudents;
     private FilteredList<StudentInformation> filteredList;
-    private TeacherAccountData AccountData;
+    private String TeacherAccountName;
+    private String TeacherAccountPassword;
     private String FontName;
     private Background ListViewBackground;
     private Background DialogBackground;
@@ -98,10 +103,8 @@ public class TeacherMainWindow {
         this.dbmsUserAccount = dbmsUserAccount;
 
         if (dbmsUserAccount != null) {
-            setupAccountButton(dbmsUserAccount.name, "Press to log out");
             getAccountInfo();
-            getClassInformation();
-            FX_LV_ClassDayList.getSelectionModel().selectFirst();
+            setupAccountButton(TeacherAccountName, "Press to log out");
             FX_LV_StudentInfo.getSelectionModel().selectFirst();
         }
         else {
@@ -132,8 +135,12 @@ public class TeacherMainWindow {
          */
         DialogStyleCSS = "dialog.css";
         FontName = "Arial";
-        AccountData = null;
         StudentInfoList = FXCollections.observableArrayList();
+        ClassDayList = FXCollections.observableArrayList();
+        CourseList = FXCollections.observableArrayList();
+        SectionList = FXCollections.observableArrayList();
+        SIDList = FXCollections.observableArrayList();
+        PresentDayList = FXCollections.observableArrayList();
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         FX_T_Date.setText("Date : " + df.format(LocalDateTime.now()));
         AllStudents = new Predicate<StudentInformation>() {
@@ -197,6 +204,11 @@ public class TeacherMainWindow {
          */
         setTextColor(Color.color(1,1,1,1));
         setupContextMenu();
+
+        FX_LV_StudentInfo.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        FX_LV_ClassDayList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        FX_LV_PresentDays.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
         // Change listener
         FX_LV_StudentInfo.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<StudentInformation>() {
             @Override
@@ -228,10 +240,73 @@ public class TeacherMainWindow {
                 getStudentInformationList();
             }
         });
+        FX_CB_CourseList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // Get selected class and section info
+                String CourseName = FX_CB_CourseList.getSelectionModel().getSelectedItem();
+                int index = CourseList.indexOf(CourseName);
+
+                if (index != -1) {
+                    String SectionName = SectionList.get(index);
+
+                    // Set new class and section name in dbms.
+                    dbmsUserAccount.setClassname(CourseName);
+                    dbmsUserAccount.setSectionname(SectionName);
+
+                    // Retrieve new class and section information
+                    getClassInformation();
+                }
+            }
+        });
+
+        // Setting cell color
         FX_LV_ClassDayList.setCellFactory(cellColor);
         FX_LV_PresentDays.setCellFactory(cellColor);
         FX_CB_CourseList.setCellFactory(cellColor);
-        setCellFactory(null);
+        FX_LV_StudentInfo.setCellFactory(new Callback<ListView<StudentInformation>, ListCell<StudentInformation>>() {
+            @Override
+            public ListCell<StudentInformation> call(ListView<StudentInformation> param) {
+                ListCell <StudentInformation> cell = new ListCell<StudentInformation>(){
+                    @Override
+                    protected void updateItem(StudentInformation std, boolean empty) {
+                        super.updateItem(std, empty);
+                        if (empty){
+                            setText(null);
+                        } else {
+                            setText(std.getSID());
+                            setFont(Font.font(FontName, 16));
+
+                            if (std.getAttendancePercentage() >= 75){
+                                setTextFill(Color.color(0, 1, 0.86, 1));
+                            } else if (std.getAttendancePercentage() < 75){
+                                setTextFill(Color.RED);
+                            }
+
+                        }
+                    }
+                };
+
+                // Setting cell background color
+                cell.backgroundProperty().setValue(ListViewBackground);
+
+                // Attaching context menu to respond to only cells
+                cell.emptyProperty().addListener(
+                        (obs, wasEmpty, isNowEmpty) -> {
+                            if (isNowEmpty)
+                                cell.setContextMenu(null);
+                            else
+                                cell.setContextMenu(FX_CM_list);
+                        }
+                );
+                return cell;
+            }
+        });
+
+        // Binding values to FX variables
+        FX_LV_ClassDayList.itemsProperty().setValue(ClassDayList);
+        FX_CB_CourseList.itemsProperty().setValue(CourseList);
+        FX_LV_PresentDays.itemsProperty().setValue(PresentDayList);
     }
 
 
@@ -371,32 +446,6 @@ public class TeacherMainWindow {
 
 
     /**
-     * Handles information viewing specific to a course of a specific section.
-     */
-    @FXML private void handleCourseChange(){
-        if (dbmsUserAccount == null){
-            System.out.println("Showing from course change");
-            return;
-        }
-
-        // Get selected class and section info
-        String CourseName = FX_CB_CourseList.getSelectionModel().getSelectedItem();
-        String SectionName = AccountData.getSectionForCourse(CourseName);
-
-        // Set new class and section name in dbms.
-        dbmsUserAccount.setClassname(CourseName);
-        dbmsUserAccount.setSectionname(SectionName);
-
-        // Retrieve new class and section information
-        clearClassInformation();
-        getClassInformation();
-        clearStudentInformation();
-        FX_LV_ClassDayList.getSelectionModel().selectFirst();
-        FX_LV_StudentInfo.getSelectionModel().selectFirst();
-    }
-
-
-    /**
      * Handles searching for student info
      */
     @FXML private void handleSearch(){
@@ -420,7 +469,8 @@ public class TeacherMainWindow {
             System.out.println("Created!");
             SearchDialog controller = fxmlLoader.getController();
             String CourseName = FX_CB_CourseList.getSelectionModel().getSelectedItem();
-            String SectionName = AccountData.getSectionForCourse(CourseName);
+            int CourseIndex = CourseList.indexOf(CourseName);
+            String SectionName = SectionList.get(CourseIndex);
             controller.process(dbmsUserAccount);
 
             Optional<ButtonType> result = Dialog.showAndWait();
@@ -456,7 +506,20 @@ public class TeacherMainWindow {
             Optional<ButtonType> result = Dialog.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                ObservableList<String> PresentStudents = takeAttendance.getFX_LV_PresentStudents();
+                TakeAttendance(takeAttendance.getFX_LV_PresentStudents());
+            }
+        }
+    }
+
+
+    /**
+     * Inserts attendance for all the students in PresentStudents list.
+     * @param PresentStudents A list of students who were present.
+     */
+    private void TakeAttendance(ObservableList<String> PresentStudents){
+        Task<Boolean> Task_TakeAttendance = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
                 int state = 0;
 
                 for(int i = 0; i < PresentStudents.size(); ++i){
@@ -469,9 +532,16 @@ public class TeacherMainWindow {
                     }
                 }
 
+                return null;
+            }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
                 getClassInformation();
             }
-        }
+        };
+        new Thread(Task_TakeAttendance).start();
     }
 
 
@@ -499,61 +569,72 @@ public class TeacherMainWindow {
             return false;
         }
 
-        clearStudentInformation();
-
         /*
          * Get the student information (SID, Name, Address, Contact no) from the dbms.
          * If Base information isn't accessible then none of the other portions will work.
          */
-        try{
-            clearStudentInformation();
+        Task<Boolean> Task_GetStudentInformation = new Task<Boolean>() {
+            ObservableList<StudentInformation> Students = FXCollections.observableArrayList();
+            Boolean Succeeded = false;
 
-            String day = FX_LV_ClassDayList.getSelectionModel().getSelectedItem();
-            ResultSet rs = dbmsUserAccount.getAttendanceByDayList(day);
+            @Override
+            protected Boolean call() throws Exception {
+                try{
+                    String day = FX_LV_ClassDayList.getSelectionModel().getSelectedItem();
+                    ResultSet rs = dbmsUserAccount.getAttendanceByDayList(day);
 
-            if (rs != null){
-                while(rs.next()){
-                    StudentInformation std = new StudentInformation(rs.getString(1));
-                    StudentInfoList.add(std);
+                    if (rs != null){
+                        while(rs.next())
+                            Students.add(new StudentInformation(rs.getString(1)));
+                        rs.close();
+                    }
+
+                    for(int i = 0; i < Students.size(); ++i){
+                        rs = dbmsUserAccount.getExtendedAttendanceBySIDList(Students.get(i).getSID());
+
+                        if (rs != null){
+                            while(rs.next()) {
+                                Students.get(i).setName(rs.getString(2));
+                                Students.get(i).setAddress(rs.getString(3));
+                                Students.get(i).setContactNumber(rs.getString(4));
+                                Students.get(i).setAttendanceCount(rs.getInt(5));
+                                Students.get(i).setAttendancePercentage(rs.getInt(6));
+                            }
+                            rs.close();
+                        }
+
+                        rs = dbmsUserAccount.getAttendanceBySIDList(Students.get(i).getSID());
+                        if (rs != null){
+                            while(rs.next())
+                                Students.get(i).addPresentDayList(rs.getString(2));
+                        }
+                    }
+
+                    Succeeded = true;
                 }
-                rs.close();
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+
+                return Succeeded;
             }
 
-            for(int i = 0; i < StudentInfoList.size(); ++i){
-                rs = dbmsUserAccount.getExtendedAttendanceBySIDList(StudentInfoList.get(i).getSID());
+            @Override
+            protected void succeeded() {
+                super.succeeded();
 
-                if (rs != null){
-                    while(rs.next()) {
-                        StudentInfoList.get(i).setName(rs.getString(2));
-                        StudentInfoList.get(i).setAddress(rs.getString(3));
-                        StudentInfoList.get(i).setContactNumber(rs.getString(4));
-                        StudentInfoList.get(i).setAttendanceCount(rs.getInt(5));
-                        StudentInfoList.get(i).setAttendancePercentage(rs.getInt(6));
-                    }
-                }
+                if (Succeeded == true){
+                    StudentInfoList.setAll(Students);
 
-                rs.close();
-
-                rs = dbmsUserAccount.getAttendanceBySIDList(StudentInfoList.get(i).getSID());
-
-                if (rs != null){
-                    while(rs.next()) {
-                        StudentInfoList.get(i).addPresentDayList(rs.getString(2));
-                    }
+                    //Setting up filtered list.
+                    filteredList = new FilteredList<>(StudentInfoList);
+                    setCellFactory(null);
                 }
             }
+        };
+        new Thread(Task_GetStudentInformation).start();
 
-            //Setting up filtered list.
-            filteredList = new FilteredList<>(StudentInfoList);
-            setCellFactory(null);
-
-            return true;
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
-
-        return false;
+        return true;
     }
 
 
@@ -574,64 +655,72 @@ public class TeacherMainWindow {
             return false;
         }
 
-        clearClassInformation();
+        Task<Boolean> Task_GetClassInformation = new Task<Boolean>() {
+            Boolean Succeeded = false;
+            Integer TotalStudents = 0;
+            Integer TotalClasses = 0;
+            Integer TotalDefaulters = 0;
+            ObservableList<String> ClassDays = FXCollections.observableArrayList();
+            ObservableList<String> SIDs = FXCollections.observableArrayList();
 
-        // Getting total student count
-        Integer TotalStudents = dbmsUserAccount.getTotalStudentCount();
-        if (TotalStudents != -1){
-            FX_T_TotalStudents.setText(TotalStudents.toString());
-        } else{
-            FX_T_TotalStudents.setText("0");
-        }
+            @Override
+            protected Boolean call() throws Exception {
+                // Getting total student count
+                TotalStudents = max(dbmsUserAccount.getTotalStudentCount(), 0);
 
-        // Getting total classes taken
-        Integer TotalClasses = dbmsUserAccount.getTotalClassCount();
-        if (TotalClasses != -1){
-            FX_T_TotalLectureCount.setText(TotalClasses.toString());
-        }else{
-            FX_T_TotalLectureCount.setText("0");
-        }
+                // Getting total classes taken
+                TotalClasses = max(dbmsUserAccount.getTotalClassCount(), 0);
 
-        // Getting total defaulter student count
-        Integer TotalDefaulters = dbmsUserAccount.getDefaulterCount();
-        if (TotalDefaulters != -1){
-            FX_T_TotalDefaulterStudents.setText(TotalDefaulters.toString());
-        } else {
-            FX_T_TotalDefaulterStudents.setText("0");
-        }
+                // Getting total defaulter student count
+                TotalDefaulters = max(dbmsUserAccount.getDefaulterCount(), 0);
 
-        // Getting days the class was conducted
-        try{
-            AccountData.clearClassDays();
-            ResultSet rs = dbmsUserAccount.getTakenDayList();
+                // Getting days the class was conducted
+                try{
+                    ResultSet rs = dbmsUserAccount.getTakenDayList();
 
-            if (rs != null){
-                while(rs.next()){
-                    AccountData.addToClassDays(rs.getString("DAY"));
+                    if (rs != null){
+                        while(rs.next())
+                            ClassDays.add(rs.getString("DAY"));
+                        rs.close();
+                    }
+
+                    rs = dbmsUserAccount.getStudentList();
+                    if (rs != null){
+                        while(rs.next())
+                            SIDs.add(rs.getString(1));
+                        rs.close();
+                    }
+
+                    Succeeded = true;
+                } catch(SQLException e){
+                    e.printStackTrace();
                 }
 
-                FX_LV_ClassDayList.setItems(AccountData.getClassDaysList());
-                rs.close();
+                return Succeeded;
             }
 
-            rs = dbmsUserAccount.getStudentList();
-            if (SIDList != null){
-                SIDList.clear();
-            } else {
-                SIDList = FXCollections.observableArrayList();
-            }
+            @Override
+            protected void succeeded() {
+                super.succeeded();
 
-            if (rs != null){
-                while(rs.next()){
-                    SIDList.add(rs.getString(1));
+                if (Succeeded){
+                    FX_T_TotalStudents.setText(TotalStudents.toString());
+                    FX_T_TotalLectureCount.setText(TotalClasses.toString());
+                    FX_T_TotalDefaulterStudents.setText(TotalDefaulters.toString());
+
+//                    ClassDayList.clear();
+//                    SIDList.clear();
+
+                    ClassDayList.setAll(ClassDays);
+                    SIDList.setAll(SIDs);
+
+                    if (ClassDayList.size() > 0){
+                        FX_LV_ClassDayList.getSelectionModel().selectFirst();
+                    }
                 }
-                rs.close();
             }
-        } catch(SQLException e){
-            e.printStackTrace();
-
-            return false;
-        }
+        };
+        new Thread(Task_GetClassInformation).start();
 
         return true;
     }
@@ -654,37 +743,51 @@ public class TeacherMainWindow {
             return false;
         }
 
-        if (AccountData != null){
-            return false;
-        }
+        TeacherAccountName = dbmsUserAccount.getUsername();
+        TeacherAccountPassword = dbmsUserAccount.getPassword();
 
-        // Get teacher acount information
-        AccountData = new TeacherAccountData(
-                dbmsUserAccount.getUsername(),
-                dbmsUserAccount.getPassword()
-        );
+        Task<Boolean> Task_GetAccountInfo = new Task<Boolean>() {
+            final ObservableList<String> Courses = FXCollections.observableArrayList();
+            final ObservableList<String> Sections = FXCollections.observableArrayList();
+            boolean Succeeded = false;
 
-        try{
-            ResultSet rs = dbmsUserAccount.getCourseList();
+            @Override
+            protected Boolean call() throws Exception {
+                try{
+                    ResultSet rs = dbmsUserAccount.getCourseList();
 
-            if (rs != null){
-                while(rs.next()){
-                    AccountData.addToCourseList(
-                            rs.getString("CLASS"),
-                            rs.getString("SECTION")
-                    );
+                    if (rs != null){
+                        while(rs.next()){
+                            Courses.add(rs.getString("CLASS"));
+                            Sections.add(rs.getString("SECTION"));
+                        }
+                        rs.close();
+                        Succeeded = true;
+                    }
+                } catch(SQLException e){
+                    e.printStackTrace();
                 }
 
-                FX_CB_CourseList.setItems(AccountData.getCourseList());
-                FX_CB_CourseList.getSelectionModel().selectFirst();
-
-                rs.close();
+                return Succeeded;
             }
-        } catch(SQLException e){
-            e.printStackTrace();
 
-            return false;
-        }
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+
+                if (Succeeded == true){
+//                    CourseList.clear();
+//                    SectionList.clear();
+                    CourseList.setAll(Courses);
+                    SectionList.setAll(Sections);
+
+                    if (CourseList.size() > 0){
+                        FX_CB_CourseList.getSelectionModel().selectFirst();
+                    }
+                }
+            }
+        };
+        new Thread(Task_GetAccountInfo).start();
 
         return true;
     }
@@ -701,55 +804,11 @@ public class TeacherMainWindow {
         if (StudentInfoList != null){
             if (filteredList != null){
                 FX_LV_StudentInfo.setItems(filteredList);
-                System.out.println(StudentInfoList.size() + filteredList.size());
-                FX_LV_StudentInfo.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-                if (std == null) {
+                if (std == null)
                     FX_LV_StudentInfo.getSelectionModel().selectFirst();
-                }
-                else{
+                else
                     FX_LV_StudentInfo.getSelectionModel().select(std);
-                }
-
-                // Setting up cell factory
-                FX_LV_StudentInfo.setCellFactory(new Callback<ListView<StudentInformation>, ListCell<StudentInformation>>() {
-                    @Override
-                    public ListCell<StudentInformation> call(ListView<StudentInformation> param) {
-                        ListCell <StudentInformation> cell = new ListCell<StudentInformation>(){
-                            @Override
-                            protected void updateItem(StudentInformation std, boolean empty) {
-                                super.updateItem(std, empty);
-                                if (empty){
-                                    setText(null);
-                                } else {
-                                    setText(std.getSID());
-                                    setFont(Font.font(FontName, 16));
-
-                                    if (std.getAttendancePercentage() >= 75){
-                                        setTextFill(Color.color(0, 1, 0.86, 1));
-                                    } else if (std.getAttendancePercentage() < 75){
-                                        setTextFill(Color.RED);
-                                    }
-
-                                }
-                            }
-                        };
-
-                        // Setting cell background color
-                        cell.backgroundProperty().setValue(ListViewBackground);
-
-                        // Attaching context menu to respond to only cells
-                        cell.emptyProperty().addListener(
-                                (obs, wasEmpty, isNowEmpty) -> {
-                                    if (isNowEmpty)
-                                        cell.setContextMenu(null);
-                                    else
-                                        cell.setContextMenu(FX_CM_list);
-                                }
-                        );
-                        return cell;
-                    }
-                });
             }
         }
     }
@@ -824,7 +883,7 @@ public class TeacherMainWindow {
                             else if (Operation.toLowerCase().equals("delete"))
                                 StudentInfoList.get(index).removePresentDayList(date);
 
-                            FX_LV_PresentDays.setItems(StudentInfoList.get(index).getPresentDayList());
+                            PresentDayList.setAll(StudentInfoList.get(index).getPresentDayList());
                             setCellFactory(std);
                         }
                     }
@@ -895,14 +954,13 @@ public class TeacherMainWindow {
      */
     private void clearStudentInformation(){
         StudentInfoList.clear();
+        PresentDayList.clear();
         FX_T_SName.setText("");
         FX_T_SAddress.setText("");
         FX_T_SContactNumber.setText("");
         FX_T_SAttendanceCount.setText("");
         FX_T_SAttendancePercentage.setText("");
         FX_T_SAttendanceRemarks.setText("");
-        FX_LV_StudentInfo.setItems(null);
-        FX_LV_PresentDays.setItems(null);
     }
 
 
@@ -913,7 +971,7 @@ public class TeacherMainWindow {
         FX_T_TotalLectureCount.setText("");
         FX_T_TotalStudents.setText("");
         FX_T_TotalDefaulterStudents.setText("");
-        FX_LV_ClassDayList.setItems(null);
+        ClassDayList.clear();
     }
 
 
@@ -923,8 +981,8 @@ public class TeacherMainWindow {
     private void clearAccountInformation(){
         dbmsUserAccount.close();
         dbmsUserAccount = null;
-        AccountData = null;
-        FX_CB_CourseList.setItems(null);
+        CourseList.clear();
+        SectionList.clear();
     }
 
 
@@ -1008,5 +1066,16 @@ public class TeacherMainWindow {
         FX_T_TotalStudents.setFill(TextColor);
         FX_T_TotalLectureCount.setFill(TextColor);
         FX_T_TotalDefaulterStudents.setFill(TextColor);
+    }
+
+    /**
+     * Returns the maximum of a and b.
+     * @param a number 1
+     * @param b number 2
+     * @return the maximum of a and b
+     */
+    private Integer max(Integer a, Integer b){
+        if (a > b)  return a;
+        return b;
     }
 }
