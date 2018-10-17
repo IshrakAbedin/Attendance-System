@@ -380,7 +380,7 @@ public class Driver extends Application {
 //                }
 //            }
 //            System.out.println("-----------------------------------\n\n");
-
+//
 //            rs = xeadmin.getTeacherList();
 //            if (rs == null) System.out.println("No Result Found");
 //            else {
@@ -391,7 +391,7 @@ public class Driver extends Application {
 //            }
 //            System.out.println("-----------------------------------\n\n");
 //
-//            rs = xeadmin.getStudentListByTeacher("DEMOTEACHER", "CSE16");
+//            rs = xeadmin.getStudentListByTeacher("testingsalt", "disco");
 //            if (rs == null)
 //                System.out.println("No Result Found");
 //            else {

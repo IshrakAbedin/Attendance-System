@@ -375,14 +375,9 @@ public class XEadmin {
     public ResultSet getStudentListByTeacher (String teacherName, String sectionName){
         teacherPassword = retrievePassword(teacherName);
         if (teacherPassword != null){
-            XEbase teacher = new XEbase(teacherName, teacherPassword);
-            if (teacher != null){
-                teacher.setSectionname(sectionName);
-                resultSet = teacher.getStudentList();
-                teacher.close();
-                return resultSet;
-            }
-            else return null;
+            query = "SELECT * FROM " + teacherName + "." + sectionName;
+            if (resultSetHandler()) return resultSet;
+            else  return null;
         }
         else return null;
     }
