@@ -352,37 +352,35 @@ public class Driver extends Application {
 //        XEadmin xeadmin = new XEadmin("ADMIN", "ADMIN");
 //        System.out.println(xeadmin.createTeacher("testingsalt", "testingsalt"));
 //        System.out.println(xeadmin.deleteTeacher("testingsalt"));
-//        System.out.println(xeadmin.createSection("testingsalt","disco"));
+//        System.out.println(xeadmin.createSection("testingsalt","Alfresco"));
 //        System.out.println(xeadmin.createClass("testingsalt","disco","fisco"));
 //        System.out.println(xeadmin.deleteClass("testingsalt","disco","fisco"));
-//        System.out.println(xeadmin.deleteSection("testingsalt","disco"));
+//        System.out.println(xeadmin.deleteSection("testingsalt","Alfresco"));
 //        System.out.println(xeadmin.insertStudent("testingsalt","disco","401","Waterfall","Niagara","420911"));
 //        System.out.println(xeadmin.deleteStudent("testingsalt","disco","401"));
 //        System.out.println(xeadmin.insertStudent("testingsalt","disco","402","Nvidia GeForce","GTX1080","420912"));
 //        try {
-//            ResultSet rs = xeadmin.getCompleteTeacherSectionCourseList();
+//            ResultSet rs = xeadmin.getCompleteTeacherSectionList();
 //            if (rs == null) System.out.println("No Result Found");
 //            else {
-//                System.out.println("Teacher\tSection\tClass");
+//                System.out.println("Teacher\tSection");
 //                while (rs.next()) {
 //                    System.out.print(rs.getString("TNAME") + "\t");
-//                    System.out.print(rs.getString("SECTION") + "\t");
-//                    System.out.print(rs.getString("CLASS") + "\n");
+//                    System.out.print(rs.getString("SECTION") + "\n");
 //                }
 //            }
 //            System.out.println("-----------------------------------\n\n");
 //
-//            rs = xeadmin.getSectionCourseByTeacherList("DEMOTEACHER");
+//            rs = xeadmin.getSectionByTeacherList("testingsalt");
 //            if (rs == null) System.out.println("No Result Found");
 //            else {
-//                System.out.println("Section\tClass");
+//                System.out.println("Section");
 //                while (rs.next()) {
-//                    System.out.print(rs.getString("SECTION") + "\t");
-//                    System.out.print(rs.getString("CLASS") + "\n");
+//                    System.out.print(rs.getString("SECTION") + "\n");
 //                }
 //            }
 //            System.out.println("-----------------------------------\n\n");
-//
+
 //            rs = xeadmin.getTeacherList();
 //            if (rs == null) System.out.println("No Result Found");
 //            else {

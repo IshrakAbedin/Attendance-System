@@ -165,10 +165,24 @@ public class XEadmin {
     public boolean createSection (String teacherName, String sectionName){
         teacherPassword = retrievePassword(teacherName);
         if(teacherPassword != null){
-            XEbase teacher = new XEbase(teacherName,teacherPassword);
-            return teacher.createSection(sectionName);
+            try {
+                query = "INSERT INTO MANAGERSECTIONHUB VALUES ('" + teacherName + "', '" + sectionName + "')";
+                int temp = statement.executeUpdate(query);
+                if(temp > 0){
+                    XEbase teacher = new XEbase(teacherName,teacherPassword);
+                    boolean tempB = teacher.createSection(sectionName);
+                    teacher.close();
+                    return tempB;
+                }
+                else return false;
+            }
+            catch (SQLException ex){
+                error = true;
+                ex.printStackTrace();
+            }
+
         }
-        else return false;
+        return false;
     }
 
     /**
@@ -180,10 +194,24 @@ public class XEadmin {
     public boolean deleteSection (String teacherName, String sectionName){
         teacherPassword = retrievePassword(teacherName);
         if(teacherPassword != null){
-            XEbase teacher = new XEbase(teacherName,teacherPassword);
-            return teacher.deleteSection(sectionName);
+            try{
+                query = "DELETE FROM MANAGERSECTIONHUB WHERE TNAME = '" + teacherName + "' AND SECTION = '" + sectionName + "'";
+                int temp = statement.executeUpdate(query);
+                if(temp > 0){
+                    XEbase teacher = new XEbase(teacherName,teacherPassword);
+                    boolean tempB = teacher.deleteSection(sectionName);
+                    teacher.close();
+                    return tempB;
+                }
+                else return false;
+            }
+            catch (SQLException ex){
+                error = true;
+                ex.printStackTrace();
+            }
+
         }
-        else return false;
+        return false;
     }
 
     /**
@@ -201,7 +229,9 @@ public class XEadmin {
                 int temp = statement.executeUpdate(query);
                 if(temp > 0){
                     XEbase teacher = new XEbase(teachername,teacherPassword);
-                    return teacher.createClass(classname, sectionname);
+                    boolean tempB = teacher.createClass(classname, sectionname);
+                    teacher.close();
+                    return tempB;
                 }
                 else return false;
             }
@@ -228,7 +258,9 @@ public class XEadmin {
                 int temp = statement.executeUpdate(query);
                 if(temp > 0){
                     XEbase teacher = new XEbase(teachername,teacherPassword);
-                    return teacher.deleteClass(classname, sectionname);
+                    boolean tempB = teacher.deleteClass(classname, sectionname);
+                    teacher.close();
+                    return  tempB;
                 }
                 else return false;
             }
@@ -254,7 +286,9 @@ public class XEadmin {
         teacherPassword = retrievePassword(teachername);
         if(teacherPassword != null){
             XEbase teacher = new XEbase(teachername,teacherPassword);
-            return teacher.insertStudent(sectionname,SID,name,address,contact_number);
+            boolean temp = teacher.insertStudent(sectionname,SID,name,address,contact_number);
+            teacher.close();
+            return temp;
         }
         else return false;
     }
@@ -270,14 +304,39 @@ public class XEadmin {
         teacherPassword = retrievePassword(teachername);
         if(teacherPassword != null){
             XEbase teacher = new XEbase(teachername,teacherPassword);
-            return teacher.deleteStudent(sectionname,SID);
+            boolean temp = teacher.deleteStudent(sectionname,SID);
+            teacher.close();
+            return temp;
         }
         else return false;
     }
 
     /**
+     * A method to get information about teacher and corresponding sections.
+     * @return ResultSet Contains 2 columns. ColumnLabel : "TNAME" , "SECTION".
+     * Returns NULL in case of error.
+     */
+    public ResultSet getCompleteTeacherSectionList () {
+        query = "SELECT * FROM MANAGERSECTIONHUB";
+        if (resultSetHandler()) return resultSet;
+        else return null;
+    }
+
+    /**
+     * A method to get the sections under a certain teacher.
+     * @param teacherName String Username of the teacher who's section and courses needs to be retrieved.
+     * @return ResultSet Contains 1 column. ColumnLabel : "SECTION". Returns NULL in case of error.
+     */
+    public ResultSet getSectionByTeacherList (String teacherName){
+        query = "SELECT SECTION FROM MANAGERSECTIONHUB WHERE TNAME = '" + teacherName + "'";
+        if (resultSetHandler()) return resultSet;
+        else return null;
+    }
+
+    /**
      * A method to get information about teacher, section and corresponding courses.
-     * @return ResultSet Contains 3 columns. ColumnLabel : "TNAME" (teacher's name) , "SECTION" , "CLASS". Returns NULL in case of error.
+     * @return ResultSet Contains 3 columns. ColumnLabel : "TNAME" (teacher's name) , "SECTION" , "CLASS".
+     * Returns NULL in case of error.
      */
     public ResultSet getCompleteTeacherSectionCourseList (){
         query = "SELECT * FROM MANAGERCLASSHUB";
@@ -288,7 +347,7 @@ public class XEadmin {
     /**
      * A method to get the sections and corresponding courses under a certain teacher.
      * @param teachername String Username of the teacher who's section and courses needs to be retrieved.
-     * @return ReultSet Contains 2 columns. ColumnLabel : "SECTION" , "CLASS". Returns NULL in case of error.
+     * @return ResultSet Contains 2 columns. ColumnLabel : "SECTION" , "CLASS". Returns NULL in case of error.
      */
     public ResultSet getSectionCourseByTeacherList (String teachername) {
         query = "SELECT SECTION, CLASS FROM MANAGERCLASSHUB WHERE TNAME = '" + teachername + "'";
@@ -319,7 +378,9 @@ public class XEadmin {
             XEbase teacher = new XEbase(teacherName, teacherPassword);
             if (teacher != null){
                 teacher.setSectionname(sectionName);
-                return teacher.getStudentList();
+                resultSet = teacher.getStudentList();
+                teacher.close();
+                return resultSet;
             }
             else return null;
         }
