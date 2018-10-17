@@ -33,11 +33,6 @@ public class AdminMainWindow {
     private ObservableList<String> TeacherList;
     private ObservableList<String> SectionList;
     private ObservableList<String> CourseList;
-    private Dialog<ButtonType> Dialog;
-    private FXMLLoader fxmlLoader;
-    private DialogPane dialogPane;
-    private Background DialogBackground;
-    private String DialogStyleCSS;
 
 
     @FXML private Button FX_B_Account;
@@ -71,19 +66,11 @@ public class AdminMainWindow {
         SectionList = FXCollections.observableArrayList();
         CourseList = FXCollections.observableArrayList();
         FontName = "Arial";
-        DialogStyleCSS = "dialog.css";
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         FX_T_Date.setText("Date : " + df.format(LocalDateTime.now()));
         ListViewBackground = new Background(
                 new BackgroundFill(
                         Color.color(0.25,0.25,0.25,1),
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY
-                )
-        );
-        DialogBackground = new Background(
-                new BackgroundFill(
-                        Color.GRAY,
                         CornerRadii.EMPTY,
                         Insets.EMPTY
                 )
@@ -194,17 +181,20 @@ public class AdminMainWindow {
             return;
         }
 
-        boolean creation = createDialog(
+        DrawWindows drawWindows = new DrawWindows();
+
+        boolean creation = drawWindows.DrawDialog(
                 "InsertTeacherDialog.fxml",
                 "Insert New Teacher",
-                "Use this dialog to insert a new teacher"
+                "Use this dialog to insert a new teacher",
+                FX_BorderPane_Admin
         );
 
         if (creation == true){
             System.out.println("Dialog has been created!");
 
-            InsertTeacher insertTeacher = fxmlLoader.getController();
-            Optional<ButtonType> result = Dialog.showAndWait();
+            InsertTeacher insertTeacher = drawWindows.getFxmlLoader().getController();
+            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK){
                 InsertTeacher(
@@ -236,12 +226,13 @@ public class AdminMainWindow {
             protected void succeeded() {
                 super.succeeded();
 
+                DrawWindows drawWindows = new DrawWindows();
                 if (InsertionStatus == true){
                     TeacherList.add(Teacher);
                     Integer Size = TeacherList.size();
                     FX_T_TotalTeachers.setText(Size.toString());
 
-                    showWarning(
+                    drawWindows.DrawAlert(
                             "Success",
                             "Teacher successfully created",
                             Teacher + " successfully created",
@@ -249,7 +240,7 @@ public class AdminMainWindow {
                     );
                 }
                 else{
-                    showWarning(
+                    drawWindows.DrawAlert(
                             "Failed",
                             "Teacher creation failed",
                             Teacher + " couldn't be created",
@@ -272,12 +263,18 @@ public class AdminMainWindow {
             return;
         }
 
-        showWarning(
+        DrawWindows drawWindows = new DrawWindows();
+        drawWindows.DrawAlert(
                 "Confirm delete",
                 "Confirm delete operation",
                 "Do you want to delete " + FX_CB_TeacherList.getSelectionModel().getSelectedItem() + "?",
                 "CONFIRMATION"
         );
+
+        Optional<ButtonType> result = drawWindows.getAlertResult();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            deleteTeacher();
+        }
     }
 
 
@@ -301,13 +298,14 @@ public class AdminMainWindow {
             protected void succeeded() {
                 super.succeeded();
 
+                DrawWindows drawWindows = new DrawWindows();
                 if (DeleteStatus == true){
                     System.out.println("Delete successful!");
                     TeacherList.remove(Teacher);
                     Integer Size = TeacherList.size();
                     FX_T_TotalTeachers.setText(Size.toString());
 
-                    showWarning(
+                    drawWindows.DrawAlert(
                             "Success",
                             "Teacher successfully deleted",
                             Teacher + " successfully deleted",
@@ -317,7 +315,7 @@ public class AdminMainWindow {
                 else{
                     System.out.println("Delete failed!");
 
-                    showWarning(
+                    drawWindows.DrawAlert(
                             "Failed",
                             "Teacher deletion failed",
                             Teacher + " couldn't be deleted",
@@ -345,18 +343,19 @@ public class AdminMainWindow {
             return;
         }
 
-        boolean dialogCreation = createDialog(
+        DrawWindows drawWindows = new DrawWindows();
+        boolean dialogCreation = drawWindows.DrawDialog(
                 "InsertSectionDialog.fxml",
                 "Section Insertion",
-                "Insert a section for a teacher"
+                "Insert a section for a teacher",
+                FX_BorderPane_Admin
         );
 
         if (dialogCreation == true){
             System.out.println("Dialog has been created!");
 
-            InsertSection insertSection = fxmlLoader.getController();
-            Optional<ButtonType> result = Dialog.showAndWait();
-
+            InsertSection insertSection = drawWindows.getFxmlLoader().getController();
+            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK){
                 insertSection(insertSection.getTeacherName(), insertSection.getSectionName());
             }
@@ -377,10 +376,12 @@ public class AdminMainWindow {
 
             @Override
             protected void succeeded() {
+                DrawWindows drawWindows = new DrawWindows();
+
                 if (InsertionStatus == true){
                     SectionList.add(Section);
 
-                    showWarning(
+                    drawWindows.DrawAlert(
                             "Success",
                             "Section successfully created",
                             Section + " successfully created",
@@ -388,7 +389,7 @@ public class AdminMainWindow {
                     );
                 }
                 else{
-                    showWarning(
+                    drawWindows.DrawAlert(
                             "Failed",
                             "Section creation failed",
                             Section + " couldn't be created",
@@ -411,13 +412,36 @@ public class AdminMainWindow {
 
 
     @FXML private void handleExit(){
-        Platform.exit();
+        DrawWindows drawWindows = new DrawWindows();
+        drawWindows.DrawAlert(
+                "Confirm Exit",
+                "Do you want to exit?",
+                "Please confirm if you want to exit the application",
+                "CONFIRMATION"
+        );
+
+        Optional<ButtonType> result = drawWindows.getAlertResult();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            Platform.exit();
+        }
     }
 
 
     @FXML private void handleLogOut(){
-        dbmsAdminAccount.close();
-        handleExit();
+        DrawWindows drawWindows = new DrawWindows();
+        drawWindows.DrawAlert(
+                "Confirm Log out",
+                "Do you want to Log out?",
+                "Please confirm if you want to Log out of " + dbmsAdminAccount.name,
+                "CONFIRMATION"
+        );
+
+        Optional<ButtonType> result = drawWindows.getAlertResult();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            dbmsAdminAccount.close();
+            // TODO Give log in again here
+            Platform.exit();
+        }
     }
 
 
@@ -576,73 +600,6 @@ public class AdminMainWindow {
         if (buttonText.length() > 0 && buttonTooltip.length() > 0) {
             FX_B_Account.setText(buttonText);
             FX_B_Account.getTooltip().setText(buttonTooltip);
-        }
-    }
-
-
-    /**
-     * Create the log in dialog.
-     * @param DialogName Name of the dialog.
-     * @param TitleText Title of the dialog.
-     * @param HeaderText Header text of the dialog.
-     * @return true if successfully created. False otherwise.
-     */
-    private boolean createDialog(String DialogName, String TitleText, String HeaderText){
-        try{
-            Dialog = new Dialog<>();
-            fxmlLoader = new FXMLLoader();
-            Dialog.initOwner(FX_BorderPane_Admin.getScene().getWindow());
-            Dialog.setTitle(TitleText);
-            Dialog.setHeaderText(HeaderText);
-            dialogPane = Dialog.getDialogPane();
-            dialogPane.getStylesheets().add(getClass().getResource(DialogStyleCSS).toExternalForm());
-            fxmlLoader.setLocation(getClass().getResource(DialogName));
-            Dialog.getDialogPane().setContent(fxmlLoader.load());
-            Dialog.getDialogPane().setBackground(DialogBackground);
-            Dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            Dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        } catch(IOException e){
-            System.out.println("Couldn't load dialogue " + DialogName);
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Displays an error message when trying to use the software without logging in.
-     * @param TitleText The title of the warning
-     * @param HeaderText the header of the warning
-     * @param ContentText the context of the warning
-     * @param Type Type of issue generating the command.
-     */
-    private void showWarning(String TitleText, String HeaderText, String ContentText, String Type){
-        String type = Type.toUpperCase();
-
-        Alert alert = null;
-        if (type.equals("ERROR")){
-            alert = new Alert(Alert.AlertType.ERROR);
-        } else if (type.equals("CONFIRMATION")){
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
-        } else if (type.equals("WARNING")){
-            alert = new Alert(Alert.AlertType.WARNING);
-        } else if (type.equals("INFORMATION")){
-            alert = new Alert(Alert.AlertType.INFORMATION);
-        }
-
-        alert.setTitle(TitleText);
-        alert.setHeaderText(HeaderText);
-        alert.setContentText(ContentText);
-        dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource(DialogStyleCSS).toExternalForm());
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK){
-            if (TitleText.equals("Confirm delete")){
-                deleteTeacher();
-            }
         }
     }
 }

@@ -253,33 +253,34 @@
     <session id="1495676299">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.39" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.42" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="fxml" value="3" />
-          <entry key="java" value="4" />
+          <entry key="java" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="4" />
+          <entry key="JAVA" value="9" />
           <entry key="XML" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="23" />
-          <entry key="java" value="1623" />
+          <entry key="java" value="3074" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1623" />
+          <entry key="JAVA" value="3074" />
           <entry key="XML" value="23" />
         </counts>
       </usages-collector>
@@ -287,96 +288,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2457">
-              <caret line="417" selection-start-line="417" selection-end-line="417" />
-              <folding>
-                <element signature="e#1907#2175#0" />
-                <element signature="e#2181#7604#0" />
-                <element signature="e#7610#8617#0" />
-                <element signature="e#8623#10226#0" />
-                <element signature="class#8894:10171" />
-                <element signature="e#10233#10823#0" />
-                <element signature="e#10830#12443#0" />
-                <element signature="e#12609#13415#0" />
-                <element signature="e#13422#14643#0" />
-                <element signature="e#14883#14979#0" />
-                <element signature="e#14986#16433#0" />
-                <element signature="e#16440#18143#0" />
-                <element signature="e#18151#20034#0" />
-                <element signature="e#20041#20498#0" />
-                <element signature="e#20505#21802#0" />
-                <element signature="e#21809#23207#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/TeacherMainWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="98" column="30" lean-forward="true" selection-start-line="98" selection-start-column="30" selection-end-line="98" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#4523#5013#0" />
-                <element signature="e#5019#12346#0" />
-                <element signature="e#6699#6700#0" expanded="true" />
-                <element signature="e#6742#6743#0" expanded="true" />
-                <element signature="e#6903#6904#0" expanded="true" />
-                <element signature="e#6982#6983#0" expanded="true" />
-                <element signature="class#7533:8418" />
-                <element signature="class#9223:10687" />
-                <element signature="class#10776:11007" />
-                <element signature="class#11094:11907" />
-                <element signature="class#12180:13820" />
-                <element signature="e#12506#13370#0" />
-                <element signature="e#13377#13676#0" />
-                <element signature="e#13683#14290#0" />
-                <element signature="e#14296#14850#0" />
-                <element signature="e#14857#16318#0" />
-                <element signature="e#16325#17752#0" />
-                <element signature="e#17758#18616#0" />
-                <element signature="e#18623#19573#0" />
-                <element signature="e#19580#20037#0" />
-                <element signature="e#20044#23210#0" />
-                <element signature="class#20767:23125" />
-                <element signature="method#call#0;class#20767:23125" />
-                <element signature="method#succeeded#0;class#20767:23125" />
-                <element signature="e#23217#26236#0" />
-                <element signature="class#23824:26153" />
-                <element signature="method#call#0;class#23824:26153" />
-                <element signature="method#succeeded#0;class#23824:26153" />
-                <element signature="e#26243#28412#0" />
-                <element signature="e#28419#31033#0" />
-                <element signature="e#31040#35509#0" />
-                <element signature="e#35516#36815#0" />
-                <element signature="e#36822#37200#0" />
-                <element signature="e#37207#37622#0" />
-                <element signature="e#37629#37894#0" />
-                <element signature="e#37901#38129#0" />
-                <element signature="e#38136#39681#0" />
-                <element signature="e#39688#40645#0" />
-                <element signature="e#39886#39887#0" expanded="true" />
-                <element signature="e#39932#39933#0" expanded="true" />
-                <element signature="e#40167#40168#0" expanded="true" />
-                <element signature="e#40219#40220#0" expanded="true" />
-                <element signature="e#40651#41199#0" />
-                <element signature="e#41206#41302#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Driver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1863">
-              <caret line="111" selection-start-line="111" selection-end-line="111" />
+            <state relative-caret-position="243">
+              <caret line="24" column="3" lean-forward="true" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
               <folding>
-                <element signature="method#createDialog#0;class#Driver#0" />
+                <element signature="method#start#0;class#Driver#0" />
                 <element signature="method#stop#0;class#Driver#0" />
                 <element signature="method#main#0;class#Driver#0" />
               </folding>
@@ -385,25 +303,70 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/XEadmin.java">
+        <entry file="file://$PROJECT_DIR$/src/DrawWindows.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1917">
-              <caret line="168" column="36" selection-start-line="168" selection-start-column="36" selection-end-line="168" selection-end-column="36" />
+            <state relative-caret-position="49">
+              <caret line="92" column="5" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
               <folding>
-                <element signature="method#XEadmin#0;class#XEadmin#0" />
-                <element signature="method#close#0;class#XEadmin#0" />
-                <element signature="method#createTeacher#0;class#XEadmin#0" />
-                <element signature="method#retrievePassword#0;class#XEadmin#0" />
-                <element signature="method#deleteTeacher#0;class#XEadmin#0" />
-                <element signature="method#deleteSection#0;class#XEadmin#0" />
-                <element signature="method#createClass#0;class#XEadmin#0" />
-                <element signature="method#deleteClass#0;class#XEadmin#0" />
-                <element signature="method#insertStudent#0;class#XEadmin#0" />
-                <element signature="method#deleteStudent#0;class#XEadmin#0" />
-                <element signature="method#getCompleteTeacherSectionCourseList#0;class#XEadmin#0" />
-                <element signature="method#getTeacherList#0;class#XEadmin#0" />
-                <element signature="method#resultSetHandler#0;class#XEadmin#0" />
+                <element signature="imports" expanded="true" />
+                <element signature="method#DrawWindows#0;class#DrawWindows#0" />
+                <element signature="method#DrawDialog#0;class#DrawWindows#0" />
+                <element signature="method#DrawAlert#0;class#DrawWindows#0" />
+                <element signature="e#3793#3794#0" expanded="true" />
+                <element signature="e#3822#3823#0" expanded="true" />
+                <element signature="e#3863#3864#0" expanded="true" />
+                <element signature="e#3896#3897#0" expanded="true" />
+                <element signature="e#3937#3938#0" expanded="true" />
+                <element signature="e#3970#3971#0" expanded="true" />
+                <element signature="e#4017#4018#0" expanded="true" />
+                <element signature="e#4056#4057#0" expanded="true" />
+                <element signature="e#4097#4098#0" expanded="true" />
+                <element signature="e#4134#4135#0" expanded="true" />
+                <element signature="e#4169#4170#0" expanded="true" />
+                <element signature="e#4200#4201#0" expanded="true" />
+                <element signature="e#4231#4232#0" expanded="true" />
+                <element signature="e#4259#4260#0" expanded="true" />
+                <element signature="e#4311#4312#0" expanded="true" />
+                <element signature="e#4345#4346#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/TeacherMainWindow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="314">
+              <caret line="777" column="79" selection-start-line="777" selection-start-column="79" selection-end-line="777" selection-end-column="79" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4523#5013#0" />
+                <element signature="e#15065#15364#0" />
+                <element signature="e#20311#21416#0" />
+                <element signature="e#21423#21880#0" />
+                <element signature="e#21887#25008#0" />
+                <element signature="class#22610:24923" />
+                <element signature="e#25015#27954#0" />
+                <element signature="class#25622:27871" />
+                <element signature="e#27961#30049#0" />
+                <element signature="e#30056#30584#0" />
+                <element signature="e#36373#36751#0" />
+                <element signature="e#36758#37173#0" />
+                <element signature="e#37180#37445#0" />
+                <element signature="e#37452#37680#0" />
+                <element signature="e#39239#40196#0" />
+                <element signature="e#40202#40750#0" />
+                <element signature="e#40756#40995#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/SearchDialog.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="179">
+              <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -420,9 +383,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>FXCourseList</find>
-      <find>FXToggle</find>
-      <find>handleCourseChange</find>
       <find>Color.color(1, 1, 1, 1)</find>
       <find>FX_CM_list</find>
       <find>Showing from course change</find>
@@ -450,6 +410,9 @@
       <find>clearAccountInformation</find>
       <find>clearStudentInformation</find>
       <find>setCellFactory</find>
+      <find>drawWindows</find>
+      <find>createDialog</find>
+      <find>showWarning</find>
     </findStrings>
     <replaceStrings>
       <replace>FontName</replace>
@@ -478,7 +441,6 @@
         <option value="$PROJECT_DIR$/sql/JAVAPROJ.sql" />
         <option value="$PROJECT_DIR$/src/XEbase.java" />
         <option value="$PROJECT_DIR$/src/UserInterface/Mainwindow.java" />
-        <option value="$PROJECT_DIR$/src/SearchDialog.java" />
         <option value="$PROJECT_DIR$/src/SearchDialog.fxml" />
         <option value="$PROJECT_DIR$/src/BlankWindow.fxml" />
         <option value="$PROJECT_DIR$/src/BlankWindow.java" />
@@ -498,16 +460,19 @@
         <option value="$PROJECT_DIR$/src/DeleteTeacherDialog.fxml" />
         <option value="$PROJECT_DIR$/src/DialogCreator.java" />
         <option value="$PROJECT_DIR$/src/Data/TeacherAccountData.java" />
-        <option value="$PROJECT_DIR$/src/Driver.java" />
         <option value="$PROJECT_DIR$/src/AdminMainWindow.fxml" />
         <option value="$PROJECT_DIR$/src/InsertOrDeleteSection.java" />
         <option value="$PROJECT_DIR$/src/InsertSection.java" />
         <option value="$PROJECT_DIR$/src/InsertSectionDialog.fxml" />
-        <option value="$PROJECT_DIR$/src/AdminMainWindow.java" />
         <option value="$PROJECT_DIR$/src/TeacherMainWindow.fxml" />
         <option value="$PROJECT_DIR$/src/LogInDialogueController.java" />
         <option value="$PROJECT_DIR$/src/LogInDialogue.fxml" />
+        <option value="$PROJECT_DIR$/src/SearchDialog.java" />
         <option value="$PROJECT_DIR$/src/TeacherMainWindow.java" />
+        <option value="$PROJECT_DIR$/src/AdminMainWindow.java" />
+        <option value="$PROJECT_DIR$/src/DrawWindows.java" />
+        <option value="$PROJECT_DIR$/src/HandleLogIn.java" />
+        <option value="$PROJECT_DIR$/src/Driver.java" />
       </list>
     </option>
   </component>
@@ -517,7 +482,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
     <option name="width" value="980" />
     <option name="height" value="1040" />
@@ -528,6 +493,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -544,16 +512,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="oracle" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539760219654" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539776053549" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="G:/Assets/Animations" />
@@ -665,7 +630,8 @@
       <workItem from="1539742988455" duration="3271000" />
       <workItem from="1539752953240" duration="214000" />
       <workItem from="1539756558663" duration="3656000" />
-      <workItem from="1539763992031" duration="1426000" />
+      <workItem from="1539763992031" duration="2137000" />
+      <workItem from="1539772815830" duration="3218000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit&#10;Built database connecting class">
       <created>1537794673738</created>
@@ -692,13 +658,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165153000" />
+    <option name="totallyTimeSpent" value="169082000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22818792" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23154363" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -729,7 +695,7 @@
       <window_info anchor="right" id="Coverage" order="9" side_tool="true" weight="0.3295302" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14563759" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23154363" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -737,26 +703,27 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32907802" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3261745" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932885" weight="0.32080537" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32907802" />
       <window_info anchor="bottom" id="Database Changes" order="8" weight="0.32907802" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.32907802" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50067115" side_tool="true" weight="0.32765958" />
+      <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.49932885" weight="0.32348993" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="right" id="Ant Build" order="4" weight="0.24966443" />
       <window_info anchor="right" id="Database" order="5" weight="0.3295302" />
       <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Maven Projects" order="8" />
+      <window_info anchor="right" id="Coverage" order="9" side_tool="true" weight="0.3295302" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -778,13 +745,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/javafx.graphics/javafx/application/Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="366" column="4" lean-forward="true" selection-start-line="366" selection-start-column="4" selection-end-line="366" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/javafx.controls/javafx/scene/control/ListView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="159">
@@ -833,13 +793,6 @@
     <entry file="file://$PROJECT_DIR$/src/BlankWindow.java" />
     <entry file="file://$PROJECT_DIR$/src/HeadMainWindow.java" />
     <entry file="file://$PROJECT_DIR$/src/HeadMainWindow.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/SearchDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="36" column="49" lean-forward="true" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dialog.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="616">
@@ -1051,43 +1004,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2457">
-          <caret line="417" selection-start-line="417" selection-end-line="417" />
-          <folding>
-            <element signature="e#1907#2175#0" />
-            <element signature="e#2181#7604#0" />
-            <element signature="e#7610#8617#0" />
-            <element signature="e#8623#10226#0" />
-            <element signature="class#8894:10171" />
-            <element signature="e#10233#10823#0" />
-            <element signature="e#10830#12443#0" />
-            <element signature="e#12609#13415#0" />
-            <element signature="e#13422#14643#0" />
-            <element signature="e#14883#14979#0" />
-            <element signature="e#14986#16433#0" />
-            <element signature="e#16440#18143#0" />
-            <element signature="e#18151#20034#0" />
-            <element signature="e#20041#20498#0" />
-            <element signature="e#20505#21802#0" />
-            <element signature="e#21809#23207#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Driver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1863">
-          <caret line="111" selection-start-line="111" selection-end-line="111" />
-          <folding>
-            <element signature="method#createDialog#0;class#Driver#0" />
-            <element signature="method#stop#0;class#Driver#0" />
-            <element signature="method#main#0;class#Driver#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/XEadmin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1917">
@@ -1110,56 +1026,117 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/SearchDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/TeacherMainWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="98" column="30" lean-forward="true" selection-start-line="98" selection-start-column="30" selection-end-line="98" selection-end-column="30" />
+        <state relative-caret-position="314">
+          <caret line="777" column="79" selection-start-line="777" selection-start-column="79" selection-end-line="777" selection-end-column="79" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#4523#5013#0" />
-            <element signature="e#5019#12346#0" />
-            <element signature="e#6699#6700#0" expanded="true" />
-            <element signature="e#6742#6743#0" expanded="true" />
-            <element signature="e#6903#6904#0" expanded="true" />
-            <element signature="e#6982#6983#0" expanded="true" />
-            <element signature="class#7533:8418" />
-            <element signature="class#9223:10687" />
-            <element signature="class#10776:11007" />
-            <element signature="class#11094:11907" />
-            <element signature="class#12180:13820" />
-            <element signature="e#12506#13370#0" />
-            <element signature="e#13377#13676#0" />
-            <element signature="e#13683#14290#0" />
-            <element signature="e#14296#14850#0" />
-            <element signature="e#14857#16318#0" />
-            <element signature="e#16325#17752#0" />
-            <element signature="e#17758#18616#0" />
-            <element signature="e#18623#19573#0" />
-            <element signature="e#19580#20037#0" />
-            <element signature="e#20044#23210#0" />
-            <element signature="class#20767:23125" />
-            <element signature="method#call#0;class#20767:23125" />
-            <element signature="method#succeeded#0;class#20767:23125" />
-            <element signature="e#23217#26236#0" />
-            <element signature="class#23824:26153" />
-            <element signature="method#call#0;class#23824:26153" />
-            <element signature="method#succeeded#0;class#23824:26153" />
-            <element signature="e#26243#28412#0" />
-            <element signature="e#28419#31033#0" />
-            <element signature="e#31040#35509#0" />
-            <element signature="e#35516#36815#0" />
-            <element signature="e#36822#37200#0" />
-            <element signature="e#37207#37622#0" />
-            <element signature="e#37629#37894#0" />
-            <element signature="e#37901#38129#0" />
-            <element signature="e#38136#39681#0" />
-            <element signature="e#39688#40645#0" />
-            <element signature="e#39886#39887#0" expanded="true" />
-            <element signature="e#39932#39933#0" expanded="true" />
-            <element signature="e#40167#40168#0" expanded="true" />
-            <element signature="e#40219#40220#0" expanded="true" />
-            <element signature="e#40651#41199#0" />
-            <element signature="e#41206#41302#0" />
+            <element signature="e#15065#15364#0" />
+            <element signature="e#20311#21416#0" />
+            <element signature="e#21423#21880#0" />
+            <element signature="e#21887#25008#0" />
+            <element signature="class#22610:24923" />
+            <element signature="e#25015#27954#0" />
+            <element signature="class#25622:27871" />
+            <element signature="e#27961#30049#0" />
+            <element signature="e#30056#30584#0" />
+            <element signature="e#36373#36751#0" />
+            <element signature="e#36758#37173#0" />
+            <element signature="e#37180#37445#0" />
+            <element signature="e#37452#37680#0" />
+            <element signature="e#39239#40196#0" />
+            <element signature="e#40202#40750#0" />
+            <element signature="e#40756#40995#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1836">
+          <caret line="339" column="50" selection-start-line="339" selection-start-column="50" selection-end-line="339" selection-end-column="50" />
+          <folding>
+            <element signature="e#1907#2175#0" />
+            <element signature="e#2181#7604#0" />
+            <element signature="class#3263:4148" />
+            <element signature="e#7610#8617#0" />
+            <element signature="e#8623#10226#0" />
+            <element signature="class#8894:10171" />
+            <element signature="e#10233#10823#0" />
+            <element signature="e#10830#12443#0" />
+            <element signature="e#12609#13415#0" />
+            <element signature="e#13422#14643#0" />
+            <element signature="method#call#0;class#13530:14588" />
+            <element signature="method#succeeded#0;class#13530:14588" />
+            <element signature="e#15302#15374#0" />
+            <element signature="e#14883#14979#0" />
+            <element signature="e#14986#16433#0" />
+            <element signature="class#15190:16383" />
+            <element signature="e#16440#18143#0" />
+            <element signature="class#16659:18090" />
+            <element signature="e#18151#20034#0" />
+            <element signature="class#18357:19974" />
+            <element signature="e#20041#20498#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DrawWindows.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="92" column="5" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#DrawWindows#0;class#DrawWindows#0" />
+            <element signature="method#DrawDialog#0;class#DrawWindows#0" />
+            <element signature="method#DrawAlert#0;class#DrawWindows#0" />
+            <element signature="e#3793#3794#0" expanded="true" />
+            <element signature="e#3822#3823#0" expanded="true" />
+            <element signature="e#3863#3864#0" expanded="true" />
+            <element signature="e#3896#3897#0" expanded="true" />
+            <element signature="e#3937#3938#0" expanded="true" />
+            <element signature="e#3970#3971#0" expanded="true" />
+            <element signature="e#4017#4018#0" expanded="true" />
+            <element signature="e#4056#4057#0" expanded="true" />
+            <element signature="e#4097#4098#0" expanded="true" />
+            <element signature="e#4134#4135#0" expanded="true" />
+            <element signature="e#4169#4170#0" expanded="true" />
+            <element signature="e#4200#4201#0" expanded="true" />
+            <element signature="e#4231#4232#0" expanded="true" />
+            <element signature="e#4259#4260#0" expanded="true" />
+            <element signature="e#4311#4312#0" expanded="true" />
+            <element signature="e#4345#4346#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/HandleLogIn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1107">
+          <caret line="7" column="24" lean-forward="true" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Driver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="24" column="3" lean-forward="true" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
+          <folding>
+            <element signature="method#start#0;class#Driver#0" />
+            <element signature="method#stop#0;class#Driver#0" />
+            <element signature="method#main#0;class#Driver#0" />
           </folding>
         </state>
       </provider>

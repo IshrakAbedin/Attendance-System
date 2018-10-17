@@ -24,42 +24,10 @@ import java.sql.*;
  * @since 2018-09-24
  */
 public class Driver extends Application {
-    private Dialog<ButtonType> Dialog;
-    private FXMLLoader fxmlLoader;
-    private DialogPane dialogPane;
     private XEbase dbmsUserAccount;
     private XEadmin dbmsAdminAccount;
     private TeacherMainWindow teacherMainWindow;
     private AdminMainWindow adminMainWindow;
-
-    private boolean createDialog(String DialogName, String TitleText, String HeaderText){
-        try{
-            Dialog = new Dialog<>();
-            fxmlLoader = new FXMLLoader();
-            Dialog.setTitle(TitleText);
-            Dialog.setHeaderText(HeaderText);
-            dialogPane = Dialog.getDialogPane();
-            dialogPane.getStylesheets().add(getClass().getResource("dialog.css").toExternalForm());
-            fxmlLoader.setLocation(getClass().getResource(DialogName));
-            Dialog.getDialogPane().setContent(fxmlLoader.load());
-            Dialog.getDialogPane().setBackground(
-                    new Background(
-                            new BackgroundFill(
-                                    Color.GRAY,
-                                    CornerRadii.EMPTY,
-                                    Insets.EMPTY
-                            )
-                    )
-            );
-            Dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            Dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        } catch(IOException e){
-            System.out.println("Couldn't load dialogue " + DialogName);
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -69,28 +37,32 @@ public class Driver extends Application {
 
         // Keep doing unless the user enters a legit username and password.
         do{
+            DrawWindows drawWindows = new DrawWindows();
+
             if (failed){    // If log in failed then show this
-                dialogCreation = createDialog(
+                dialogCreation = drawWindows.DrawDialog(
                         "LogInDialogue.fxml",
                         "Log In Dialogue",
-                        "Invalid Username and/or password."
+                        "Invalid Username and/or password.",
+                        null
                 );
             } else {        // If log in for first time then show this
-                dialogCreation = createDialog(
+                dialogCreation = drawWindows.DrawDialog(
                         "LogInDialogue.fxml",
                         "Log In Dialogue",
-                        "Use this Dialog to Log In"
+                        "Use this Dialog to Log In",
+                        null
                 );
             }
 
             // If dialog was successfully created then proceed.
             if (dialogCreation){
-                Optional<ButtonType> result = Dialog.showAndWait();
+                Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
 
                 // If the user presses the OK button perform the following.
                 if (result.isPresent() && result.get() == ButtonType.OK){
                     // Get controller of FXML.
-                    LogInDialogueController controller = fxmlLoader.getController();
+                    LogInDialogueController controller = drawWindows.getFxmlLoader().getController();
 
                     if (controller.processLogIn()){
                         AccountType = controller.getAccountType();

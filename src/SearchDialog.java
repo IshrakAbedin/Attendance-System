@@ -21,6 +21,9 @@ public class SearchDialog {
 
     public void process(XEbase account){
         Account = account;
+        if (Account == null){
+            System.out.println("ACCOUNT INPUTTED IS NULL");
+        }
     }
 
     @FXML private void handleSearch(){

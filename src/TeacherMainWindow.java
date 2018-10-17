@@ -41,8 +41,6 @@ public class TeacherMainWindow {
     private ObservableList<String> CourseList;
     private ObservableList<String> SectionList;
     private ObservableList<String> PresentDayList;
-    private Dialog<ButtonType> Dialog;
-    private FXMLLoader fxmlLoader;
     private Predicate<StudentInformation> DefaulterStudents;
     private Predicate<StudentInformation> AllStudents;
     private FilteredList<StudentInformation> filteredList;
@@ -50,9 +48,6 @@ public class TeacherMainWindow {
     private String TeacherAccountPassword;
     private String FontName;
     private Background ListViewBackground;
-    private Background DialogBackground;
-    private DialogPane dialogPane;
-    private String DialogStyleCSS;
     private ContextMenu FX_CM_list;
     private DateTimeFormatter dateTimeFormatter;
 
@@ -133,7 +128,6 @@ public class TeacherMainWindow {
          * DialogBackground     - Used for background color of dialog boxes.
          * CellColor            - used for setting cell color.
          */
-        DialogStyleCSS = "dialog.css";
         FontName = "Arial";
         StudentInfoList = FXCollections.observableArrayList();
         ClassDayList = FXCollections.observableArrayList();
@@ -158,13 +152,6 @@ public class TeacherMainWindow {
         ListViewBackground = new Background(
                 new BackgroundFill(
                         Color.color(0.25,0.25,0.25,1),
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY
-                )
-        );
-        DialogBackground = new Background(
-                new BackgroundFill(
-                        Color.GRAY,
                         CornerRadii.EMPTY,
                         Insets.EMPTY
                 )
@@ -324,13 +311,6 @@ public class TeacherMainWindow {
      */
     @FXML private void handleKeyPressed(KeyEvent k){
         if (dbmsUserAccount == null){
-            System.out.println("Showing from keyPressed");
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
             return;
         }
 
@@ -350,12 +330,18 @@ public class TeacherMainWindow {
      * Closes connection and exits application.
      */
     @FXML private void handleExit(){
-        showWarning(
+        DrawWindows drawWindows = new DrawWindows();
+        drawWindows.DrawAlert(
                 "Exit warning",
                 "Are you sure you want to exit?",
                 "Press OK to exit, otherwise press cancel",
-                "exit"
+                "CONFIRMATION"
         );
+
+        Optional<ButtonType> result = drawWindows.getAlertResult();
+        if (result.isPresent() && result.equals(ButtonType.OK)){
+            Platform.exit();
+        }
     }
 
 
@@ -367,13 +353,6 @@ public class TeacherMainWindow {
     @FXML private void handleInsertDialog(){
         if (dbmsUserAccount == null){
             System.out.println("Showing from insert");
-
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
             return;
         }
 
@@ -387,13 +366,6 @@ public class TeacherMainWindow {
     @FXML private void handleDelete(){
         if (dbmsUserAccount == null){
             System.out.println("Showing from delete");
-
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
             return;
         }
 
@@ -407,14 +379,6 @@ public class TeacherMainWindow {
     @FXML private void handleFilter(){
         if (dbmsUserAccount == null){
             System.out.println("Showing from filter");
-
-            FX_TB_FilterDefaulter.setSelected(false);
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
             return;
         }
 
@@ -451,32 +415,25 @@ public class TeacherMainWindow {
     @FXML private void handleSearch(){
         if (dbmsUserAccount == null){
             System.out.println("Showing from search");
-
-            FX_TB_FilterDefaulter.setSelected(false);
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
             return;
         }
 
         String DialogName = "SearchDialog.fxml";
         String TitleText = "Search for student";
         String HeaderText = "Enter student ID and section to begin searching";
-        if (createDialog(DialogName, TitleText, HeaderText)){
+        DrawWindows drawWindows = new DrawWindows();
+
+        if (drawWindows.DrawDialog(DialogName, TitleText, HeaderText, FX_BorderPane_Teacher)){
             System.out.println("Created!");
-            SearchDialog controller = fxmlLoader.getController();
+            SearchDialog controller = drawWindows.getFxmlLoader().getController();
             String CourseName = FX_CB_CourseList.getSelectionModel().getSelectedItem();
             int CourseIndex = CourseList.indexOf(CourseName);
             String SectionName = SectionList.get(CourseIndex);
             controller.process(dbmsUserAccount);
 
-            Optional<ButtonType> result = Dialog.showAndWait();
-
+            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                Dialog.close();
+                drawWindows.getDialog().close();
                 dbmsUserAccount.setUsername(SectionName);
             }
         } else {
@@ -494,16 +451,18 @@ public class TeacherMainWindow {
             return;
         }
 
-        boolean dialogCreation = createDialog(
+        DrawWindows drawWindows = new DrawWindows();
+        boolean dialogCreation = drawWindows.DrawDialog(
                 "TakeAttendance.fxml",
                 "Take attendance",
-                "Move the present students to the present list to give them attendance"
+                "Move the present students to the present list to give them attendance",
+                FX_BorderPane_Teacher
         );
 
         if (dialogCreation){
-            TakeAttendance takeAttendance = fxmlLoader.getController();
+            TakeAttendance takeAttendance = drawWindows.getFxmlLoader().getController();
             takeAttendance.setFX_LV_AbsentStudents(SIDList);
-            Optional<ButtonType> result = Dialog.showAndWait();
+            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 TakeAttendance(takeAttendance.getFX_LV_PresentStudents());
@@ -645,13 +604,6 @@ public class TeacherMainWindow {
     private boolean getClassInformation(){
         if (dbmsUserAccount == null){
             System.out.println("Showing from getClassInformation");
-
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
             return false;
         }
 
@@ -708,9 +660,6 @@ public class TeacherMainWindow {
                     FX_T_TotalLectureCount.setText(TotalClasses.toString());
                     FX_T_TotalDefaulterStudents.setText(TotalDefaulters.toString());
 
-//                    ClassDayList.clear();
-//                    SIDList.clear();
-
                     ClassDayList.setAll(ClassDays);
                     SIDList.setAll(SIDs);
 
@@ -733,13 +682,6 @@ public class TeacherMainWindow {
     private boolean getAccountInfo(){
         if (dbmsUserAccount == null){
             System.out.println("Showing from getAccountInformation");
-
-            showWarning(
-                    "Error",
-                    "Please log in first",
-                    "To use the application logging in is required beforehand.",
-                    "account"
-            );
             return false;
         }
 
@@ -776,8 +718,6 @@ public class TeacherMainWindow {
                 super.succeeded();
 
                 if (Succeeded == true){
-//                    CourseList.clear();
-//                    SectionList.clear();
                     CourseList.setAll(Courses);
                     SectionList.setAll(Sections);
 
@@ -831,14 +771,15 @@ public class TeacherMainWindow {
         String DialogName = "ModificationDialog.fxml";
         String TitleText = Operation + " Attendance Dialog";
         String HeaderText = Operation + " attendance for ID " + std.getSID() + "?";
+        DrawWindows drawWindows = new DrawWindows();
 
         // Create the delete dialog.
-        if (createDialog(DialogName, TitleText, HeaderText)){
-            Optional<ButtonType> result = Dialog.showAndWait();
+        if (drawWindows.DrawDialog(DialogName, TitleText, HeaderText, FX_BorderPane_Teacher)){
+            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
 
             // If the user presses the OK button perform the following.
             if (result.isPresent() && result.get() == ButtonType.OK){
-                ModificationDialogController controller = fxmlLoader.getController();// Get controller of FXML.
+                ModificationDialogController controller = drawWindows.getFxmlLoader().getController();// Get controller of FXML.
                 String date = dateTimeFormatter.format(controller.getDate()).toUpperCase();
 
                 if(dbmsUserAccount != null){
@@ -889,47 +830,22 @@ public class TeacherMainWindow {
                     }
                     else{
                         // Show warning that invalid date was inputted
-                        showWarning(
+                        DrawWindows drawWindows1 = new DrawWindows();
+                        drawWindows1.DrawAlert(
                                 "Error",
                                 "Invalid date inputted",
                                 "Classes were not held in " + date,
-                                Operation
+                                "ERROR"
                         );
+
+                        Optional<ButtonType> result1 = drawWindows1.getAlertResult();
+                        if (result1.isPresent() && result1.get() == ButtonType.OK){
+                            modify(Operation);
+                        }
                     }
                 }
             }
         }
-    }
-
-
-    /**
-     * Create the log in dialog.
-     * @param DialogName Name of the dialog.
-     * @param TitleText Title of the dialog.
-     * @param HeaderText Header text of the dialog.
-     * @return true if successfully created. False otherwise.
-     */
-    private boolean createDialog(String DialogName, String TitleText, String HeaderText){
-        try{
-            Dialog = new Dialog<>();
-            fxmlLoader = new FXMLLoader();
-            Dialog.initOwner(FX_BorderPane_Teacher.getScene().getWindow());
-            Dialog.setTitle(TitleText);
-            Dialog.setHeaderText(HeaderText);
-            dialogPane = Dialog.getDialogPane();
-            dialogPane.getStylesheets().add(getClass().getResource(DialogStyleCSS).toExternalForm());
-            fxmlLoader.setLocation(getClass().getResource(DialogName));
-            Dialog.getDialogPane().setContent(fxmlLoader.load());
-            Dialog.getDialogPane().setBackground(DialogBackground);
-            Dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            Dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        } catch(IOException e){
-            System.out.println("Couldn't load dialogue " + DialogName);
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
     }
 
 
@@ -983,49 +899,6 @@ public class TeacherMainWindow {
         dbmsUserAccount = null;
         CourseList.clear();
         SectionList.clear();
-    }
-
-
-    /**
-     * Displays an error message when trying to use the software without logging in.
-     * @param TitleText The title of the warning
-     * @param HeaderText the header of the warning
-     * @param ContentText the context of the warning
-     * @param Type Type of issue generating the command.
-     */
-    private void showWarning(String TitleText, String HeaderText, String ContentText, String Type){
-        String type = Type.toLowerCase();
-
-        Alert alert = null;
-        if (type.equals("account") || type.equals("insert") || type.equals("delete")){
-            alert = new Alert(Alert.AlertType.ERROR);
-        }
-        else if (type.equals("exit")){
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
-        }
-
-        alert.setTitle(TitleText);
-        alert.setHeaderText(HeaderText);
-        alert.setContentText(ContentText);
-        dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource(DialogStyleCSS).toExternalForm());
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK){
-            if (type.equals("account")) {
-                handleLogOut();
-            }
-            else if (type.equals("insert") || type.equals("delete")) {
-                modify(Type);
-            }
-            else if (type.equals("exit")){
-                if (dbmsUserAccount != null){
-                    dbmsUserAccount.close();
-                }
-
-                Platform.exit();
-            }
-        }
     }
 
 
