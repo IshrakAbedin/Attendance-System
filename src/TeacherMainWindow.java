@@ -8,15 +8,11 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -145,7 +141,7 @@ public class TeacherMainWindow {
                 return (stdInfo.getAttendancePercentage() < 75);
             }
         };
-        Callback<ListView<String>, ListCell<String>> cellColor = DrawMainStage.getInstance().cellColor;
+        Callback<ListView<String>, ListCell<String>> cellColor = DrawWindows.getInstance().cellColor;
         dateTimeFormatter = DateTimeFormatter.ofPattern("MMMdd");
 
         /*
@@ -241,7 +237,7 @@ public class TeacherMainWindow {
                 };
 
                 // Setting cell background color
-                cell.backgroundProperty().setValue(DrawMainStage.getInstance().ListViewBackground);
+                cell.backgroundProperty().setValue(DrawWindows.getInstance().ListViewBackground);
 
                 // Attaching context menu to respond to only cells
                 cell.emptyProperty().addListener(
@@ -267,18 +263,17 @@ public class TeacherMainWindow {
      * Creates a dialogue through which you log in to your account.
      */
     @FXML private void handleLogOut(){
-        DrawWindows drawWindows = new DrawWindows();
-        drawWindows.DrawAlert(
+        DrawWindows.getInstance().DrawAlert(
                 "Confirm Log out",
                 "Do you want to Log out?",
                 "Please confirm if you want to Log out of " + dbmsUserAccount.name,
                 "CONFIRMATION"
         );
 
-        Optional<ButtonType> result = drawWindows.getAlertResult();
+        Optional<ButtonType> result = DrawWindows.getInstance().getAlertResult();
         if (result.isPresent() && result.get() == ButtonType.OK){
             dbmsUserAccount.close();
-            DrawMainStage.getInstance().CloseTeacherMainStage();
+            DrawWindows.getInstance().CloseTeacherMainStage();
         }
     }
 
@@ -308,15 +303,14 @@ public class TeacherMainWindow {
      * Closes connection and exits application.
      */
     @FXML private void handleExit(){
-        DrawWindows drawWindows = new DrawWindows();
-        drawWindows.DrawAlert(
+        DrawWindows.getInstance().DrawAlert(
                 "Exit warning",
                 "Are you sure you want to exit?",
                 "Press OK to exit, otherwise press cancel",
                 "CONFIRMATION"
         );
 
-        Optional<ButtonType> result = drawWindows.getAlertResult();
+        Optional<ButtonType> result = DrawWindows.getInstance().getAlertResult();
         if (result.isPresent() && result.equals(ButtonType.OK)){
             Platform.exit();
         }
@@ -399,19 +393,18 @@ public class TeacherMainWindow {
         String DialogName = "SearchDialog.fxml";
         String TitleText = "Search for student";
         String HeaderText = "Enter student ID and section to begin searching";
-        DrawWindows drawWindows = new DrawWindows();
 
-        if (drawWindows.DrawDialog(DialogName, TitleText, HeaderText, FX_BorderPane_Teacher)){
+        if (DrawWindows.getInstance().DrawDialog(DialogName, TitleText, HeaderText, FX_BorderPane_Teacher)){
             System.out.println("Created!");
-            SearchDialog controller = drawWindows.getFxmlLoader().getController();
+            SearchDialog controller = DrawWindows.getInstance().getFxmlLoader().getController();
             String CourseName = FX_CB_CourseList.getSelectionModel().getSelectedItem();
             int CourseIndex = CourseList.indexOf(CourseName);
             String SectionName = SectionList.get(CourseIndex);
             controller.process(dbmsUserAccount);
 
-            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
+            Optional<ButtonType> result = DrawWindows.getInstance().getDialog().showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                drawWindows.getDialog().close();
+                DrawWindows.getInstance().getDialog().close();
                 dbmsUserAccount.setUsername(SectionName);
             }
         } else {
@@ -429,8 +422,7 @@ public class TeacherMainWindow {
             return;
         }
 
-        DrawWindows drawWindows = new DrawWindows();
-        boolean dialogCreation = drawWindows.DrawDialog(
+        boolean dialogCreation = DrawWindows.getInstance().DrawDialog(
                 "TakeAttendance.fxml",
                 "Take attendance",
                 "Move the present students to the present list to give them attendance",
@@ -438,13 +430,27 @@ public class TeacherMainWindow {
         );
 
         if (dialogCreation){
-            TakeAttendance takeAttendance = drawWindows.getFxmlLoader().getController();
+            TakeAttendance takeAttendance = DrawWindows.getInstance().getFxmlLoader().getController();
             takeAttendance.setFX_LV_AbsentStudents(SIDList);
-            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
+            Optional<ButtonType> result = DrawWindows.getInstance().getDialog().showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 TakeAttendance(takeAttendance.getFX_LV_PresentStudents());
             }
+        }
+    }
+
+
+    @FXML private void handleShowDevInfo(){
+        boolean creation = DrawWindows.getInstance().DrawDialog(
+                "DevInfoDialog.fxml",
+                "Developer Information Dialog",
+                "Team Information",
+                FX_BorderPane_Teacher
+        );
+
+        if (creation){
+            Optional<ButtonType> result = DrawWindows.getInstance().getDialog().showAndWait();
         }
     }
 
@@ -749,15 +755,14 @@ public class TeacherMainWindow {
         String DialogName = "ModificationDialog.fxml";
         String TitleText = Operation + " Attendance Dialog";
         String HeaderText = Operation + " attendance for ID " + std.getSID() + "?";
-        DrawWindows drawWindows = new DrawWindows();
 
         // Create the delete dialog.
-        if (drawWindows.DrawDialog(DialogName, TitleText, HeaderText, FX_BorderPane_Teacher)){
-            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
+        if (DrawWindows.getInstance().DrawDialog(DialogName, TitleText, HeaderText, FX_BorderPane_Teacher)){
+            Optional<ButtonType> result = DrawWindows.getInstance().getDialog().showAndWait();
 
             // If the user presses the OK button perform the following.
             if (result.isPresent() && result.get() == ButtonType.OK){
-                ModificationDialogController controller = drawWindows.getFxmlLoader().getController();// Get controller of FXML.
+                ModificationDialogController controller = DrawWindows.getInstance().getFxmlLoader().getController();// Get controller of FXML.
                 String date = dateTimeFormatter.format(controller.getDate()).toUpperCase();
 
                 if(dbmsUserAccount != null){
@@ -808,15 +813,14 @@ public class TeacherMainWindow {
                     }
                     else{
                         // Show warning that invalid date was inputted
-                        DrawWindows drawWindows1 = new DrawWindows();
-                        drawWindows1.DrawAlert(
+                        DrawWindows.getInstance().DrawAlert(
                                 "Error",
                                 "Invalid date inputted",
                                 "Classes were not held in " + date,
                                 "ERROR"
                         );
 
-                        Optional<ButtonType> result1 = drawWindows1.getAlertResult();
+                        Optional<ButtonType> result1 = DrawWindows.getInstance().getAlertResult();
                         if (result1.isPresent() && result1.get() == ButtonType.OK){
                             modify(Operation);
                         }

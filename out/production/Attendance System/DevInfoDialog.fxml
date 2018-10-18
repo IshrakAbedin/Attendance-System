@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="DevInfoDialog" prefHeight="200.0" prefWidth="500.0"
+            stylesheets="@styles.css">
+    <content>
+        <GridPane>
+            <Label text="Name" fx:id="FXHeader" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <GridPane.margin>
+                    <Insets top="10" bottom="10" left="10" right="10"/>
+                </GridPane.margin>
+            </Label>
+            <Label text="SID" fx:id="FXHeader" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets top="10" bottom="10" left="10" right="10"/>
+                </GridPane.margin>
+            </Label>
+
+            <Label text="Ishrak Abedin" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <GridPane.margin>
+                    <Insets top="10" bottom="10" left="10" right="10"/>
+                </GridPane.margin>
+            </Label>
+            <Label text="160041051" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets top="10" bottom="10" left="10" right="10"/>
+                </GridPane.margin>
+            </Label>
+
+            <Label text="Shakleen Ishfar" GridPane.rowIndex="2" GridPane.columnIndex="0">
+                <GridPane.margin>
+                    <Insets top="10" bottom="10" left="10" right="10"/>
+                </GridPane.margin>
+            </Label>
+            <Label text="160041029" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets top="10" bottom="10" left="10" right="10"/>
+                </GridPane.margin>
+            </Label>
+
+            <Label text="Anika Tasnim Preoty" GridPane.rowIndex="3" GridPane.columnIndex="0">
+                <GridPane.margin>
+                    <Insets top="10" bottom="10" left="10" right="10"/>
+                </GridPane.margin>
+            </Label>
+            <Label text="160041044" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets top="10" bottom="10" left="10" right="10"/>
+                </GridPane.margin>
+            </Label>
+        </GridPane>
+    </content>
+</DialogPane>

@@ -253,38 +253,40 @@
     <session id="1495676299">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="8" />
           <entry key="project.open.time.14" value="2" />
           <entry key="project.open.time.26" value="1" />
           <entry key="project.open.time.39" value="1" />
           <entry key="project.open.time.42" value="2" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.open.time.53" value="1" />
+          <entry key="project.open.time.58" value="1" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="fxml" value="16" />
-          <entry key="java" value="55" />
+          <entry key="fxml" value="19" />
+          <entry key="java" value="64" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="55" />
-          <entry key="XML" value="16" />
+          <entry key="JAVA" value="64" />
+          <entry key="XML" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="19" />
-          <entry key="fxml" value="473" />
-          <entry key="java" value="7229" />
+          <entry key="dummy" value="32" />
+          <entry key="fxml" value="805" />
+          <entry key="java" value="7628" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="7229" />
-          <entry key="PLAIN_TEXT" value="19" />
-          <entry key="XML" value="473" />
+          <entry key="JAVA" value="7628" />
+          <entry key="PLAIN_TEXT" value="32" />
+          <entry key="XML" value="805" />
         </counts>
       </usages-collector>
     </session>
@@ -292,62 +294,42 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.java">
+        <entry file="file://$PROJECT_DIR$/src/TeacherMainWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="882" column="49" selection-start-line="882" selection-start-column="49" selection-end-line="882" selection-end-column="49" />
+            <state relative-caret-position="1414">
+              <caret line="823" column="83" selection-start-line="823" selection-start-column="83" selection-end-line="823" selection-end-column="83" />
               <folding>
-                <element signature="method#setTextColor#0;class#AdminMainWindow#0" />
-                <element signature="method#setDbmsAdminAccount#0;class#AdminMainWindow#0" />
-                <element signature="method#initialize#0;class#AdminMainWindow#0" />
-                <element signature="method#handleInsertTeacherDialog#0;class#AdminMainWindow#0" />
-                <element signature="method#handleDeleteTeacherDialog#0;class#AdminMainWindow#0" />
-                <element signature="method#handleInsertStudentDialog#0;class#AdminMainWindow#0" />
-                <element signature="method#handleDeleteStudentDialog#0;class#AdminMainWindow#0" />
-                <element signature="method#handleInsertSectionDialog#0;class#AdminMainWindow#0" />
-                <element signature="method#handleDeleteSectionDialog#0;class#AdminMainWindow#0" />
-                <element signature="method#handleInsertCourseDialog#0;class#AdminMainWindow#0" />
-                <element signature="method#handleDeleteCourseDialog#0;class#AdminMainWindow#0" />
-                <element signature="method#handleExit#0;class#AdminMainWindow#0" />
-                <element signature="method#handleLogOut#0;class#AdminMainWindow#0" />
-                <element signature="method#getTeacherInformation#0;class#AdminMainWindow#0" />
-                <element signature="method#getStudentInformation#0;class#AdminMainWindow#0" />
-                <element signature="method#getCourseAndSectionInformation#0;class#AdminMainWindow#0" />
-                <element signature="method#setupAccountButton#0;class#AdminMainWindow#0" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.fxml">
+        <entry file="file://$PROJECT_DIR$/src/DrawWindows.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1377">
-              <caret line="196" column="24" selection-start-line="196" selection-start-column="24" selection-end-line="196" selection-end-column="24" />
+            <state relative-caret-position="170">
+              <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
               <folding>
-                <element signature="n#top#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#MenuBar#0;n#VBox#0;n#top#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#ToolBar#0;n#VBox#0;n#top#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#HBox#0;n#VBox#0;n#top#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Text#0;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Text#0;n#HBox#0;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Label#0;n#HBox#1;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Text#0;n#HBox#1;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Label#0;n#HBox#2;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Text#0;n#HBox#2;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Label#0;n#HBox#3;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Text#0;n#HBox#3;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#center#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Label#1;n#VBox#0;n#center#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#right#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#Label#1;n#VBox#0;n#right#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#HBox#0;n#VBox#0;n#right#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#HBox#1;n#VBox#0;n#right#0;n#BorderPane#0;n#!!top" />
-                <element signature="n#HBox#2;n#VBox#0;n#right#0;n#BorderPane#0;n#!!top" />
+                <element signature="imports" expanded="true" />
+                <element signature="method#DrawWindows#0;class#DrawWindows#0" />
+                <element signature="method#CloseTeacherMainStage#0;class#DrawWindows#0" />
+                <element signature="method#CloseAdminMainStage#0;class#DrawWindows#0" />
+                <element signature="method#ManageLogIn#0;class#DrawWindows#0" />
+                <element signature="method#DrawDialog#0;class#DrawWindows#0" />
+                <element signature="method#DrawAlert#0;class#DrawWindows#0" />
               </folding>
             </state>
           </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Attendance System.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="7" column="38" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="38" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -362,9 +344,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Showing from course change</find>
-      <find>exte</find>
-      <find>FX_T_TotalTeachers.setText</find>
       <find>cLASSdAYS</find>
       <find>ClassDays</find>
       <find>FX_LV_ClassDayList</find>
@@ -392,12 +371,16 @@
       <find>clearStudentInformation</find>
       <find>TODO</find>
       <find>ListViewBackground</find>
+      <find>Draw</find>
+      <find>DrawWindows</find>
+      <find>DrawMainStage.getInstance()</find>
     </findStrings>
     <replaceStrings>
       <replace>FontName</replace>
       <replace>TextColor</replace>
       <replace>FX_LV_SectionList</replace>
       <replace>FX_LV_StudentList</replace>
+      <replace>DrawMainStage.getInstance()</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -406,7 +389,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/UserInterface/LogInWindow.java" />
         <option value="$PROJECT_DIR$/src/LogInWindow.fxml" />
         <option value="$PROJECT_DIR$/src/LogInWindow.java" />
         <option value="$PROJECT_DIR$/src/LogInDialogue.java" />
@@ -436,7 +418,6 @@
         <option value="$PROJECT_DIR$/src/Data/TeacherAccountData.java" />
         <option value="$PROJECT_DIR$/src/InsertOrDeleteSection.java" />
         <option value="$PROJECT_DIR$/src/InsertSectionDialog.fxml" />
-        <option value="$PROJECT_DIR$/src/TeacherMainWindow.fxml" />
         <option value="$PROJECT_DIR$/src/HandleLogIn.java" />
         <option value="$PROJECT_DIR$/src/InsertCourse.java" />
         <option value="$PROJECT_DIR$/src/LogInDialogue.fxml" />
@@ -451,12 +432,14 @@
         <option value="$PROJECT_DIR$/src/SearchDialog.java" />
         <option value="$PROJECT_DIR$/src/SearchDialog.fxml" />
         <option value="$PROJECT_DIR$/src/XEadmin.java" />
-        <option value="$PROJECT_DIR$/src/DrawWindows.java" />
         <option value="$PROJECT_DIR$/src/Driver.java" />
-        <option value="$PROJECT_DIR$/src/DrawMainStage.java" />
-        <option value="$PROJECT_DIR$/src/TeacherMainWindow.java" />
         <option value="$PROJECT_DIR$/src/AdminMainWindow.fxml" />
+        <option value="$PROJECT_DIR$/src/TeacherMainWindow.fxml" />
+        <option value="$PROJECT_DIR$/src/DevInfoDialog.fxml" />
         <option value="$PROJECT_DIR$/src/AdminMainWindow.java" />
+        <option value="$PROJECT_DIR$/src/TeacherMainWindow.java" />
+        <option value="$PROJECT_DIR$/src/DrawMainStage.java" />
+        <option value="$PROJECT_DIR$/src/DrawWindows.java" />
       </list>
     </option>
   </component>
@@ -489,26 +472,20 @@
               <item name="Attendance System" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="Attendance System" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Attendance System" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Data" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="oracle" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539797159572" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539846075988" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="G:/Assets/Animations" />
@@ -625,7 +602,9 @@
       <workItem from="1539772815830" duration="13437000" />
       <workItem from="1539790592058" duration="66000" />
       <workItem from="1539791116511" duration="6038000" />
-      <workItem from="1539828464888" duration="290000" />
+      <workItem from="1539828464888" duration="888000" />
+      <workItem from="1539841114526" duration="2799000" />
+      <workItem from="1539863322095" duration="154000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit&#10;Built database connecting class">
       <created>1537794673738</created>
@@ -652,13 +631,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="185695000" />
+    <option name="totallyTimeSpent" value="189246000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18993288" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19530201" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -739,21 +717,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/TakeAttendance.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="38" column="85" selection-start-line="38" selection-start-column="85" selection-end-line="38" selection-end-column="85" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/javafx.graphics/javafx/application/Platform.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-943">
-          <caret line="148" column="23" selection-start-line="148" selection-start-column="23" selection-end-line="148" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/TakeAttendance.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="547">
@@ -791,10 +754,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1131">
           <caret line="70" column="16" selection-start-line="70" selection-start-column="16" selection-end-line="70" selection-end-column="16" />
-          <folding>
-            <element signature="e#1857#1858#0" expanded="true" />
-            <element signature="e#1879#1880#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -806,12 +765,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/InsertTeacherDialog.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="567">
           <caret line="21" column="48" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DeleteTeacher.java" />
     <entry file="file://$PROJECT_DIR$/src/DeleteTeacherDialog.fxml" />
@@ -851,20 +810,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1763">
           <caret line="137" column="5" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
-          <folding>
-            <element signature="method#StudentInformation#0;class#StudentInformation#0" />
-            <element signature="method#StudentInformation#1;class#StudentInformation#0" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/InsertStudentDialog.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
           <caret line="36" column="86" selection-start-line="36" selection-start-column="86" selection-end-line="36" selection-end-column="86" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/InsertStudentDialog.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -888,12 +843,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LogInDialogue.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="101">
           <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LogInDialogueController.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -903,12 +858,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ModificationDialog.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="637">
           <caret line="30" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ModificationDialogController.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -925,12 +880,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/InsertCourseDialog.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="359">
           <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SearchDialog.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -940,22 +895,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SearchDialog.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-          <folding>
-            <element signature="n#HBox#0;n#VBox#0;n#content#0;n#DialogPane#0;n#!!top" />
-            <element signature="n#HBox#1;n#VBox#0;n#content#0;n#DialogPane#0;n#!!top" />
-            <element signature="n#HBox#2;n#VBox#0;n#content#0;n#DialogPane#0;n#!!top" />
-            <element signature="n#HBox#3;n#VBox#0;n#content#0;n#DialogPane#0;n#!!top" />
-            <element signature="n#HBox#4;n#VBox#0;n#content#0;n#DialogPane#0;n#!!top" />
-            <element signature="n#HBox#5;n#VBox#0;n#content#0;n#DialogPane#0;n#!!top" />
-            <element signature="n#HBox#6;n#VBox#0;n#content#0;n#DialogPane#0;n#!!top" />
-            <element signature="n#HBox#7;n#VBox#0;n#content#0;n#DialogPane#0;n#!!top" />
-          </folding>
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk-10.0.1/lib/src.zip!/javafx.fxml/javafx/fxml/FXMLLoader.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -983,34 +928,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/XEbase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="643">
-          <caret line="227" selection-start-line="227" selection-end-line="227" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/XEadmin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="381" column="16" lean-forward="true" selection-start-line="381" selection-start-column="16" selection-end-line="381" selection-end-column="16" />
-          <folding>
-            <element signature="method#XEadmin#0;class#XEadmin#0" />
-            <element signature="method#close#0;class#XEadmin#0" />
-            <element signature="method#createTeacher#0;class#XEadmin#0" />
-            <element signature="method#retrievePassword#0;class#XEadmin#0" />
-            <element signature="method#deleteTeacher#0;class#XEadmin#0" />
-            <element signature="method#deleteClass#0;class#XEadmin#0" />
-            <element signature="method#insertStudent#0;class#XEadmin#0" />
-            <element signature="method#deleteStudent#0;class#XEadmin#0" />
-            <element signature="method#getCompleteTeacherSectionList#0;class#XEadmin#0" />
-            <element signature="method#getCompleteTeacherSectionCourseList#0;class#XEadmin#0" />
-            <element signature="method#getTeacherList#0;class#XEadmin#0" />
-            <element signature="method#resultSetHandler#0;class#XEadmin#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../JAVA Projects/To-Do-App-master/src/com/shakleenishfar/todoapp/TaskData/TaskDataStorage.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1021,18 +938,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DrawWindows.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
-          <folding>
-            <element signature="method#DrawWindows#0;class#DrawWindows#0" />
-            <element signature="method#DrawDialog#0;class#DrawWindows#0" />
-            <element signature="method#DrawAlert#0;class#DrawWindows#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Driver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -1040,67 +945,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DrawMainStage.java">
+    <entry file="file://$PROJECT_DIR$/src/XEbase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#DrawMainStage#0;class#DrawMainStage#0" />
-            <element signature="class#1459:2343" />
-            <element signature="method#CloseTeacherMainStage#0;class#DrawMainStage#0" />
-            <element signature="method#CloseAdminMainStage#0;class#DrawMainStage#0" />
-            <element signature="method#ManageLogIn#0;class#DrawMainStage#0" />
-          </folding>
+        <state relative-caret-position="5589">
+          <caret line="227" selection-start-line="227" selection-end-line="227" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TeacherMainWindow.java">
+    <entry file="file://$PROJECT_DIR$/src/XEadmin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="157" column="8" selection-start-line="157" selection-start-column="8" selection-end-line="157" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="6318">
+          <caret line="381" column="16" lean-forward="true" selection-start-line="381" selection-start-column="16" selection-end-line="381" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DevInfoDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="26" selection-start-column="26" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="40" column="86" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DevInfoDialog.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="19" column="94" selection-start-line="19" selection-start-column="94" selection-end-line="19" selection-end-column="94" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TeacherMainWindow.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="125" column="46" selection-start-line="125" selection-start-column="46" selection-end-line="125" selection-end-column="46" />
-        </state>
-      </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1377">
-          <caret line="196" column="24" selection-start-line="196" selection-start-column="24" selection-end-line="196" selection-end-column="24" />
+        <state relative-caret-position="143">
+          <caret line="29" column="86" selection-start-line="29" selection-start-column="86" selection-end-line="29" selection-end-column="86" />
           <folding>
-            <element signature="n#top#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#MenuBar#0;n#VBox#0;n#top#0;n#BorderPane#0;n#!!top" />
             <element signature="n#ToolBar#0;n#VBox#0;n#top#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#HBox#0;n#VBox#0;n#top#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Text#0;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Text#0;n#HBox#0;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Label#0;n#HBox#1;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Text#0;n#HBox#1;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Label#0;n#HBox#2;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Text#0;n#HBox#2;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Label#0;n#HBox#3;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Text#0;n#HBox#3;n#VBox#0;n#left#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#center#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Label#1;n#VBox#0;n#center#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#right#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#Label#1;n#VBox#0;n#right#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#HBox#0;n#VBox#0;n#right#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#HBox#1;n#VBox#0;n#right#0;n#BorderPane#0;n#!!top" />
-            <element signature="n#HBox#2;n#VBox#0;n#right#0;n#BorderPane#0;n#!!top" />
           </folding>
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="754" column="4" selection-start-line="754" selection-start-column="4" selection-end-line="754" selection-end-column="4" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Attendance System.iml">
       <provider selected="true" editor-type-id="text-editor">
@@ -1109,28 +1007,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AdminMainWindow.java">
+    <entry file="file://$PROJECT_DIR$/src/DrawWindows.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="882" column="49" selection-start-line="882" selection-start-column="49" selection-end-line="882" selection-end-column="49" />
+        <state relative-caret-position="170">
+          <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
           <folding>
-            <element signature="method#setTextColor#0;class#AdminMainWindow#0" />
-            <element signature="method#setDbmsAdminAccount#0;class#AdminMainWindow#0" />
-            <element signature="method#initialize#0;class#AdminMainWindow#0" />
-            <element signature="method#handleInsertTeacherDialog#0;class#AdminMainWindow#0" />
-            <element signature="method#handleDeleteTeacherDialog#0;class#AdminMainWindow#0" />
-            <element signature="method#handleInsertStudentDialog#0;class#AdminMainWindow#0" />
-            <element signature="method#handleDeleteStudentDialog#0;class#AdminMainWindow#0" />
-            <element signature="method#handleInsertSectionDialog#0;class#AdminMainWindow#0" />
-            <element signature="method#handleDeleteSectionDialog#0;class#AdminMainWindow#0" />
-            <element signature="method#handleInsertCourseDialog#0;class#AdminMainWindow#0" />
-            <element signature="method#handleDeleteCourseDialog#0;class#AdminMainWindow#0" />
-            <element signature="method#handleExit#0;class#AdminMainWindow#0" />
-            <element signature="method#handleLogOut#0;class#AdminMainWindow#0" />
-            <element signature="method#getTeacherInformation#0;class#AdminMainWindow#0" />
-            <element signature="method#getStudentInformation#0;class#AdminMainWindow#0" />
-            <element signature="method#getCourseAndSectionInformation#0;class#AdminMainWindow#0" />
-            <element signature="method#setupAccountButton#0;class#AdminMainWindow#0" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#DrawWindows#0;class#DrawWindows#0" />
+            <element signature="method#CloseTeacherMainStage#0;class#DrawWindows#0" />
+            <element signature="method#CloseAdminMainStage#0;class#DrawWindows#0" />
+            <element signature="method#ManageLogIn#0;class#DrawWindows#0" />
+            <element signature="method#DrawDialog#0;class#DrawWindows#0" />
+            <element signature="method#DrawAlert#0;class#DrawWindows#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TeacherMainWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1414">
+          <caret line="823" column="83" selection-start-line="823" selection-start-column="83" selection-end-line="823" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

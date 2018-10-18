@@ -1,13 +1,5 @@
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Optional;
 
 /**
  * A temporary driver to debug and demonstrate XEbase's different methods.
@@ -21,7 +13,7 @@ public class Driver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        DrawMainStage.getInstance().ManageLogIn();
+        DrawWindows.getInstance().ManageLogIn();
     }
 
     /**

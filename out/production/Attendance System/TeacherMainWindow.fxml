@@ -27,7 +27,7 @@
                     <items>
                         <MenuItem text="Search" onAction="#handleSearch"/>
                         <SeparatorMenuItem />
-                        <MenuItem text="Controls"/>
+                        <MenuItem text="Developer Ino" onAction="#handleShowDevInfo"/>
                     </items>
                 </Menu>
             </MenuBar>
