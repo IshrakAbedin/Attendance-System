@@ -1,13 +1,15 @@
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SearchDialog {
     @FXML private TextField FX_TF_SID;
-    @FXML private TextField FX_TF_Class;
+    @FXML private TextField FX_TF_Course;
     @FXML private Label FX_L_SID;
     @FXML private Label FX_L_Name;
     @FXML private Label FX_L_Address;
@@ -19,6 +21,21 @@ public class SearchDialog {
     private String SID;
     private String Class;
 
+    public void initialize(){
+        FX_TF_SID.onMouseClickedProperty().setValue(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                FX_TF_SID.selectAll();
+            }
+        });
+        FX_TF_Course.onMouseClickedProperty().setValue(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                FX_TF_Course.selectAll();
+            }
+        });
+    }
+
     public void process(XEbase account){
         Account = account;
         if (Account == null){
@@ -28,7 +45,7 @@ public class SearchDialog {
 
     @FXML private void handleSearch(){
         SID = FX_TF_SID.getText().trim();
-        Class = FX_TF_Class.getText().trim();
+        Class = FX_TF_Course.getText().trim();
 
         System.out.println(Class);
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import java.lang.String?>
+<DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="InsertStudentDialog"
+            prefHeight="400.0" prefWidth="600.0">
+    <content>
+        <GridPane alignment="CENTER" vgap="10" hgap="10">
+            <!-- Student Name -->
+            <Label text="SID" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="FX_TF_StudentID" text="Enter Student ID" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </TextField>
+
+            <!-- Student Name -->
+            <Label text="Name" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="FX_TF_StudentName" text="Enter Student Name" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </TextField>
+
+            <!-- Student Address -->
+            <Label text="Address" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="FX_TF_StudentAddress" text="Enter Student Address" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </TextField>
+
+            <!-- Student Contact -->
+            <Label text="Contact Number" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="FX_TF_StudentContact" text="Enter Student Contact info" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </TextField>
+
+            <!-- Teacher Name -->
+            <Label text="Teacher Name" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <TextField fx:id="FX_TF_TeacherName" text="Enter Teacher Name" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </TextField>
+
+            <!-- Section Name -->
+            <Label text="Section Name" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <TextField fx:id="FX_TF_SectionName" text="Enter Section Name" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </TextField>
+        </GridPane>
+    </content>
+</DialogPane>

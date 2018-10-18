@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 
 <?import java.lang.String?>
-<DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="InsertSection"
+<DialogPane xmlns:fx="http://javafx.com/fxml" fx:controller="InsertSectionDialog"
             prefHeight="200.0" prefWidth="400.0">
     <content>
         <GridPane alignment="CENTER" vgap="10" hgap="10">

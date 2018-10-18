@@ -1,19 +1,13 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
-import java.sql.*;
 
 /**
  * A temporary driver to debug and demonstrate XEbase's different methods.
@@ -24,111 +18,10 @@ import java.sql.*;
  * @since 2018-09-24
  */
 public class Driver extends Application {
-    private XEbase dbmsUserAccount;
-    private XEadmin dbmsAdminAccount;
-    private TeacherMainWindow teacherMainWindow;
-    private AdminMainWindow adminMainWindow;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        boolean failed = false;             // Variable keeps track of invalid user name or password.
-        boolean dialogCreation = false;     // Variable keeps track of unsuccessful dialog creation.
-        String AccountType = "";
-
-        // Keep doing unless the user enters a legit username and password.
-        do{
-            DrawWindows drawWindows = new DrawWindows();
-
-            if (failed){    // If log in failed then show this
-                dialogCreation = drawWindows.DrawDialog(
-                        "LogInDialogue.fxml",
-                        "Log In Dialogue",
-                        "Invalid Username and/or password.",
-                        null
-                );
-            } else {        // If log in for first time then show this
-                dialogCreation = drawWindows.DrawDialog(
-                        "LogInDialogue.fxml",
-                        "Log In Dialogue",
-                        "Use this Dialog to Log In",
-                        null
-                );
-            }
-
-            // If dialog was successfully created then proceed.
-            if (dialogCreation){
-                Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
-
-                // If the user presses the OK button perform the following.
-                if (result.isPresent() && result.get() == ButtonType.OK){
-                    // Get controller of FXML.
-                    LogInDialogueController controller = drawWindows.getFxmlLoader().getController();
-
-                    if (controller.processLogIn()){
-                        AccountType = controller.getAccountType();
-                        FXMLLoader MainFXMLLoader = new FXMLLoader();
-
-                        if (AccountType.equals("Teacher")) {
-                            dbmsUserAccount = new XEbase(
-                                    controller.getUserName(),
-                                    controller.getPassWord()
-                            );
-
-                            if (dbmsUserAccount.connected == true){
-                                MainFXMLLoader.setLocation(getClass().getResource("TeacherMainWindow.fxml"));
-                                Parent root = MainFXMLLoader.load();
-                                primaryStage.setTitle("Attendance System - Teacher");
-                                primaryStage.setScene(new Scene(root, 1280, 720));
-                                primaryStage.show();
-                                teacherMainWindow = MainFXMLLoader.getController();
-                                teacherMainWindow.setDbmsUserAccount(dbmsUserAccount);
-                                failed = false;
-                            }
-                            else {
-                                failed = true;
-                            }
-                        }
-                        else if (AccountType.equals("Admin")){
-                            dbmsAdminAccount = new XEadmin(
-                                    controller.getUserName(),
-                                    controller.getPassWord()
-                            );
-
-                            if (dbmsAdminAccount.connected == true){
-                                MainFXMLLoader.setLocation(getClass().getResource("AdminMainWindow.fxml"));
-                                Parent root = MainFXMLLoader.load();
-                                primaryStage.setTitle("Attendance System - Admin");
-                                primaryStage.setScene(new Scene(root, 1280, 720));
-                                primaryStage.show();
-                                adminMainWindow = MainFXMLLoader.getController();
-                                adminMainWindow.setDbmsAdminAccount(dbmsAdminAccount);
-                                failed = false;
-                            }
-                            else {
-                                failed = true;
-                            }
-                        }
-                    }
-                    else {
-                        failed = true;
-                    }
-                } else{
-                    System.out.println("CANCEL");
-                    break;
-                }
-            }
-            else {
-                System.out.println("Dialog couldn't be created!");
-                break;
-            }
-        } while (failed == true);
-    }
-
-    @Override
-    public void stop() throws Exception {
-        if (teacherMainWindow != null)
-            teacherMainWindow.clearInformation();
-        super.stop();
+        DrawMainStage.getInstance().ManageLogIn();
     }
 
     /**
@@ -348,35 +241,37 @@ public class Driver extends Application {
 //        finally {
 //            dbase.close(); // finally statement makes sure database is always closed at end regardless of the occurrence of exception
 //        }
-
+//
 //        XEadmin xeadmin = new XEadmin("ADMIN", "ADMIN");
 //        System.out.println(xeadmin.createTeacher("testingsalt", "testingsalt"));
 //        System.out.println(xeadmin.deleteTeacher("testingsalt"));
-//        System.out.println(xeadmin.createSection("testingsalt","Alfresco"));
+//        System.out.println(xeadmin.createSection("testingsalt","disco"));
 //        System.out.println(xeadmin.createClass("testingsalt","disco","fisco"));
 //        System.out.println(xeadmin.deleteClass("testingsalt","disco","fisco"));
-//        System.out.println(xeadmin.deleteSection("testingsalt","Alfresco"));
+//        System.out.println(xeadmin.deleteSection("testingsalt","disco"));
 //        System.out.println(xeadmin.insertStudent("testingsalt","disco","401","Waterfall","Niagara","420911"));
 //        System.out.println(xeadmin.deleteStudent("testingsalt","disco","401"));
 //        System.out.println(xeadmin.insertStudent("testingsalt","disco","402","Nvidia GeForce","GTX1080","420912"));
 //        try {
-//            ResultSet rs = xeadmin.getCompleteTeacherSectionList();
+//            ResultSet rs = xeadmin.getCompleteTeacherSectionCourseList();
 //            if (rs == null) System.out.println("No Result Found");
 //            else {
-//                System.out.println("Teacher\tSection");
+//                System.out.println("Teacher\tSection\tClass");
 //                while (rs.next()) {
 //                    System.out.print(rs.getString("TNAME") + "\t");
-//                    System.out.print(rs.getString("SECTION") + "\n");
+//                    System.out.print(rs.getString("SECTION") + "\t");
+//                    System.out.print(rs.getString("CLASS") + "\n");
 //                }
 //            }
 //            System.out.println("-----------------------------------\n\n");
 //
-//            rs = xeadmin.getSectionByTeacherList("testingsalt");
+//            rs = xeadmin.getSectionCourseByTeacherList("DEMOTEACHER");
 //            if (rs == null) System.out.println("No Result Found");
 //            else {
-//                System.out.println("Section");
+//                System.out.println("Section\tClass");
 //                while (rs.next()) {
-//                    System.out.print(rs.getString("SECTION") + "\n");
+//                    System.out.print(rs.getString("SECTION") + "\t");
+//                    System.out.print(rs.getString("CLASS") + "\n");
 //                }
 //            }
 //            System.out.println("-----------------------------------\n\n");
@@ -391,7 +286,7 @@ public class Driver extends Application {
 //            }
 //            System.out.println("-----------------------------------\n\n");
 //
-//            rs = xeadmin.getStudentListByTeacher("testingsalt", "disco");
+//            rs = xeadmin.getStudentListByTeacher("DEMOTEACHER", "CSE16");
 //            if (rs == null)
 //                System.out.println("No Result Found");
 //            else {

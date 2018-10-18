@@ -10,10 +10,10 @@
         <VBox>
             <HBox alignment="CENTER">
                 <Label text="SID"/>
-                <TextField fx:id="FX_TF_SID"/>
+                <TextField text="Enter SID" fx:id="FX_TF_SID"/>
 
-                <Label text="Class"/>
-                <TextField fx:id="FX_TF_Class"/>
+                <Label text="Course"/>
+                <TextField text="Enter Course Name" fx:id="FX_TF_Course"/>
             </HBox>
 
             <HBox alignment="CENTER">

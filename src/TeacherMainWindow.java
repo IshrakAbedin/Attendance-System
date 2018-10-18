@@ -8,11 +8,9 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -24,7 +22,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,7 +44,6 @@ public class TeacherMainWindow {
     private String TeacherAccountName;
     private String TeacherAccountPassword;
     private String FontName;
-    private Background ListViewBackground;
     private ContextMenu FX_CM_list;
     private DateTimeFormatter dateTimeFormatter;
 
@@ -149,37 +145,7 @@ public class TeacherMainWindow {
                 return (stdInfo.getAttendancePercentage() < 75);
             }
         };
-        ListViewBackground = new Background(
-                new BackgroundFill(
-                        Color.color(0.25,0.25,0.25,1),
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY
-                )
-        );
-        Callback<ListView<String>, ListCell<String>> cellColor = new Callback<ListView<String>, ListCell<String>>() {
-            @Override
-            public ListCell<String> call(ListView<String> param) {
-                ListCell <String> cell = new ListCell<String>(){
-                    @Override
-                    protected void updateItem(String std, boolean empty) {
-                        super.updateItem(std, empty);
-                        setFont(Font.font(FontName, 16));
-                        setTextFill(Color.color(0, 1, 0.86, 1));
-
-                        if (empty){
-                            setText("- - -");
-                        } else {
-                            setText(std);
-                        }
-                    }
-                };
-
-                // Setting cell background color
-                cell.backgroundProperty().setValue(ListViewBackground);
-
-                return cell;
-            }
-        };
+        Callback<ListView<String>, ListCell<String>> cellColor = DrawMainStage.getInstance().cellColor;
         dateTimeFormatter = DateTimeFormatter.ofPattern("MMMdd");
 
         /*
@@ -275,7 +241,7 @@ public class TeacherMainWindow {
                 };
 
                 // Setting cell background color
-                cell.backgroundProperty().setValue(ListViewBackground);
+                cell.backgroundProperty().setValue(DrawMainStage.getInstance().ListViewBackground);
 
                 // Attaching context menu to respond to only cells
                 cell.emptyProperty().addListener(
@@ -301,7 +267,19 @@ public class TeacherMainWindow {
      * Creates a dialogue through which you log in to your account.
      */
     @FXML private void handleLogOut(){
-        handleExit();
+        DrawWindows drawWindows = new DrawWindows();
+        drawWindows.DrawAlert(
+                "Confirm Log out",
+                "Do you want to Log out?",
+                "Please confirm if you want to Log out of " + dbmsUserAccount.name,
+                "CONFIRMATION"
+        );
+
+        Optional<ButtonType> result = drawWindows.getAlertResult();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            dbmsUserAccount.close();
+            DrawMainStage.getInstance().CloseTeacherMainStage();
+        }
     }
 
 
@@ -741,8 +719,8 @@ public class TeacherMainWindow {
             return;
         }
 
-        if (StudentInfoList != null){
-            if (filteredList != null){
+        if (StudentInfoList.size() > 0){
+            if (filteredList.size() > 0){
                 FX_LV_StudentInfo.setItems(filteredList);
 
                 if (std == null)
@@ -846,59 +824,6 @@ public class TeacherMainWindow {
                 }
             }
         }
-    }
-
-
-    /**
-     * Clears everything temporarily stored and viewed on UI.
-     * Also logs out from dbms account.
-     */
-    public void clearInformation(){
-        // Clearing account information
-        clearAccountInformation();
-
-        // Clearing class information
-        clearClassInformation();
-
-        // Clearing student information
-        clearStudentInformation();
-    }
-
-
-    /**
-     * Clears temporary student information.
-     */
-    private void clearStudentInformation(){
-        StudentInfoList.clear();
-        PresentDayList.clear();
-        FX_T_SName.setText("");
-        FX_T_SAddress.setText("");
-        FX_T_SContactNumber.setText("");
-        FX_T_SAttendanceCount.setText("");
-        FX_T_SAttendancePercentage.setText("");
-        FX_T_SAttendanceRemarks.setText("");
-    }
-
-
-    /**
-     * Clears temporary Class information.
-     */
-    private void clearClassInformation(){
-        FX_T_TotalLectureCount.setText("");
-        FX_T_TotalStudents.setText("");
-        FX_T_TotalDefaulterStudents.setText("");
-        ClassDayList.clear();
-    }
-
-
-    /**
-     * Clears temporary Account information.
-     */
-    private void clearAccountInformation(){
-        dbmsUserAccount.close();
-        dbmsUserAccount = null;
-        CourseList.clear();
-        SectionList.clear();
     }
 
 

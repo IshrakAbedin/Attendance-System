@@ -38,8 +38,6 @@
 
                 <Menu text="Help">
                     <items>
-                        <MenuItem text="Search" onAction="#handleSearchTeacher"/>
-                        <SeparatorMenuItem />
                         <MenuItem text="Controls"/>
                     </items>
                 </Menu>
@@ -51,13 +49,6 @@
                 <Button fx:id="FX_B_Account" onAction="#handleLogOut" text="Log In">
                     <tooltip>
                         <Tooltip/>
-                    </tooltip>
-                </Button>
-
-                <!-- Search Button -->
-                <Button onAction="#handleSearchTeacher" text="Search">
-                    <tooltip>
-                        <Tooltip text="Search for student info"/>
                     </tooltip>
                 </Button>
 
@@ -145,10 +136,10 @@
                 </font>
             </Text>
 
-            <!-- Label for class details -->
+            <!-- Label for Teacher details -->
             <Label text="Teacher details" fx:id="FXHeader"/>
 
-            <!-- Displays total student count -->
+            <!-- Displays total teacher count -->
             <HBox>
                 <Label text="Total Teachers : " fx:id="FXNormal"/>
                 <Text fx:id="FX_T_TotalTeachers" style="-fx-text-fill: white;">
@@ -160,6 +151,60 @@
 
             <Label text="Teacher List" fx:id="FXHeader"/>
             <ComboBox fx:id="FX_CB_TeacherList" VBox.vgrow="ALWAYS" style="-fx-background-color: grey"/>
+
+            <!-- Displays total teacher count -->
+            <HBox>
+                <Label text="Total Sections : " fx:id="FXNormal">
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                </Label>
+                <Text fx:id="FX_T_TotalSections" style="-fx-text-fill: white;">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                </Text>
+            </HBox>
+
+            <!-- Displays total Course count -->
+            <HBox>
+                <Label text="Total Courses : " fx:id="FXNormal">
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                </Label>
+                <Text fx:id="FX_T_TotalCourses" style="-fx-text-fill: white;">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                </Text>
+            </HBox>
+
+            <!-- Displays total student count -->
+            <HBox>
+                <Label text="Total Students : " fx:id="FXNormal">
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                </Label>
+                <Text fx:id="FX_T_TotalStudents" style="-fx-text-fill: white;">
+                    <font>
+                        <Font name="Times New Roman bold" size="20"/>
+                    </font>
+
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                </Text>
+            </HBox>
         </VBox>
     </left>
 
@@ -174,11 +219,12 @@
             <Label text="Course List" fx:id="FXHeader"/>
             <ListView fx:id="FX_LV_CourseList" VBox.vgrow="ALWAYS"/>
 
-            <Label text="Section List" fx:id="FXHeader"/>
+            <Label text="Section List" fx:id="FXHeader">
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </Label>
             <ListView fx:id="FX_LV_SectionList" VBox.vgrow="ALWAYS"/>
-
-            <Label text="Student List" fx:id="FXHeader"/>
-            <ListView fx:id="FX_LV_StudentList" VBox.vgrow="ALWAYS"/>
         </VBox>
     </center>
 
@@ -190,7 +236,14 @@
                 <Insets bottom="15" left="15" right="15" top="20" />
             </padding>
 
-            <Label text="Student details" fx:id="FXHeader"/>
+            <Label text="Student List" fx:id="FXHeader"/>
+            <ListView fx:id="FX_LV_StudentList" maxHeight="250" minWidth="450"/>
+
+            <Label text="Student details" fx:id="FXHeader">
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+            </Label>
 
             <!-- Displays student name -->
             <HBox>

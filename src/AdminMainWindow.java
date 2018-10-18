@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
@@ -18,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -28,7 +26,6 @@ import java.util.Optional;
 public class AdminMainWindow {
     private XEadmin dbmsAdminAccount;
     private String FontName;
-    private Background ListViewBackground;
     private ObservableList<StudentInformation> StudentsList;
     private ObservableList<String> TeacherList;
     private ObservableList<String> SectionList;
@@ -38,6 +35,9 @@ public class AdminMainWindow {
     @FXML private Button FX_B_Account;
     @FXML private Text FX_T_Date;
     @FXML private Text FX_T_TotalTeachers;
+    @FXML private Text FX_T_TotalSections;
+    @FXML private Text FX_T_TotalCourses;
+    @FXML private Text FX_T_TotalStudents;
     @FXML private ComboBox<String> FX_CB_TeacherList;
     @FXML private ListView<String> FX_LV_CourseList;
     @FXML private ListView<String> FX_LV_SectionList;
@@ -46,6 +46,22 @@ public class AdminMainWindow {
     @FXML private Text FX_T_SName;
     @FXML private Text FX_T_SAddress;
     @FXML private Text FX_T_SContactNumber;
+
+
+    /**
+     * Sets text colors for information displaying.
+     * @param TextColor the color to show.
+     */
+    private void setTextColor(Color TextColor){
+        FX_T_SName.setFill(TextColor);
+        FX_T_SAddress.setFill(TextColor);
+        FX_T_SContactNumber.setFill(TextColor);
+        FX_T_Date.setFill(TextColor);
+        FX_T_TotalTeachers.setFill(TextColor);
+        FX_T_TotalSections.setFill(TextColor);
+        FX_T_TotalCourses.setFill(TextColor);
+        FX_T_TotalStudents.setFill(TextColor);
+    }
 
 
     public void setDbmsAdminAccount(XEadmin dbmsAdminAccount) {
@@ -61,6 +77,7 @@ public class AdminMainWindow {
      * Initializes necessary variables and functions.
      */
     public void initialize(){
+        setTextColor(Color.color(1,1,1,1));
         TeacherList = FXCollections.observableArrayList();
         StudentsList = FXCollections.observableArrayList();
         SectionList = FXCollections.observableArrayList();
@@ -68,37 +85,7 @@ public class AdminMainWindow {
         FontName = "Arial";
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         FX_T_Date.setText("Date : " + df.format(LocalDateTime.now()));
-        ListViewBackground = new Background(
-                new BackgroundFill(
-                        Color.color(0.25,0.25,0.25,1),
-                        CornerRadii.EMPTY,
-                        Insets.EMPTY
-                )
-        );
-        Callback<ListView<String>, ListCell<String>> cellColor = new Callback<ListView<String>, ListCell<String>>() {
-            @Override
-            public ListCell<String> call(ListView<String> param) {
-                ListCell <String> cell = new ListCell<String>(){
-                    @Override
-                    protected void updateItem(String std, boolean empty) {
-                        super.updateItem(std, empty);
-                        setFont(Font.font(FontName, 16));
-                        setTextFill(Color.color(0, 1, 0.86, 1));
-
-                        if (empty){
-                            setText("- - -");
-                        } else {
-                            setText(std);
-                        }
-                    }
-                };
-
-                // Setting cell background color
-                cell.backgroundProperty().setValue(ListViewBackground);
-
-                return cell;
-            }
-        };
+        Callback<ListView<String>, ListCell<String>> cellColor = DrawMainStage.getInstance().cellColor;
 
         // Selection modes
         FX_LV_SectionList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -153,16 +140,16 @@ public class AdminMainWindow {
                 };
 
                 // Setting cell background color
-                cell.backgroundProperty().setValue(ListViewBackground);
+                cell.backgroundProperty().setValue(DrawMainStage.getInstance().ListViewBackground);
 
                 return cell;
             }
         });
 
         // Setting background
-        FX_CB_TeacherList.setBackground(ListViewBackground);
-        FX_LV_CourseList.setBackground(ListViewBackground);
-        FX_LV_SectionList.setBackground(ListViewBackground);
+        FX_CB_TeacherList.setBackground(DrawMainStage.getInstance().ListViewBackground);
+        FX_LV_CourseList.setBackground(DrawMainStage.getInstance().ListViewBackground);
+        FX_LV_SectionList.setBackground(DrawMainStage.getInstance().ListViewBackground);
 
         // Binding values
         FX_CB_TeacherList.itemsProperty().setValue(TeacherList);
@@ -193,63 +180,55 @@ public class AdminMainWindow {
         if (creation == true){
             System.out.println("Dialog has been created!");
 
-            InsertTeacher insertTeacher = drawWindows.getFxmlLoader().getController();
+            InsertTeacherDialog insertTeacherDialog = drawWindows.getFxmlLoader().getController();
             Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK){
-                InsertTeacher(
-                        insertTeacher.getTeacherName(),
-                        insertTeacher.getPassword()
-                );
+                String Teacher = insertTeacherDialog.getTeacherName();
+                String Password = insertTeacherDialog.getPassword();
+
+                if (TeacherList.indexOf(Teacher) == -1) {
+                    Task<Boolean> Task_InsertTeacher = new Task<Boolean>() {
+                        boolean InsertionStatus;
+
+                        @Override
+                        protected Boolean call() throws Exception {
+                            InsertionStatus = false;
+                            System.out.println(Teacher + " " + Password);
+                            InsertionStatus = dbmsAdminAccount.createTeacher(Teacher, Password);
+                            return InsertionStatus;
+                        }
+
+                        @Override
+                        protected void succeeded() {
+                            super.succeeded();
+
+                            DrawWindows drawWindows = new DrawWindows();
+                            if (InsertionStatus == true) {
+                                TeacherList.add(Teacher);
+                                Integer Size = TeacherList.size();
+                                FX_T_TotalTeachers.setText(Size.toString());
+
+                                drawWindows.DrawAlert(
+                                        "Success",
+                                        "Teacher successfully created",
+                                        Teacher + " successfully created",
+                                        "INFORMATION"
+                                );
+                            } else {
+                                drawWindows.DrawAlert(
+                                        "Failed",
+                                        "Teacher creation failed",
+                                        Teacher + " couldn't be created",
+                                        "ERROR"
+                                );
+                            }
+                        }
+                    };
+                    new Thread(Task_InsertTeacher).start();
+                }
             }
         }
-    }
-
-    /**
-     * Inserts teacher to dbms.
-     * @param Teacher The name of the teacher account.
-     * @param Password The password of the teacher account.
-     */
-    private void InsertTeacher(String Teacher, String Password){
-        Task<Boolean> Task_InsertTeacher = new Task<Boolean>() {
-            boolean InsertionStatus;
-
-            @Override
-            protected Boolean call() throws Exception {
-                InsertionStatus = false;
-                System.out.println(Teacher + " " + Password);
-                InsertionStatus = dbmsAdminAccount.createTeacher(Teacher, Password);
-                return InsertionStatus;
-            }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-
-                DrawWindows drawWindows = new DrawWindows();
-                if (InsertionStatus == true){
-                    TeacherList.add(Teacher);
-                    Integer Size = TeacherList.size();
-                    FX_T_TotalTeachers.setText(Size.toString());
-
-                    drawWindows.DrawAlert(
-                            "Success",
-                            "Teacher successfully created",
-                            Teacher + " successfully created",
-                            "INFORMATION"
-                    );
-                }
-                else{
-                    drawWindows.DrawAlert(
-                            "Failed",
-                            "Teacher creation failed",
-                            Teacher + " couldn't be created",
-                            "ERROR"
-                    );
-                }
-            }
-        };
-        new Thread(Task_InsertTeacher).start();
     }
 
 
@@ -273,70 +252,188 @@ public class AdminMainWindow {
 
         Optional<ButtonType> result = drawWindows.getAlertResult();
         if (result.isPresent() && result.get() == ButtonType.OK){
-            deleteTeacher();
+            Task<Boolean> Task_DeleteTeacher = new Task<>() {
+                boolean DeleteStatus;
+                String Teacher;
+
+                @Override
+                protected Boolean call() throws Exception {
+                    DeleteStatus = false;
+                    Teacher = FX_CB_TeacherList.getSelectionModel().getSelectedItem();
+                    DeleteStatus = dbmsAdminAccount.deleteTeacher(Teacher);
+                    return DeleteStatus;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+
+                    DrawWindows drawWindows = new DrawWindows();
+                    if (DeleteStatus == true){
+                        System.out.println("Delete successful!");
+                        TeacherList.remove(Teacher);
+                        Integer Size = TeacherList.size();
+                        FX_T_TotalTeachers.setText(Size.toString());
+
+                        drawWindows.DrawAlert(
+                                "Success",
+                                "Teacher successfully deleted",
+                                Teacher + " successfully deleted",
+                                "INFORMATION"
+                        );
+                    }
+                    else{
+                        System.out.println("Delete failed!");
+
+                        drawWindows.DrawAlert(
+                                "Failed",
+                                "Teacher deletion failed",
+                                Teacher + " couldn't be deleted",
+                                "ERROR"
+                        );
+                    }
+                }
+            };
+            new Thread(Task_DeleteTeacher).start();
         }
     }
 
 
     /**
-     * Deletes the selected teacher from dbms.
+     * Handles insertion of a new student.
      */
-    private void deleteTeacher(){
-        Task<Boolean> Task_DeleteTeacher = new Task<>() {
-            boolean DeleteStatus;
-            String Teacher;
+    @FXML private void handleInsertStudentDialog(){
+        if (dbmsAdminAccount == null){
+            System.out.println("Returned from handle insert section!");
+            return;
+        }
 
-            @Override
-            protected Boolean call() throws Exception {
-                DeleteStatus = false;
-                Teacher = FX_CB_TeacherList.getSelectionModel().getSelectedItem();
-                DeleteStatus = dbmsAdminAccount.deleteTeacher(Teacher);
-                return DeleteStatus;
+        DrawWindows drawWindows = new DrawWindows();
+        boolean dialogCreation = drawWindows.DrawDialog(
+                "InsertStudentDialog.fxml",
+                "Student Insertion",
+                "Insert a new student",
+                FX_BorderPane_Admin
+        );
+
+        if (dialogCreation == true){
+            InsertStudentDialog insertStudentDialog = drawWindows.getFxmlLoader().getController();
+            insertStudentDialog.setSectionName(FX_LV_SectionList.getSelectionModel().getSelectedItem());
+            insertStudentDialog.setTeacherName(FX_CB_TeacherList.getSelectionModel().getSelectedItem());
+
+            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK){
+                String SID = insertStudentDialog.getStudentID();
+                String Name = insertStudentDialog.getStudentName();
+                String Address = insertStudentDialog.getStudentAddress();
+                String ContactNo = insertStudentDialog.getStudentContact();
+                String Teacher = insertStudentDialog.getTeacherName();
+                String Section = insertStudentDialog.getSectionName();
+
+                Task <Boolean> Task_InsertStudent = new Task<Boolean>() {
+                    boolean InsertionStatus;
+
+                    @Override
+                    protected Boolean call() throws Exception {
+                        InsertionStatus = false;
+                        InsertionStatus = dbmsAdminAccount.insertStudent(Teacher, Section, SID, Name, Address, ContactNo);
+                        return InsertionStatus;
+                    }
+
+                    @Override
+                    protected void succeeded() {
+                        DrawWindows drawWindows = new DrawWindows();
+
+                        if (InsertionStatus == true){
+                            drawWindows.DrawAlert(
+                                    "Success",
+                                    "Student successfully inserted",
+                                    SID + " successfully inserted",
+                                    "INFORMATION"
+                            );
+                        }
+                        else{
+                            drawWindows.DrawAlert(
+                                    "Failed",
+                                    "Student creation failed",
+                                    SID + " couldn't be created",
+                                    "ERROR"
+                            );
+                        }
+                    }
+                };
+                new Thread(Task_InsertStudent).start();
             }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-
-                DrawWindows drawWindows = new DrawWindows();
-                if (DeleteStatus == true){
-                    System.out.println("Delete successful!");
-                    TeacherList.remove(Teacher);
-                    Integer Size = TeacherList.size();
-                    FX_T_TotalTeachers.setText(Size.toString());
-
-                    drawWindows.DrawAlert(
-                            "Success",
-                            "Teacher successfully deleted",
-                            Teacher + " successfully deleted",
-                            "INFORMATION"
-                    );
-                }
-                else{
-                    System.out.println("Delete failed!");
-
-                    drawWindows.DrawAlert(
-                            "Failed",
-                            "Teacher deletion failed",
-                            Teacher + " couldn't be deleted",
-                            "ERROR"
-                    );
-                }
-            }
-        };
-        new Thread(Task_DeleteTeacher).start();
+        }
     }
 
 
-    @FXML private void handleSearchTeacher(){}
+    /**
+     * Handles deletion of a student
+     */
+    @FXML private void handleDeleteStudentDialog(){
+        if (dbmsAdminAccount == null){
+            System.out.println("Returned from delete teacher because account is null!");
+            return;
+        }
+
+        String SID = FX_LV_StudentList.getSelectionModel().getSelectedItem().getSID();
+        String Section = FX_LV_SectionList.getSelectionModel().getSelectedItem();
+        String Teacher = FX_CB_TeacherList.getSelectionModel().getSelectedItem();
+
+        DrawWindows drawWindows = new DrawWindows();
+        drawWindows.DrawAlert(
+                "Confirm delete",
+                "Confirm delete operation",
+                "Do you want to delete " + SID + " from " + Section  + "?",
+                "CONFIRMATION"
+        );
+
+        Optional<ButtonType> result = drawWindows.getAlertResult();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            Task<Boolean> Task_DeleteStudent = new Task<>() {
+                boolean DeleteStatus;
+
+                @Override
+                protected Boolean call() throws Exception {
+                    DeleteStatus = false;
+                    DeleteStatus = dbmsAdminAccount.deleteStudent(Teacher, Section, SID);
+                    return DeleteStatus;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+
+                    DrawWindows drawWindows = new DrawWindows();
+                    if (DeleteStatus == true){
+                        drawWindows.DrawAlert(
+                                "Success",
+                                "Student successfully deleted",
+                                SID + " successfully deleted",
+                                "INFORMATION"
+                        );
+                        getStudentInformation();
+                    }
+                    else{
+                        System.out.println("Delete failed!");
+                        drawWindows.DrawAlert(
+                                "Failed",
+                                "Student deletion failed",
+                                SID + " couldn't be deleted",
+                                "ERROR"
+                        );
+                    }
+                }
+            };
+            new Thread(Task_DeleteStudent).start();
+        }
+    }
 
 
-    @FXML private void handleInsertStudentDialog(){}
-
-
-    @FXML private void handleDeleteStudentDialog(){}
-
-
+    /**
+     * Handles insert section task.
+     */
     @FXML private void handleInsertSectionDialog(){
         if (dbmsAdminAccount == null){
             System.out.println("Returned from handle insert section!");
@@ -354,63 +451,296 @@ public class AdminMainWindow {
         if (dialogCreation == true){
             System.out.println("Dialog has been created!");
 
-            InsertSection insertSection = drawWindows.getFxmlLoader().getController();
+            InsertSectionDialog insertSectionDialog = drawWindows.getFxmlLoader().getController();
+            insertSectionDialog.setTeacherName(FX_CB_TeacherList.getSelectionModel().getSelectedItem());
             Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK){
-                insertSection(insertSection.getTeacherName(), insertSection.getSectionName());
+                String Teacher = insertSectionDialog.getTeacherName();
+                String Section = insertSectionDialog.getSectionName();
+                DrawWindows drawWindows1 = new DrawWindows();
+
+                if (TeacherList.indexOf(Teacher) == -1){
+                    drawWindows1.DrawAlert(
+                            "Error inserting section",
+                            "Teacher not found",
+                            Teacher + " doesn't exist!",
+                            "ERROR"
+                    );
+                    return;
+                }
+                else if (SectionList.indexOf(Section) == -1){
+                    Task <Boolean> Task_InsertSection = new Task<Boolean>() {
+                        boolean InsertionStatus;
+
+                        @Override
+                        protected Boolean call() throws Exception {
+                            InsertionStatus = false;
+                            InsertionStatus = dbmsAdminAccount.createSection(Teacher, Section);
+                            return InsertionStatus;
+                        }
+
+                        @Override
+                        protected void succeeded() {
+                            DrawWindows drawWindows = new DrawWindows();
+
+                            if (InsertionStatus == true){
+                                SectionList.add(Section);
+
+                                drawWindows.DrawAlert(
+                                        "Success",
+                                        "Section successfully created",
+                                        Section + " successfully created",
+                                        "INFORMATION"
+                                );
+                            }
+                            else{
+                                drawWindows.DrawAlert(
+                                        "Failed",
+                                        "Section creation failed",
+                                        Section + " couldn't be created",
+                                        "ERROR"
+                                );
+                            }
+                        }
+                    };
+                    new Thread(Task_InsertSection).start();
+                }
             }
         }
     }
 
 
-    private void insertSection(String Teacher, String Section){
-        Task <Boolean> Task_InsertSection = new Task<Boolean>() {
-            boolean InsertionStatus;
+    /**
+     * Handles delete section task.
+     */
+    @FXML private void handleDeleteSectionDialog(){
+        if (dbmsAdminAccount == null){
+            System.out.println("Returned from delete teacher because account is null!");
+            return;
+        }
 
-            @Override
-            protected Boolean call() throws Exception {
-                InsertionStatus = false;
-                InsertionStatus = dbmsAdminAccount.createSection(Teacher, Section);
-                return InsertionStatus;
-            }
+        DrawWindows drawWindows = new DrawWindows();
+        drawWindows.DrawAlert(
+                "Confirm delete",
+                "Confirm delete operation",
+                "Do you want to delete " + FX_LV_SectionList.getSelectionModel().getSelectedItem() + "?",
+                "CONFIRMATION"
+        );
 
-            @Override
-            protected void succeeded() {
-                DrawWindows drawWindows = new DrawWindows();
+        Optional<ButtonType> result = drawWindows.getAlertResult();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            Task<Boolean> Task_DeleteSection = new Task<>() {
+                boolean DeleteStatus;
+                String Teacher;
+                String Section;
 
-                if (InsertionStatus == true){
-                    SectionList.add(Section);
-
-                    drawWindows.DrawAlert(
-                            "Success",
-                            "Section successfully created",
-                            Section + " successfully created",
-                            "INFORMATION"
-                    );
+                @Override
+                protected Boolean call() throws Exception {
+                    DeleteStatus = false;
+                    Teacher = FX_CB_TeacherList.getSelectionModel().getSelectedItem();
+                    Section = FX_LV_SectionList.getSelectionModel().getSelectedItem();
+                    DeleteStatus = dbmsAdminAccount.deleteSection(Teacher, Section);
+                    return DeleteStatus;
                 }
-                else{
-                    drawWindows.DrawAlert(
-                            "Failed",
-                            "Section creation failed",
-                            Section + " couldn't be created",
-                            "ERROR"
-                    );
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+
+                    DrawWindows drawWindows = new DrawWindows();
+                    if (DeleteStatus == true){
+                        System.out.println("Delete successful!");
+                        SectionList.remove(Section);
+
+                        drawWindows.DrawAlert(
+                                "Success",
+                                "Section successfully deleted",
+                                Section + " successfully deleted",
+                                "INFORMATION"
+                        );
+                    }
+                    else{
+                        System.out.println("Delete failed!");
+
+                        drawWindows.DrawAlert(
+                                "Failed",
+                                "Section deletion failed",
+                                Section + " couldn't be deleted",
+                                "ERROR"
+                        );
+                    }
                 }
-            }
-        };
-        new Thread(Task_InsertSection).start();
+            };
+            new Thread(Task_DeleteSection).start();
+        }
     }
 
 
-    @FXML private void handleDeleteSectionDialog(){}
+    /**
+     * Handles insert course task.
+     */
+    @FXML private void handleInsertCourseDialog(){
+        if (dbmsAdminAccount == null){
+            System.out.println("Returned from handle insert section!");
+            return;
+        }
+
+        DrawWindows drawWindows = new DrawWindows();
+        boolean dialogCreation = drawWindows.DrawDialog(
+                "InsertCourseDialog.fxml",
+                "Course Insertion",
+                "Insert a Course for a teacher and section",
+                FX_BorderPane_Admin
+        );
+
+        if (dialogCreation == true){
+            System.out.println("Dialog has been created!");
+
+            InsertCourseDialog insertCourseDialog = drawWindows.getFxmlLoader().getController();
+            insertCourseDialog.setTeacherName(FX_CB_TeacherList.getSelectionModel().getSelectedItem());
+            insertCourseDialog.setSectionName(FX_LV_SectionList.getSelectionModel().getSelectedItem());
+
+            Optional<ButtonType> result = drawWindows.getDialog().showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK){
+                String Teacher = insertCourseDialog.getTeacherName();
+                String Section = insertCourseDialog.getSectionName();
+                String Course = insertCourseDialog.getCourseName();
+                DrawWindows drawWindows1 = new DrawWindows();
+
+                if (TeacherList.indexOf(Teacher) == -1){
+                    drawWindows1.DrawAlert(
+                            "Error inserting course",
+                            "Teacher not found",
+                            Teacher + " doesn't exist!",
+                            "ERROR"
+                    );
+                    return;
+                }
+                else if (SectionList.indexOf(Section) == -1){
+                    drawWindows1.DrawAlert(
+                            "Error inserting course",
+                            "Section not found",
+                            Section + " doesn't exist!",
+                            "ERROR"
+                    );
+                    return;
+                }
+                else if (CourseList.indexOf(Course) == -1) {
+                    Task <Boolean> Task_InsertCourse = new Task<Boolean>() {
+                        boolean InsertionStatus;
+
+                        @Override
+                        protected Boolean call() throws Exception {
+                            InsertionStatus = false;
+                            InsertionStatus = dbmsAdminAccount.createClass(Teacher, Section, Course);
+                            return InsertionStatus;
+                        }
+
+                        @Override
+                        protected void succeeded() {
+                            DrawWindows drawWindows = new DrawWindows();
+
+                            if (InsertionStatus == true){
+                                CourseList.add(Course);
+
+                                drawWindows.DrawAlert(
+                                        "Success",
+                                        "Course successfully created",
+                                        Course + " successfully created",
+                                        "INFORMATION"
+                                );
+                            }
+                            else{
+                                drawWindows.DrawAlert(
+                                        "Failed",
+                                        "Course creation failed",
+                                        Course + " couldn't be created",
+                                        "ERROR"
+                                );
+                            }
+                        }
+                    };
+                    new Thread(Task_InsertCourse).start();
+                }
+            }
+        }
+    }
 
 
-    @FXML private void handleInsertCourseDialog(){}
+    /**
+     * Handles delete course task.
+     */
+    @FXML private void handleDeleteCourseDialog(){
+        if (dbmsAdminAccount == null){
+            System.out.println("Returned from delete teacher because account is null!");
+            return;
+        }
+
+        DrawWindows drawWindows = new DrawWindows();
+        drawWindows.DrawAlert(
+                "Confirm delete",
+                "Confirm delete operation",
+                "Do you want to delete " + FX_LV_CourseList.getSelectionModel().getSelectedItem() + "?",
+                "CONFIRMATION"
+        );
+
+        Optional<ButtonType> result = drawWindows.getAlertResult();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            Task<Boolean> Task_DeleteCourse = new Task<>() {
+                boolean DeleteStatus;
+                String Teacher;
+                String Section;
+                String Course;
+
+                @Override
+                protected Boolean call() throws Exception {
+                    DeleteStatus = false;
+                    Teacher = FX_CB_TeacherList.getSelectionModel().getSelectedItem();
+                    Section = FX_LV_SectionList.getSelectionModel().getSelectedItem();
+                    Course = FX_LV_CourseList.getSelectionModel().getSelectedItem();
+
+                    if (Teacher != null && Section != null && Course != null)
+                        DeleteStatus = dbmsAdminAccount.deleteClass(Teacher, Section, Course);
+
+                    return DeleteStatus;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+
+                    DrawWindows drawWindows = new DrawWindows();
+                    if (DeleteStatus == true){
+                        System.out.println("Delete successful!");
+                        CourseList.remove(Course);
+
+                        drawWindows.DrawAlert(
+                                "Success",
+                                "Course successfully deleted",
+                                Course + " successfully deleted",
+                                "INFORMATION"
+                        );
+                    }
+                    else{
+                        System.out.println("Delete failed!");
+
+                        drawWindows.DrawAlert(
+                                "Failed",
+                                "Course deletion failed",
+                                Course + " couldn't be deleted",
+                                "ERROR"
+                        );
+                    }
+                }
+            };
+            new Thread(Task_DeleteCourse).start();
+        }
+    }
 
 
-    @FXML private void handleDeleteCourseDialog(){}
-
-
+    /**
+     * Handles the task of exiting the program.
+     */
     @FXML private void handleExit(){
         DrawWindows drawWindows = new DrawWindows();
         drawWindows.DrawAlert(
@@ -426,7 +756,9 @@ public class AdminMainWindow {
         }
     }
 
-
+    /**
+     * Handles log out process.
+     */
     @FXML private void handleLogOut(){
         DrawWindows drawWindows = new DrawWindows();
         drawWindows.DrawAlert(
@@ -439,8 +771,7 @@ public class AdminMainWindow {
         Optional<ButtonType> result = drawWindows.getAlertResult();
         if (result.isPresent() && result.get() == ButtonType.OK){
             dbmsAdminAccount.close();
-            // TODO Give log in again here
-            Platform.exit();
+            DrawMainStage.getInstance().CloseAdminMainStage();
         }
     }
 
@@ -479,9 +810,10 @@ public class AdminMainWindow {
                 System.out.println("Task_Teacher has completed!");
                 Integer Size = Teachers.size();
 
+                TeacherList.setAll(Teachers);
+                FX_T_TotalTeachers.setText(Size.toString());
+
                 if (Size > 0) {
-                    TeacherList.setAll(Teachers);
-                    FX_T_TotalTeachers.setText(Size.toString());
                     FX_CB_TeacherList.getSelectionModel().selectFirst();
                 }
             }
@@ -531,6 +863,12 @@ public class AdminMainWindow {
             protected void succeeded() {
                 super.succeeded();
                 StudentsList.setAll(studentList);
+
+                FX_T_TotalStudents.setText(((Integer)StudentsList.size()).toString());
+
+                if (StudentsList.size() > 0){
+                    FX_LV_StudentList.getSelectionModel().selectFirst();
+                }
             }
         };
         new Thread(Task_StudentInfo).start();
@@ -546,7 +884,7 @@ public class AdminMainWindow {
         Task<Boolean> Task_CoursesAndSections = new Task<Boolean>() {
             final ObservableList<String> Courses = FXCollections.observableArrayList();
             final ObservableList<String> Sections = FXCollections.observableArrayList();
-            Boolean Retrieve;
+            Boolean Retrieve = false;
 
             @Override
             protected Boolean call() throws Exception {
@@ -584,6 +922,9 @@ public class AdminMainWindow {
 
                     if (SectionList.size() > 0)
                         FX_LV_SectionList.getSelectionModel().selectFirst();
+
+                    FX_T_TotalCourses.setText(((Integer)CourseList.size()).toString());
+                    FX_T_TotalSections.setText(((Integer)SectionList.size()).toString());
                 }
             }
         };

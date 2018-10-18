@@ -19,7 +19,7 @@
 
             <!-- User Name -->
             <Label text="User name" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <TextField fx:id="FXUserName" text="DEMOTEACHER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="FX_TF_UserName" text="ADMIN" GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets left="10.0" />
                 </GridPane.margin>
@@ -27,7 +27,7 @@
 
             <!-- Password -->
             <Label text="Password" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <PasswordField fx:id="FXPassword" text="DEMOPASSWORD" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <PasswordField fx:id="FX_TF_Password" text="ADMIN" GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <GridPane.margin>
                     <Insets left="10.0" />
                 </GridPane.margin>
